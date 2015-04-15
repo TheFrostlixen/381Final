@@ -19,9 +19,9 @@ class GameMgr:
         x = 0
         for entType in self.engine.entityMgr.entTypes:
             print "GameMgr Creating", str(entType)
-            ent = self.engine.entityMgr.createEnt(entType, pos = Vector3(x, 0, 0))
+            ent = self.engine.entityMgr.createEnt(entType, pos = Vector3(0, 0, x))
             print "GameMgr Created: ", ent.uiname, ent.eid
-            x += 300
+            x += 400
 
 
     def tick(self, dt):

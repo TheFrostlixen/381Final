@@ -11,8 +11,7 @@ class EntityMgr:
         self.numEnts = 0
         
         import ent
-        self.entTypes = [ent.Carrier, ent.Sleek, ent.SailBoat, ent.Missile, ent.CigaretteBoat,
-                         ent.Boat, ent.JetSki, ent.Yacht, ent.SpeedBoat, ent.Destroyer]
+        self.entTypes = [ent.Sleek, ent.Destroyer]
         
     def createEnt(self, entType, pos = Vector3(0,0,0)):
         ent = entType(self.engine, self.numEnts, pos = pos)
