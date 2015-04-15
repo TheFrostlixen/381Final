@@ -72,14 +72,22 @@ class GfxMgr:
         self.sceneManager.setSkyBox (True, "Examples/SpaceSkyBox", 5000, False)
         #sceneManager.setSkyDome (True, "Examples/CloudySky", 5, 8)
 
-        '''SETUP CAMERA AND VIEWPORT'''
-        self.camera = self.sceneManager.createCamera("Camera1")
-        viewPort = self.root.getAutoCreatedWindow().addViewport(self.camera)
-        node = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode1',
-                                                                        (-1000, 200, 200))
-        node.yaw(math.radians(-90))
-        node = node.createChildSceneNode('PitchNode1')
-        node.attachObject(self.camera)
+        '''SETUP CAMERAS AND VIEWPORTS'''
+        self.camera1 = self.sceneManager.createCamera("Camera1")
+        self.camera2 = self.sceneManager.createCamera("Camera2")
+        viewPort1 = self.root.getAutoCreatedWindow().addViewport(self.camera1, 1, 0.5, 0, 0.5, 1)
+        viewPort2 = self.root.getAutoCreatedWindow().addViewport(self.camera2, 2, 0, 0, 0.5, 1)
+        
+        node1 = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode1',
+                                                                   (-1000, 200, 200))
+        node1.yaw(math.radians(-90))
+        node1 = node1.createChildSceneNode('PitchNode1')
+        node1.attachObject(self.camera1)
+        
+        node2 = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode2', (-800, 200, 200))
+        node2.yaw(math.radians(-90))
+        node2 = node2.createChildSceneNode('PitchNode2')
+        node2.attachObject(self.camera2)
 
 
     def tick(self, dt):

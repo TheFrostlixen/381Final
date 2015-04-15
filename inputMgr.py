@@ -62,7 +62,7 @@ class InputListener(ogre.FrameListener):
         ogre.FrameListener.__init__(self)
         self.inputMgr = inputMgr
         self.keyboard = self.inputMgr.keyboard
-        self.camera = self.inputMgr.engine.gfxMgr.camera
+        self.camera = self.inputMgr.engine.gfxMgr.camera1
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
         self.camNode = self.camera.parentSceneNode.parentSceneNode

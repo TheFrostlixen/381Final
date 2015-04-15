@@ -12,7 +12,7 @@ class SelectionMgr:
         self.selectedEntIndex = self.engine.entityMgr.numEnts;
         self.selectedEnt = None
         self.keyboard = self.engine.inputMgr.keyboard
-        self.camera = self.engine.gfxMgr.camera
+        self.camera = self.engine.gfxMgr.camera1
         self.toggle = 0.3
         self.stopped = False
         
