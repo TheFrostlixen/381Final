@@ -44,6 +44,27 @@ class Entity:
 #-----------------------------------------------------------------------------------
 # ENTITY TYPES
 #-----------------------------------------------------------------------------------
+class Obstacle(Entity):
+    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
+        self.currentYaw = 0
+        self.vel = Vector3(0,0,0)
+        self.aspects = []
+        self.aspectTypes = [Physics, Renderer]
+        self.speed = 0
+        self.heading = 0
+        self.desiredSpeed = 0
+        self.desiredHeading = 0
+        self.yaw = 0
+        self.eid = id
+        self.pos = pos
+        self.acceleration = 0.1
+        self.maxSpeed = 100
+        self.turningRate = 0.5
+        self.mesh = "cube.mesh"
+        self.uiname = "Obstacle"
+        self.isSelected = False
+        self.engine = engine
+        self.sound = "windsobey.ogg"
 
 class Carrier(Entity):
     def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
