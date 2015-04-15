@@ -7,6 +7,7 @@
 """
 
 import ogre.renderer.OGRE as ogre
+import math
 
 class GfxMgr:
     
@@ -75,7 +76,8 @@ class GfxMgr:
         self.camera = self.sceneManager.createCamera("Camera1")
         viewPort = self.root.getAutoCreatedWindow().addViewport(self.camera)
         node = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode1',
-                                                               (0, 200, 1000))
+                                                                        (-1000, 200, 200))
+        node.yaw(math.radians(-90))
         node = node.createChildSceneNode('PitchNode1')
         node.attachObject(self.camera)
 
