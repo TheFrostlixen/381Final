@@ -15,8 +15,6 @@ class SelectionMgr:
         self.selectedEntIndex = self.engine.entityMgr.numEnts;
         self.selectedEnt = None
         self.keyboard = self.engine.inputMgr.keyboard
-        self.mouse = self.engine.inputMgr.mouse
-        self.ms = self.mouse.getMouseState()
         self.camera = self.engine.gfxMgr.camera
         self.toggle = 0.3
         self.stopped = False
@@ -26,7 +24,6 @@ class SelectionMgr:
         if self.stopped == True:
             return
             
-        self.ms = self.mouse.getMouseState()
         self.keyboard.capture()
         if self.toggle >= 0:
             self.toggle -= dt

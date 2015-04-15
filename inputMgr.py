@@ -34,17 +34,11 @@ class InputMgr():
 
         t = [("x11_mouse_grab", "true"), ("x11_mouse_hide", "false")]
         paramList.extend(t)
-
+        
         self.inputManager = OIS.createPythonInputSystem(paramList)
         #This sets up the InputManager for use, but to actually use OIS to get input for the
         #keyboard and mouse, you'll need to create the following objects
         self.keyboard = self.inputManager.createInputObjectKeyboard(OIS.OISKeyboard, True)
-        self.mouse = self.inputManager.createInputObjectMouse(OIS.OISMouse, True)
-        self.ms = self.mouse.getMouseState()
-        self.ms.width = renderWindow.width
-        self.ms.height = renderWindow.height
-        #second param sets buffered input
-        self.mMgr = MouseListener(self)
         self.createFrameListener()
 
     def createFrameListener(self):
@@ -60,7 +54,6 @@ class InputMgr():
     
     def stop(self):
         self.inputManager.destroyInputObjectKeyboard(self.keyboard)
-        self.inputManager.destroyInputObjectMouse(self.mouse)
         OIS.InputManager.destroyInputSystem(self.inputManager)
         self.inputManager = None
 
@@ -69,7 +62,6 @@ class InputListener(ogre.FrameListener):
         ogre.FrameListener.__init__(self)
         self.inputMgr = inputMgr
         self.keyboard = self.inputMgr.keyboard
-        self.mouse = self.inputMgr.mouse
         self.camera = self.inputMgr.engine.gfxMgr.camera
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
@@ -84,7 +76,6 @@ class InputListener(ogre.FrameListener):
 
     def frameStarted(self, frameEvent):
         self.keyboard.capture()
-        self.mouse.capture()
 
         #process unbuffered key input for Escape
         self.keyPressed(frameEvent)
@@ -232,51 +223,7 @@ class ExitListener(ogre.FrameListener):
         
         
         
-        
-class MouseListener(OIS.MouseListener):
-    def __init__(self, inputMgr):
-        OIS.MouseListener.__init__(self)
-        self.inputMgr = inputMgr
-        self.mouse = self.inputMgr.mouse
-        self.camera = self.inputMgr.engine.gfxMgr.camera
-        self.mouse.setEventCallback(self)
-        self.ms = self.mouse.getMouseState()
-        self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
-        self.raySceneQuery = self.sceneManager.createRayQuery(ogre.Ray())
-        self.leftDown = False
-        self.rightDown = False
-        
-    def mouseMoved(self, evt):
-        pass
 
-    def mousePressed(self, evt, id):
-
-        if id == OIS.MB_Left:
-            self.leftDown = True
-            self.ms = self.mouse.getMouseState()
-            print self.ms.X.abs, self.ms.Y.abs
-            mouseRay = self.camera.getCameraToViewportRay((self.ms.X.abs + 50) / float(evt.get_state().width), (self.ms.Y.abs + 25) / float(evt.get_state().height))
-            self.raySceneQuery.setRay(mouseRay)
-            result = self.raySceneQuery.execute()
-            if len(result) > 2:
-                    if result[2].movable:
-                        print result[2].movable.getName()
-                        for ent in self.inputMgr.engine.entityMgr.entList:
-                            if (ent.uiname + str(ent.eid)) == result[2].movable.getName():
-                                if self.inputMgr.keyboard.isKeyDown(OIS.KC_LSHIFT):
-                                    self.inputMgr.engine.selectionMgr.addSelected(ent)
-                                else:
-                                    self.inputMgr.engine.selectionMgr.selectEnt(ent)
-                                
-
-        if id == OIS.MB_Right:
-            self.rightDown = True
-
-    def mouseReleased(self, evt, id):
-        if id == OIS.MB_Left:
-            self.leftDown = False
-        if id == OIS.MB_Right:
-            self.rightDown = False
         
         
         
