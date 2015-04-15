@@ -60,7 +60,7 @@ class Carrier(Entity):
         self.pos = pos
         self.acceleration = 0.1
         self.maxSpeed = 100
-        self.turningRate = 0.1
+        self.turningRate = 0.5
         self.mesh = "carrier.mesh"
         self.uiname = "Carrier"
         self.isSelected = False
@@ -83,7 +83,7 @@ class Sleek(Entity):
         self.pos = pos
         self.acceleration = 0.4
         self.maxSpeed = 76
-        self.turningRate = 0.4
+        self.turningRate = 0.5
         self.mesh = "sleek.mesh"
         self.uiname = "Sleek"
         self.isSelected = False
@@ -106,7 +106,7 @@ class SailBoat(Entity):
         self.pos = pos
         self.acceleration = 0.2
         self.maxSpeed = 26
-        self.turningRate = 0.2
+        self.turningRate = 0.5
         self.mesh = "sailboat.mesh"
         self.uiname = "Sail Boat"
         self.isSelected = False
@@ -129,7 +129,7 @@ class Missile(Entity):
         self.pos = pos
         self.acceleration = 0.3
         self.maxSpeed = 46
-        self.turningRate = 0.3
+        self.turningRate = 0.5
         self.mesh = "missile.mesh"
         self.uiname = "Missile"
         self.isSelected = False
@@ -152,7 +152,7 @@ class CigaretteBoat(Entity):
         self.pos = pos
         self.acceleration = 0.4
         self.maxSpeed = 56
-        self.turningRate = 0.4
+        self.turningRate = 0.5
         self.mesh = "cigarette.mesh"
         self.uiname = "Cigarette Boat"
         self.isSelected = False
@@ -175,7 +175,7 @@ class Boat(Entity):
         self.pos = pos
         self.acceleration = 0.3
         self.maxSpeed = 40
-        self.turningRate = 0.3
+        self.turningRate = 0.5
         self.mesh = "boat.mesh"
         self.uiname = "Boat"
         self.isSelected = False
@@ -198,7 +198,7 @@ class JetSki(Entity):
         self.pos = pos + Vector3(0,5,0)
         self.acceleration = 0.3
         self.maxSpeed = 36
-        self.turningRate = 0.3
+        self.turningRate = 0.5
         self.mesh = "jetski.mesh"
         self.uiname = "Jet Ski"
         self.isSelected = False
@@ -221,7 +221,7 @@ class Yacht(Entity):
         self.pos = pos
         self.acceleration = 0.4
         self.maxSpeed = 46
-        self.turningRate = 0.4
+        self.turningRate = 0.5
         self.mesh = "yacht.mesh"
         self.uiname = "Yacht"
         self.isSelected = False
@@ -267,7 +267,7 @@ class Destroyer(Entity):
         self.pos = pos
         self.acceleration = 0.2
         self.maxSpeed = 50
-        self.turningRate = 0.2
+        self.turningRate = 0.5
         self.mesh = "destroyer.mesh"
         self.uiname = "Destroyer"
         self.isSelected = False

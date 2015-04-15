@@ -66,9 +66,9 @@ class GfxMgr:
                                      1, 5, 5, (0, 0, 1))
         ent = self.sceneManager.createEntity('GroundEntity', 'Ground')
         self.sceneManager.getRootSceneNode().createChildSceneNode ().attachObject (ent)
-        ent.setMaterialName ('OceanCg')
+        ent.setMaterialName ('Ocean2_Cg')
         ent.castShadows = False
-        self.sceneManager.setSkyBox (True, "Examples/MorningSkyBox", 5000, False)
+        self.sceneManager.setSkyBox (True, "Examples/SpaceSkyBox", 5000, False)
         #sceneManager.setSkyDome (True, "Examples/CloudySky", 5, 8)
 
         '''SETUP CAMERA AND VIEWPORT'''
