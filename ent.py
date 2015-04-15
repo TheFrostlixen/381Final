@@ -67,30 +67,7 @@ class Obstacle(Entity):
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 100
-
-class Carrier(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.1
-        self.maxSpeed = 100
-        self.turningRate = 0.5
-        self.mesh = "carrier.mesh"
-        self.uiname = "Carrier"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
+        self.collisionRange = 75
 
 
 class Sleek(Entity):
@@ -114,175 +91,7 @@ class Sleek(Entity):
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 100
-
-        
-class SailBoat(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.2
-        self.maxSpeed = 26
-        self.turningRate = 0.5
-        self.mesh = "sailboat.mesh"
-        self.uiname = "Sail Boat"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
-
-        
-class Missile(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0    
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.3
-        self.maxSpeed = 46
-        self.turningRate = 0.5
-        self.mesh = "missile.mesh"
-        self.uiname = "Missile"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
-
-
-class CigaretteBoat(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0    
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.4
-        self.maxSpeed = 56
-        self.turningRate = 0.5
-        self.mesh = "cigarette.mesh"
-        self.uiname = "Cigarette Boat"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
-
-        
-class Boat(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0    
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.3
-        self.maxSpeed = 40
-        self.turningRate = 0.5
-        self.mesh = "boat.mesh"
-        self.uiname = "Boat"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
-
-        
-class JetSki(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 5, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0    
-        self.eid = id
-        self.pos = pos + Vector3(0,5,0)
-        self.acceleration = 0.3
-        self.maxSpeed = 36
-        self.turningRate = 0.5
-        self.mesh = "jetski.mesh"
-        self.uiname = "Jet Ski"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
-
-        
-class Yacht(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0    
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.4
-        self.maxSpeed = 46
-        self.turningRate = 0.5
-        self.mesh = "yacht.mesh"
-        self.uiname = "Yacht"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
-
-        
-class SpeedBoat(Entity):
-    def __init__(self, engine, id, pos = Vector3(0, 5, 0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0    
-        self.eid = id
-        self.pos = pos + Vector3(0,5,0)
-        self.acceleration = 1.0
-        self.maxSpeed = 100
-        self.turningRate = 1.0
-        self.mesh = "speedboat.mesh"
-        self.uiname = "Speed Boat"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 5
+        self.collisionRange = 75
 
         
 class Destroyer(Entity):
@@ -306,7 +115,7 @@ class Destroyer(Entity):
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 100
+        self.collisionRange = 75
 
 
 

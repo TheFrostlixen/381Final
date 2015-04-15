@@ -6,9 +6,6 @@ import ogre.io.OIS as OIS
 class SelectionMgr:
     def __init__(self, engine):
         self.engine = engine
-        self.musicVolume = 1.0
-        self.soundmanager = None
-        self.entSound = None
 
     def init(self):
         self.selectedEnts = []
