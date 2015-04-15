@@ -27,8 +27,6 @@ class GameMgr:
         for z in range(0,10):
             obs = self.engine.entityMgr.createObs(pos = Vector3(positionTemp, 0, -200))
             obs = self.engine.entityMgr.createObs(pos = Vector3(positionTemp, 0, 600))
-            print "asdfA"
-            print obs.uiname
             positionTemp += 100
 
 
