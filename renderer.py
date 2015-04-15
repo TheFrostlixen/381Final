@@ -8,9 +8,9 @@ class Renderer():
         self.ent = ent
         
         self.pEnt = self.ent.engine.gfxMgr.sceneManager.createEntity(self.ent.uiname + str(self.ent.eid), self.ent.mesh)
-        self.node = self.ent.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'node', ent.pos)
+        self.node = self.ent.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'node' + str(self.ent.pos), ent.pos)
         self.node.attachObject(self.pEnt)
-        self.pEnt.setMaterialName('RustyBarrel')
+        self.pEnt.setMaterialName('Material #8')
 
         if(self.ent.mesh == "missile.mesh"):
             self.node.scale(ogre.Vector3(4,4,4))

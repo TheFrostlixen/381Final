@@ -23,6 +23,14 @@ class GameMgr:
             print "GameMgr Created: ", ent.uiname, ent.eid
             x += 400
 
+        positionTemp = 0
+        for z in range(0,10):
+            obs = self.engine.entityMgr.createObs(pos = Vector3(positionTemp, 0, -200))
+            obs = self.engine.entityMgr.createObs(pos = Vector3(positionTemp, 0, 600))
+            print "asdfA"
+            print obs.uiname
+            positionTemp += 100
+
 
     def tick(self, dt):
         pass
