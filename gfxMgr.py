@@ -47,7 +47,7 @@ class GfxMgr:
             raise Exception("User canceled the config dialog! -> Application.setupRenderSystem()")
 
     def createRenderWindow(self):
-        self.root.initialise(True, "Render Window - Brian Gaunt")
+        self.root.initialise(True, "Render Window")
 
     def initializeResourceGroups(self):
         ogre.TextureManager.getSingleton().setDefaultNumMipmaps(5)

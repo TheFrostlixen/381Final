@@ -65,7 +65,7 @@ class InputListener(ogre.FrameListener):
         self.camera = self.inputMgr.engine.gfxMgr.camera1
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
-        self.camNode = self.camera.parentSceneNode.parentSceneNode
+        self.camNode = self.camera.parentSceneNode
         self.rotate = 0.006
         self.move = 250
         self.moveFast = 1000
