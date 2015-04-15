@@ -47,7 +47,7 @@ class GfxMgr:
             raise Exception("User canceled the config dialog! -> Application.setupRenderSystem()")
 
     def createRenderWindow(self):
-        self.root.initialise(True, "Render Window - Brian Gaunt")
+        self.root.initialise(True, "Render Window")
 
     def initializeResourceGroups(self):
         ogre.TextureManager.getSingleton().setDefaultNumMipmaps(5)
@@ -74,12 +74,19 @@ class GfxMgr:
 
         '''SETUP CAMERA AND VIEWPORT'''
         self.camera = self.sceneManager.createCamera("Camera1")
-        viewPort = self.root.getAutoCreatedWindow().addViewport(self.camera)
+        self.camera2 = self.sceneManager.createCamera("Camera2")
+
+        viewPort = self.root.getAutoCreatedWindow().addViewport(self.camera, 1, 0.5, 0, .5, 1)
         node = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode1',
+                                                                        (-1000, 200, 200))
+        viewPort = self.root.getAutoCreatedWindow().addViewport(self.camera, 2, 0, 0, .5, 1)
+        node2 = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode2',
                                                                         (-1000, 200, 200))
         node.yaw(math.radians(-90))
         node = node.createChildSceneNode('PitchNode1')
         node.attachObject(self.camera)
+        node2 = node2.createChildSceneNode('PitchNode2')
+        node2.attachObject(self.camera2)
 
 
     def tick(self, dt):
