@@ -13,7 +13,7 @@ class Physics:
             self.ent.speed += self.ent.acceleration
         if self.ent.speed > self.ent.desiredSpeed + 1 and nextDecel > -1*(self.ent.maxSpeed / 2):
             self.ent.speed -= self.ent.acceleration
-        
+
         if self.ent.desiredHeading > self.ent.heading:
             if (self.ent.desiredHeading - self.ent.heading) > ((360 - self.ent.desiredHeading) + self.ent.heading):
                 self.ent.heading -= self.ent.turningRate

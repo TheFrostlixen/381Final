@@ -82,7 +82,7 @@ class Sleek(Entity):
         self.eid = id
         self.pos = pos
         self.acceleration = 0.4
-        self.maxSpeed = 76
+        self.maxSpeed = 100
         self.turningRate = 0.5
         self.mesh = "sleek.mesh"
         self.uiname = "Sleek"
