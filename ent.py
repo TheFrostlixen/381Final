@@ -83,8 +83,8 @@ class Sleek(Entity):
         self.yaw = 0    
         self.eid = id
         self.pos = pos
-        self.acceleration = 0.4
-        self.maxSpeed = 100
+        self.acceleration = 1.0
+        self.maxSpeed = 1000
         self.turningRate = 0.5
         self.mesh = "sleek.mesh"
         self.uiname = "Sleek"
@@ -107,8 +107,8 @@ class Destroyer(Entity):
         self.yaw = 0    
         self.eid = id
         self.pos = pos
-        self.acceleration = 0.2
-        self.maxSpeed = 50
+        self.acceleration = 0.75
+        self.maxSpeed = 1200
         self.turningRate = 0.5
         self.mesh = "destroyer.mesh"
         self.uiname = "Destroyer"
