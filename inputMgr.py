@@ -8,6 +8,43 @@
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
 
+class JoyEvent:
+    BUTTON_PRESSED  = 0
+    BUTTON_RELEASED = 1
+    AXIS_MOVED      = 2
+    POV_MOVED       = 3
+    VECTOR3_MOVED   = 4
+    NUM             = 5
+    INVALID         = 6
+
+class JoyButtons: # XBox Controller, the buttons need to be checked
+    BACK       = 0
+    A          = 1
+    B          = 2
+    X          = 3
+    Y          = 4
+    LEFT       = 5
+    RIGHT      = 6
+    START      = 7
+    XBOX       = 8
+    LEFT_AXIS  = 9
+    RIGHT_AXIS = 10
+    POV        = 11
+
+    NUM     = 12
+    LIST    = [BACK, A, B, X, Y, LEFT, RIGHT, START, XBOX, LEFT_AXIS, RIGHT_AXIS, POV]
+
+class JoyAxes: # XBox Controller
+    LEFT_LEFTRIGHT    = 0
+    LEFT_UPDOWN       = 1
+    LEFT_LEFT         = 2
+    RIGHT_LEFTRIGHT   = 3
+    RIGHT_UPDOWN      = 4
+    RIGHT_RIGHT       = 5
+    NUM               = 6
+
+    LIST    = [LEFT_LEFTRIGHT, LEFT_UPDOWN, LEFT_LEFT, RIGHT_LEFTRIGHT, RIGHT_UPDOWN, RIGHT_RIGHT]
+
 class InputMgr():
 
     def __init__(self, engine):
@@ -35,10 +72,21 @@ class InputMgr():
         t = [("x11_mouse_grab", "true"), ("x11_mouse_hide", "false")]
         paramList.extend(t)
         
+
         self.inputManager = OIS.createPythonInputSystem(paramList)
         #This sets up the InputManager for use, but to actually use OIS to get input for the
         #keyboard and mouse, you'll need to create the following objects
+        try:
+            self.joystick = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
+            print "----------------------------------->Made joystick object"
+        except Exception, e:
+            self.joystick = None
+            print "----------------------------------->No Joy, Don't Worry Be Happy"
+            print "----------------------------------->Who uses joysticks anyways? - so 1995"
+#        if self.joystick:
+#            self.joystick.setEventCallback(self)
         self.keyboard = self.inputManager.createInputObjectKeyboard(OIS.OISKeyboard, True)
+        self.jMgr = JoyStickListener(self)
         self.createFrameListener()
 
     def createFrameListener(self):
@@ -48,6 +96,8 @@ class InputMgr():
         self.root.addFrameListener(self.inputListener)
     
     def tick(self, dt):
+        if self.joystick:
+            self.joystick.capture()
         if (self.engine.keepRunning == False):
             self.engine.stop()
 
@@ -62,6 +112,8 @@ class InputListener(ogre.FrameListener):
         ogre.FrameListener.__init__(self)
         self.inputMgr = inputMgr
         self.keyboard = self.inputMgr.keyboard
+        self.joystick = self.inputMgr.joystick
+        self.joyHandlers = [dict() for x in range(JoyEvent.NUM)]
         self.camera = self.inputMgr.engine.gfxMgr.camera1
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
@@ -89,6 +141,7 @@ class InputListener(ogre.FrameListener):
         self.keyReleased(frameEvent)
 
         return True
+
 
     def keyPressed(self, frameEvent):
         # Accelerate Camera
@@ -217,7 +270,115 @@ class ExitListener(ogre.FrameListener):
         del self.exitListener
         del self.root
         
-        
+class JoyStickListener(OIS.JoyStickListener):
+    def __init__(self, inputMgr):
+        OIS.JoyStickListener.__init__(self)
+        self.inputMgr = inputMgr
+        self.engine = self.inputMgr.engine
+        self.joystick = self.inputMgr.joystick
+        self.joystick.setEventCallback(self)
+        self.ms = self.joystick.getJoyStickState()
+        self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
+        self.raySceneQuery = self.sceneManager.createRayQuery(ogre.Ray())
+        self.leftDown = False
+        self.rightDown = False
+        self.joyHandlers = [dict() for x in range(JoyEvent.NUM)]
+        self.player2 = self.engine.entityMgr.entList[1]
+
+    def buttonPressed(self, frameEvent, button):
+        print "------------------------------------>", " Button Pressed: ", button    
+        self.callJoyHandlers(JoyEvent.BUTTON_PRESSED, button, frameEvent.get_state())    
+        return True
+
+    def buttonReleased(self, frameEvent, button):
+        print "------------------------------------>",  " Button Released: ", button
+        self.callJoyHandlers(JoyEvent.BUTTON_RELEASED, button, frameEvent.get_state())
+        if button == 1:
+            nextAccel = self.player2.speed + self.player2.acceleration
+            if nextAccel < self.player2.maxSpeed:
+                self.player2.desiredSpeed += self.player2.acceleration
+        if button == 2:
+            nextDecel = player2.speed - player2.acceleration
+            if nextDecel > (-1*player2.maxSpeed/2):
+                player2.desiredSpeed -= player2.acceleration
+        return True
+
+    def axisMoved(self, frameEvent, axis):
+        state = frameEvent.get_state()
+        if state.mAxes[axis].abs > 5000 or state.mAxes[axis].abs < - 5000 :
+            self.callJoyHandlers(JoyEvent.AXIS_MOVED, axis, state)            
+            print "------------------------------------>",  " Axis  : ", axis, state.mAxes[axis].abs
+        if axis == 5 and state.mAxes[axis].abs > 0:
+            nextAccel = self.player2.speed + self.player2.acceleration
+            if nextAccel < self.player2.maxSpeed:
+                self.player2.desiredSpeed += self.player2.acceleration
+        if axis == 2 and state.mAxes[axis].abs > 0:
+            nextDecel = self.player2.speed - self.player2.acceleration
+            if nextDecel > (-1*self.player2.maxSpeed/2):
+                self.player2.desiredSpeed -= self.player2.acceleration   
+        if axis == 0 and state.mAxes[axis].abs < -5000:
+            if self.player2.desiredHeading < 0:
+                self.player2.desiredHeading = 360
+                self.player2.yaw = 360
+                self.player2.currentYaw = 360
+            if self.player2.speed > 0 or self.player2.speed < -1:
+                self.player2.desiredHeading -= self.player2.turningRate
+                self.player2.yaw -= self.player2.turningRate       
+        if axis == 0 and state.mAxes[axis].abs > 5000:   
+            if self.player2.desiredHeading > 360:
+                self.player2.desiredHeading = 0
+                self.player2.yaw = 0
+                self.player2.currentYaw = 0
+            if self.player2.speed > 0 or self.player2.speed < -1:
+                self.player2.desiredHeading += self.player2.turningRate
+                self.player2.yaw += self.player2.turningRate          
+        return True
+
+    def povMoved(self, frameEvent, povid):
+        state = frameEvent.get_state()
+        self.callJoyHandlers(JoyEvent.POV_MOVED, povid, state)            
+        #print "------------------------------------>",  povid, state.mPOV[povid].direction
+        return True
+
+    def registerJoyHandler(self, event, joyButton, func):# func takes OIS.JoyEvent JoyState as arg
+        self.joyHandlers[event].setdefault(joyButton, list())
+        self.joyHandlers[event][joyButton].append(func)
+
+    def callJoyHandlers(self, event, joyButton, js):
+        self.joyHandlers[event].setdefault(joyButton, list())
+        for handler in self.joyHandlers[event][joyButton]:
+            handler(js)
+    def joystickMoved(self, evt):
+        pass
+
+    def joystickPressed(self, evt, id):
+
+        if id == OIS.MB_Left:
+            self.leftDown = True
+            self.ms = self.joystick.getJoyStickState()
+            print self.ms.X.abs, self.ms.Y.abs
+            joystickRay = self.camera.getCameraToViewportRay((self.ms.X.abs + 50) / float(evt.get_state().width), (self.ms.Y.abs + 25) / float(evt.get_state().height))
+            self.raySceneQuery.setRay(joystickRay)
+            result = self.raySceneQuery.execute()
+            if len(result) > 2:
+                    if result[2].movable:
+                        print result[2].movable.getName()
+                        for ent in self.inputMgr.engine.entityMgr.entList:
+                            if (ent.uiname + str(ent.eid)) == result[2].movable.getName():
+                                if self.inputMgr.keyboard.isKeyDown(OIS.KC_LSHIFT):
+                                    self.inputMgr.engine.selectionMgr.addSelected(ent)
+                                else:
+                                    self.inputMgr.engine.selectionMgr.selectEnt(ent)
+                                
+
+        if id == OIS.MB_Right:
+            self.rightDown = True
+
+    def joystickReleased(self, evt, id):
+        if id == OIS.MB_Left:
+            self.leftDown = False
+        if id == OIS.MB_Right:
+            self.rightDown = False       
         
         
         

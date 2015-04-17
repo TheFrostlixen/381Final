@@ -22,6 +22,10 @@ class Engine(object):
         self.netMgr = netMgr.NetMgr(self)
         self.netMgr.init()
 
+        import gameMgr
+        self.gameMgr = gameMgr.GameMgr(self)
+        self.gameMgr.init()
+
         import inputMgr
         self.inputMgr = inputMgr.InputMgr(self)
         self.inputMgr.init()
@@ -33,10 +37,6 @@ class Engine(object):
         import controlMgr
         self.controlMgr = controlMgr.ControlMgr(self)
         self.controlMgr.init()
-
-        import gameMgr
-        self.gameMgr = gameMgr.GameMgr(self)
-        self.gameMgr.init()
 
 
     def stop(self):
