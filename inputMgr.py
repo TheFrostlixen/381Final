@@ -83,8 +83,8 @@ class InputMgr():
             self.joystick = None
             print "----------------------------------->No Joy, Don't Worry Be Happy"
             print "----------------------------------->Who uses joysticks anyways? - so 1995"
-#        if self.joystick:
-#            self.joystick.setEventCallback(self)
+        if self.joystick:
+            self.jMgr = JoyStickListener(self)
         self.keyboard = self.inputManager.createInputObjectKeyboard(OIS.OISKeyboard, True)
         self.jMgr = JoyStickListener(self)
         self.createFrameListener()
@@ -276,14 +276,11 @@ class JoyStickListener(OIS.JoyStickListener):
         self.inputMgr = inputMgr
         self.engine = self.inputMgr.engine
         self.joystick = self.inputMgr.joystick
-        self.joystick.setEventCallback(self)
-        self.ms = self.joystick.getJoyStickState()
-        self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
-        self.raySceneQuery = self.sceneManager.createRayQuery(ogre.Ray())
-        self.leftDown = False
-        self.rightDown = False
-        self.joyHandlers = [dict() for x in range(JoyEvent.NUM)]
-        self.player2 = self.engine.entityMgr.entList[1]
+        if self.joystick:
+            self.joystick.setEventCallback(self)
+            self.ms = self.joystick.getJoyStickState()
+            self.joyHandlers = [dict() for x in range(JoyEvent.NUM)]
+            self.player2 = self.engine.entityMgr.entList[1]
 
     def buttonPressed(self, frameEvent, button):
         print "------------------------------------>", " Button Pressed: ", button    
