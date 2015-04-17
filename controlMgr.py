@@ -11,6 +11,7 @@ class ControlMgr:
     def init(self):
         self.keyboard = self.engine.inputMgr.keyboard
         self.stopped = False
+        self.camera1 = self.engine.inputMgr.inputListener.camNode_P1
 
     def tick(self, dt):
         if self.stopped == True:

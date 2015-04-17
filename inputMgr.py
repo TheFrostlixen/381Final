@@ -7,6 +7,7 @@
 """
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
+import math
 
 class JoyEvent:
     BUTTON_PRESSED  = 0
@@ -146,8 +147,12 @@ class InputListener(ogre.FrameListener):
 
         self.P1_Node = self.Player1.uiname + 'node' + str(self.Player1.pos)
 
-        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x - 400, self.Player1.pos.y + 50, self.Player1.pos.z)
-        self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x - 400, self.Player2.pos.y + 50, self.Player2.pos.z)
+        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * math.cos(math.radians(self.Player1.heading + 180))), 
+                                           self.Player1.pos.y + 50, 
+                                           self.Player1.pos.z + (400 * math.sin(math.radians(self.Player1.heading + 180))))
+        self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x + (400 * math.cos(math.radians(self.Player2.heading + 180))), 
+                                           self.Player2.pos.y + 50, 
+                                           self.Player2.pos.z + (400 * math.sin(math.radians(self.Player2.heading + 180))))
 
         # Update the toggle timer.
         if self.toggle_P1 >= 0:
@@ -180,8 +185,7 @@ class InputListener(ogre.FrameListener):
             self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera1)
 
         if not self.P1_FreeRoam:
-            self.camNode_P1.setPosition(self.P1_CamPosition)
-            #self.camNode_P1.lookAt((self.Player1.uiname + 'node' + str(self.Player1.pos)), self.Player1.pos)
+            self.camNode_P1.setPosition(self.P1_CamPosition)   
  
 
         ##############################
@@ -290,6 +294,24 @@ class InputListener(ogre.FrameListener):
             # Roll Right
             if self.keyboard.isKeyDown(OIS.KC_P):
                 self.camNode_P1.roll(-self.rotate)
+
+        if not self.P1_FreeRoam:
+            if self.keyboard.isKeyDown(OIS.KC_LEFT):
+                if self.Player1.speed > 0 or self.Player1.speed < -1:
+                    self.camNode_P1.yaw(math.radians(self.Player1.turningRate))
+                    
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT):
+                if self.Player1.speed > 0 or self.Player1.speed < -1:
+                    self.camNode_P1.yaw(-math.radians(self.Player1.turningRate))
+
+        if not self.P2_FreeRoam:
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+                if self.Player2.speed > 0 or self.Player2.speed < -1:
+                    self.camNode_P2.yaw(math.radians(self.Player2.turningRate))
+                    
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+                if self.Player2.speed > 0 or self.Player2.speed < -1:
+                    self.camNode_P2.yaw(-math.radians(self.Player2.turningRate))
         
         return True
 
