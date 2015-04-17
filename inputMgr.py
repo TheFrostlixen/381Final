@@ -8,18 +8,6 @@
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
 
-<<<<<<< HEAD
-
-'''
-
-
-
-
-
-
-'''
-
-=======
 class JoyEvent:
     BUTTON_PRESSED  = 0
     BUTTON_RELEASED = 1
@@ -56,7 +44,6 @@ class JoyAxes: # XBox Controller
     NUM               = 6
 
     LIST    = [LEFT_LEFTRIGHT, LEFT_UPDOWN, LEFT_LEFT, RIGHT_LEFTRIGHT, RIGHT_UPDOWN, RIGHT_RIGHT]
->>>>>>> 60c7f7ec27749fbd1dd5ce08413d3979147e22b9
 
 class InputMgr():
 
