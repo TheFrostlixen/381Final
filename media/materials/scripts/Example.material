@@ -472,6 +472,23 @@ material Examples/TransparentTest
 		}
 	}
 }
+material Examples/Wake
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            
+            texture_unit
+            {
+                texture smoke.png
+            }
+        }
+    }
+}
 material Examples/Flare
 {
 	technique

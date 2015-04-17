@@ -399,7 +399,7 @@ material Examples/TextureEffect3
 			texture_unit
 			{
 				texture Water01.jpg
-				scroll_anim -0.01 0.01
+				scroll_anim -0.02 0.02
 			}
 
 			texture_unit
@@ -471,6 +471,23 @@ material Examples/TransparentTest
 			}
 		}
 	}
+}
+material Examples/Wake
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend add
+            depth_write off
+            
+            texture_unit
+            {
+                texture clouds.jpg
+            }
+        }
+    }
 }
 material Examples/Flare
 {
