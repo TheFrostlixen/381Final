@@ -17,64 +17,64 @@ class ControlMgr:
             
         self.keyboard.capture()
         
-        player1 = self.engine.entityMgr.entList[0]
-        player2 = self.engine.entityMgr.entList[1]
+        self.player1 = self.engine.entityMgr.entList[0]
+        self.player2 = self.engine.entityMgr.entList[1]
         
         if self.keyboard.isKeyDown(OIS.KC_UP):
-            nextAccel = player1.speed + player1.acceleration
-            if nextAccel < player1.maxSpeed:
-                player1.desiredSpeed += player1.acceleration
+            nextAccel = self.player1.speed + self.player1.acceleration
+            if nextAccel < self.player1.maxSpeed:
+                self.player1.desiredSpeed += self.player1.acceleration
         
         if self.keyboard.isKeyDown(OIS.KC_DOWN):
-            nextDecel = player1.speed - player1.acceleration
-            if nextDecel > (-1*player1.maxSpeed/2):
-                player1.desiredSpeed -= player1.acceleration
+            nextDecel = self.player1.speed - self.player1.acceleration
+            if nextDecel > (-1*self.player1.maxSpeed/2):
+                self.player1.desiredSpeed -= self.player1.acceleration
                     
         if self.keyboard.isKeyDown(OIS.KC_LEFT):
-            if player1.desiredHeading < 0:
-                player1.desiredHeading = 360
-                player1.yaw = 360
-                player1.currentYaw = 360
-            if player1.speed > 0 or player1.speed < -1:
-                player1.desiredHeading -= player1.turningRate
-                player1.yaw -= player1.turningRate
+            if self.player1.desiredHeading < 0:
+                self.player1.desiredHeading = 360
+                self.player1.yaw = 360
+                self.player1.currentYaw = 360
+            if self.player1.speed > 0 or self.player1.speed < -1:
+                self.player1.desiredHeading -= self.player1.turningRate
+                self.player1.yaw -= self.player1.turningRate
                 
         if self.keyboard.isKeyDown(OIS.KC_RIGHT):
-            if player1.desiredHeading > 360:
-                player1.desiredHeading = 0
-                player1.yaw = 0
-                player1.currentYaw = 0
-            if player1.speed > 0 or player1.speed < -1:
-                player1.desiredHeading += player1.turningRate
-                player1.yaw += player1.turningRate
+            if self.player1.desiredHeading > 360:
+                self.player1.desiredHeading = 0
+                self.player1.yaw = 0
+                self.player1.currentYaw = 0
+            if self.player1.speed > 0 or self.player1.speed < -1:
+                self.player1.desiredHeading += self.player1.turningRate
+                self.player1.yaw += self.player1.turningRate
 
         if self.keyboard.isKeyDown(OIS.KC_NUMPAD8):
-            nextAccel = player2.speed + player2.acceleration
-            if nextAccel < player2.maxSpeed:
-                player2.desiredSpeed += player2.acceleration
+            nextAccel = self.player2.speed + self.player2.acceleration
+            if nextAccel < self.player2.maxSpeed:
+                self.player2.desiredSpeed += self.player2.acceleration
         
         if self.keyboard.isKeyDown(OIS.KC_NUMPAD5):
-            nextDecel = player2.speed - player2.acceleration
-            if nextDecel > (-1*player2.maxSpeed/2):
-                player2.desiredSpeed -= player2.acceleration
+            nextDecel = self.player2.speed - self.player2.acceleration
+            if nextDecel > (-1*self.player2.maxSpeed/2):
+                self.player2.desiredSpeed -= self.player2.acceleration
                     
         if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
-            if player2.desiredHeading < 0:
-                player2.desiredHeading = 360
-                player2.yaw = 360
-                player2.currentYaw = 360
-            if player2.speed > 0 or player2.speed < -1:
-                player2.desiredHeading -= player2.turningRate
-                player2.yaw -= player2.turningRate
+            if self.player2.desiredHeading < 0:
+                self.player2.desiredHeading = 360
+                self.player2.yaw = 360
+                self.player2.currentYaw = 360
+            if self.player2.speed > 0 or self.player2.speed < -1:
+                self.player2.desiredHeading -= self.player2.turningRate
+                self.player2.yaw -= self.player2.turningRate
                 
         if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
-            if player2.desiredHeading > 360:
-                player2.desiredHeading = 0
-                player2.yaw = 0
-                player2.currentYaw = 0
-            if player2.speed > 0 or player2.speed < -1:
-                player2.desiredHeading += player2.turningRate
-                player2.yaw += player2.turningRate
+            if self.player2.desiredHeading > 360:
+                self.player2.desiredHeading = 0
+                self.player2.yaw = 0
+                self.player2.currentYaw = 0
+            if self.player2.speed > 0 or self.player2.speed < -1:
+                self.player2.desiredHeading += self.player2.turningRate
+                self.player2.yaw += self.player2.turningRate
 
 
         if self.keyboard.isKeyDown(OIS.KC_SPACE):
