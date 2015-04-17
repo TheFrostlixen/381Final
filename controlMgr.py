@@ -3,6 +3,7 @@
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
 
+
 class ControlMgr:
     def __init__(self, engine):
         self.engine = engine

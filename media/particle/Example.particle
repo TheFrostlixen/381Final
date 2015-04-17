@@ -153,6 +153,23 @@ particle_system Examples/JetEngine1
 	}
 	
 }
+particle_system Examples/Wake
+{
+    material Examples/Wake
+    particle_width 30
+    particle_height 30
+    cull_each false
+    quota 2000
+    billboard_type point
+    
+    emitter Point
+    {
+        angle 0
+        emission_rate 100
+        time_to_live 10
+
+    }
+}
 particle_system Examples/JetEngine2
 {
 	material 		Examples/Flare
