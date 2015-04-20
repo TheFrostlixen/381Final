@@ -50,17 +50,17 @@ class ControlMgr:
                 self.player1.desiredHeading += self.player1.turningRate
                 self.player1.yaw += self.player1.turningRate
 
-        if self.keyboard.isKeyDown(OIS.KC_NUMPAD8):
+        if self.keyboard.isKeyDown(OIS.KC_NUMPAD8) or self.engine.inputMgr.jMgr.triggerRDown:
             nextAccel = self.player2.speed + self.player2.acceleration
             if nextAccel < self.player2.maxSpeed:
                 self.player2.desiredSpeed += self.player2.acceleration
         
-        if self.keyboard.isKeyDown(OIS.KC_NUMPAD5):
+        if self.keyboard.isKeyDown(OIS.KC_NUMPAD5) or self.engine.inputMgr.jMgr.triggerLDown:
             nextDecel = self.player2.speed - self.player2.acceleration
             if nextDecel > (-1*self.player2.maxSpeed/2):
                 self.player2.desiredSpeed -= self.player2.acceleration
                     
-        if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+        if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.engine.inputMgr.jMgr.joyLDown:
             if self.player2.desiredHeading < 0:
                 self.player2.desiredHeading = 360
                 self.player2.yaw = 360
@@ -69,7 +69,7 @@ class ControlMgr:
                 self.player2.desiredHeading -= self.player2.turningRate
                 self.player2.yaw -= self.player2.turningRate
                 
-        if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+        if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.engine.inputMgr.jMgr.joyRDown:
             if self.player2.desiredHeading > 360:
                 self.player2.desiredHeading = 0
                 self.player2.yaw = 0

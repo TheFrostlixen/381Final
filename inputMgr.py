@@ -384,6 +384,12 @@ class JoyStickListener(OIS.JoyStickListener):
         self.inputMgr = inputMgr
         self.engine = self.inputMgr.engine
         self.joystick = self.inputMgr.joystick
+        self.triggerRDown = False
+        self.triggerLDown = False
+        self.joyLDown = False
+        self.joyRDown = False
+        self.joyLUp = False
+        self.joyRUp = False
         if self.joystick:
             self.joystick.setEventCallback(self)
             self.ms = self.joystick.getJoyStickState()
@@ -412,31 +418,29 @@ class JoyStickListener(OIS.JoyStickListener):
         state = frameEvent.get_state()
         if state.mAxes[axis].abs > 5000 or state.mAxes[axis].abs < - 5000 :
             self.callJoyHandlers(JoyEvent.AXIS_MOVED, axis, state)            
-            print "------------------------------------>",  " Axis  : ", axis, state.mAxes[axis].abs
-        if axis == 5 and state.mAxes[axis].abs > 0:
-            nextAccel = self.player2.speed + self.player2.acceleration
-            if nextAccel < self.player2.maxSpeed:
-                self.player2.desiredSpeed += self.player2.acceleration
-        if axis == 2 and state.mAxes[axis].abs > 0:
-            nextDecel = self.player2.speed - self.player2.acceleration
-            if nextDecel > (-1*self.player2.maxSpeed/2):
-                self.player2.desiredSpeed -= self.player2.acceleration   
-        if axis == 0 and state.mAxes[axis].abs < -5000:
-            if self.player2.desiredHeading < 0:
-                self.player2.desiredHeading = 360
-                self.player2.yaw = 360
-                self.player2.currentYaw = 360
-            if self.player2.speed > 0 or self.player2.speed < -1:
-                self.player2.desiredHeading -= self.player2.turningRate
-                self.player2.yaw -= self.player2.turningRate       
-        if axis == 0 and state.mAxes[axis].abs > 5000:   
-            if self.player2.desiredHeading > 360:
-                self.player2.desiredHeading = 0
-                self.player2.yaw = 0
-                self.player2.currentYaw = 0
-            if self.player2.speed > 0 or self.player2.speed < -1:
-                self.player2.desiredHeading += self.player2.turningRate
-                self.player2.yaw += self.player2.turningRate          
+            #print "------------------------------------>",  " Axis  : ", axis, state.mAxes[axis].abs
+        #right trigger down
+        if axis == 5 and state.mAxes[axis].abs > 15000:
+            self.triggerRDown = True
+            print "--------------> trigger right down"
+        #right trigger up
+        if axis == 5 and state.mAxes[axis].abs < 15000:
+            self.triggerRDown = False
+            print "--------------> trigger right up"
+        #left trigger down
+        if axis == 2 and state.mAxes[axis].abs > 15000:
+            self.triggerLDown = True 
+        #left trigger up
+        if axis == 2 and state.mAxes[axis].abs < 15000:
+            self.triggerLDown = False 
+        if axis == 0 and state.mAxes[axis].abs < -15000:
+            self.joyLDown = True     
+        if axis == 0 and state.mAxes[axis].abs > -15000:
+            self.joyLDown = False    
+        if axis == 0 and state.mAxes[axis].abs > 15000:   
+           self.joyRDown = True          
+        if axis == 0 and state.mAxes[axis].abs < 15000:   
+           self.joyRDown = False         
         return True
 
     def povMoved(self, frameEvent, povid):
