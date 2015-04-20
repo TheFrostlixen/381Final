@@ -67,7 +67,7 @@ class Obstacle(Entity):
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 75
+        self.collisionRange = 20
 
 
 class Sleek(Entity):
@@ -83,15 +83,15 @@ class Sleek(Entity):
         self.yaw = 0    
         self.eid = id
         self.pos = pos
-        self.acceleration = 1.0
+        self.acceleration = 2.0
         self.maxSpeed = 1000
-        self.turningRate = 0.5
+        self.turningRate = 1.0
         self.mesh = "sleek.mesh"
         self.uiname = "Sleek"
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 75
+        self.collisionRange = 30
 
         
 class Destroyer(Entity):
@@ -107,15 +107,15 @@ class Destroyer(Entity):
         self.yaw = 0    
         self.eid = id
         self.pos = pos
-        self.acceleration = 0.75
+        self.acceleration = 2.0
         self.maxSpeed = 1200
-        self.turningRate = 0.5
+        self.turningRate = 1.0
         self.mesh = "destroyer.mesh"
         self.uiname = "Destroyer"
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 75
+        self.collisionRange = 30
 
 
 

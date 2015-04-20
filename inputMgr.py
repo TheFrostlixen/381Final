@@ -305,11 +305,11 @@ class InputListener(ogre.FrameListener):
                     self.camNode_P1.yaw(-math.radians(self.Player1.turningRate))
 
         if not self.P2_FreeRoam:
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.jMgr.joyLDown:
                 if self.Player2.speed > 0 or self.Player2.speed < -1:
                     self.camNode_P2.yaw(math.radians(self.Player2.turningRate))
                     
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.jMgr.joyRDown:
                 if self.Player2.speed > 0 or self.Player2.speed < -1:
                     self.camNode_P2.yaw(-math.radians(self.Player2.turningRate))
         
@@ -434,7 +434,7 @@ class JoyStickListener(OIS.JoyStickListener):
         if axis == 2 and state.mAxes[axis].abs < 15000:
             self.triggerLDown = False 
         if axis == 0 and state.mAxes[axis].abs < -15000:
-            self.joyLDown = True     
+            self.joyLDown = True
         if axis == 0 and state.mAxes[axis].abs > -15000:
             self.joyLDown = False    
         if axis == 0 and state.mAxes[axis].abs > 15000:   
