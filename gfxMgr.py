@@ -63,7 +63,7 @@ class GfxMgr:
         plane = ogre.Plane ((0, 1, 0), 0)
         meshManager = ogre.MeshManager.getSingleton ()
         meshManager.createPlane ('Ground', 'General', plane,
-                                     10000, 10000, 20, 20, True, 
+                                     100000, 100000, 20, 20, True, 
                                      1, 5, 5, (0, 0, 1))
         ent = self.sceneManager.createEntity('GroundEntity', 'Ground')
         self.sceneManager.getRootSceneNode().createChildSceneNode ().attachObject (ent)

@@ -1,6 +1,7 @@
 #selection manager
 
 import ogre.io.OIS as OIS
+import math
 #import ogre.sound.OgreAL as OgreAL
 
 class SelectionMgr:
@@ -15,22 +16,43 @@ class SelectionMgr:
         self.camera = self.engine.gfxMgr.camera_P1
         self.toggle = 0.3
         self.stopped = False
+        self.entMgr = self.engine.entityMgr
         
     def tick(self, dt):
 
         if self.stopped == True:
             return
-            
-        self.keyboard.capture()
-        if self.toggle >= 0:
-            self.toggle -= dt
-        if self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_TAB):
-            self.toggle = 0.3
-            if self.keyboard.isKeyDown(OIS.KC_LSHIFT):
-                self.addNext()
+        
+        #get nearest checkpoint to each player
+        p1 = self.getNearestPoint(self.entMgr.entList[0])
+        p2 = self.getNearestPoint(self.entMgr.entList[1])
+        #compare checkpoint
+        if p1 == len(self.entMgr.lvl1ChkPts) - 1:
+            #player 1 wins
+            print "Player 1 Wins!"
+            self.engine.stop()
+            return
+        elif p2 == len(self.entMgr.lvl1ChkPts) - 1:
+            #player 2 wins
+            print "Player 2 Wins!"
+            self.engine.stop()
+            return
+        elif p1 == p2:
+            #compare closeness to next checkpoint if they are equal
+            d1 = self.getDistanceTo(self.entMgr.lvl1ChkPts[p1] + 1, self.entMgr.entList[0])
+            d2 = self.getDistanceTo(self.entMgr.lvl1ChkPts[p2] + 1, self.entMgr.entList[1])
+            if d1 <= d2:
+                first = self.entMgr.entList[0]
             else:
-                self.selectNext()
+                first = self.entMgr.entList[1]
+        elif p1 > p2:
+            first = self.entMgr.entList[0]
+        else:
+            first = self.entMgr.entList[1]
             
+        #draw box of player who is closest to the farthest checkpoint
+        self.updateCurrentSelection(False)
+        self.addSelected(first)
 
     def stop(self):
         self.stopped = True
@@ -41,7 +63,25 @@ class SelectionMgr:
         
 #------------------------------------------------------------------------------------#
         
+    def getNearestPoint(self, ent):
+        nearest = 100000000000
+        index = 0
+        for point in xrange(0,len(self.entMgr.lvl1ChkPts)):
+            dist = self.getDistanceTo(self.entMgr.lvl1ChkPts[point], ent)
+            if dist <= nearest:
+                nearest = dist
+                index = point
+
+        return index
+    
+    def getDistanceTo(self, point, ent):
+        posX = ent.pos.x
+        posZ = ent.pos.z
+        dist = math.sqrt(math.pow(((posX * posX) - (point.x * point.x)), 2))
         
+        return dist
+    
+    
     def updateCurrentSelection(self, isSelected):
         for ent in self.selectedEnts:
             ent.isSelected = isSelected

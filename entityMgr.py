@@ -21,7 +21,7 @@ class EntityMgr:
         ent.init()        
         self.entList.append(ent)        
         self.numEnts = self.numEnts + 1        
-        return ent            
+        return ent
                 
     def createObs(self, pos = Vector3(0,0,0)):        
         obs = ent.Obstacle(self.engine, self.numObs, pos = pos)        
@@ -35,34 +35,14 @@ class EntityMgr:
         
     def createLvl1(self):
         #create chkpt list
-        for line in xrange(0,4):
-            if line == 0:
-                for coord in xrange(0,40):
-                    vector = Vector3(coord*100,0,0)
-                    self.lvl1ChkPts.append(vector)
-                    self.createObs(vector + Vector3(0,0,200))
-                    self.createObs(vector - Vector3(0,0,200))
-                    
-            elif line == 1:
-                for coord in xrange(0,40):
-                    vector = Vector3(4000,0,coord * -1 * 100)
-                    self.lvl1ChkPts.append(vector)
-                    self.createObs(vector + Vector3(200,0,0))
-                    self.createObs(vector - Vector3(200,0,0))
+        for i in xrange(0,100):
+            vector = Vector3(i * 100,0,0)
+            self.lvl1ChkPts.append(vector)
             
-            elif line == 2:
-                for coord in xrange(0,40):
-                    vector = Vector3(4000 - (coord*100),0,-4000)
-                    self.lvl1ChkPts.append(vector)
-                    self.createObs(vector + Vector3(0,0,200))
-                    self.createObs(vector - Vector3(0,0,200))
-            
-            elif line == 3:
-                for coord in xrange(0,40):
-                    vector = Vector3(0,0,-4000 + (coord * 100))
-                    self.lvl1ChkPts.append(vector)
-                    self.createObs(vector + Vector3(200,0,0))
-                    self.createObs(vector - Vector3(200,0,0))
+        #create obstacles on either side of chkpt
+        for point in self.lvl1ChkPts:
+            self.createObs(point + Vector3(0, 0, 650))
+            self.createObs(point - Vector3(0, 0, 250))
 
                 
     def tick(self, dt):        
