@@ -4,6 +4,29 @@ from physics import Physics
 from renderer import Renderer
 from collision import Collision
 
+
+
+"""
+MESHES:
+
+WoodPallet.mesh - very small, possibly used to slow down boats?
+tudorhouse.mesh - very very large cottage house
+RZR-002.mesh - very small jet plane
+razor.mesh - very large jet plane
+ogrehead.mesh - use for speed boosts?
+knot.mesh - large knot with no texture; could be used for decorative obstacle?
+jaiqua.mesh - small woman in blue jumpsuit in wierd pose
+geosphere8000.mesh - very very large sphere with no texture
+geosphere4500.mesh - same
+fish.mesh - small fish; use for blue shell?
+facial.mesh - some large caveman lookin brown dude's head with shades on
+column.mesh - just a column with no texture; should use for track boundaries
+Barrel.mesh - very very small brown barrel
+athene.mesh - large athena statue with no texture
+alienship.mesh - very small alienship with no texture, use for boat options?
+
+"""
+
 class Entity:
 
     
@@ -67,7 +90,30 @@ class Obstacle(Entity):
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 20
+        self.collisionRange = 30
+
+class Item_Boost(Entity):
+    def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
+        self.currentYaw = 0
+        self.vel = Vector3(0,0,0)
+        self.aspects = []
+        self.aspectTypes = [Physics, Renderer, Collision]
+        self.speed = 0
+        self.heading = 0
+        self.desiredSpeed = 0
+        self.desiredHeading = 0
+        self.yaw = 0
+        self.eid = id
+        self.pos = pos
+        self.acceleration = 0.1
+        self.maxSpeed = 100
+        self.turningRate = 0.5
+        self.mesh = "ogrehead.mesh"
+        self.uiname = "Item_Boost"
+        self.isSelected = False
+        self.engine = engine
+        self.sound = "windsobey.ogg"
+        self.collisionRange = 30
 
 
 class Sleek(Entity):

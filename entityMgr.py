@@ -12,7 +12,8 @@ class EntityMgr:
         self.lvl1List = []
         self.lvl1ChkPts = []
         self.numEnts = 0
-        self.numObs = 0        
+        self.numObs = 0
+        self.numItem_Boost = 0        
 
         self.entTypes = [ent.Sleek, ent.Destroyer]        
 
@@ -32,6 +33,16 @@ class EntityMgr:
         self.lvl1List.append(obs)        
         self.numObs = self.numObs + 1        
         return obs
+
+    def createItem_Boost(self, pos = Vector3(0,0,0)):        
+        item = ent.Item_Boost(self.engine, self.numItem_Boost, pos = pos)        
+        item.init()
+        item.uiname += str(self.numItem_Boost)
+        print "flag"
+        print item.uiname
+        self.lvl1List.append(item)        
+        self.numItem_Boost = self.numItem_Boost + 1        
+        return item
         
     def createLvl1(self):
         #create chkpt list
@@ -42,7 +53,10 @@ class EntityMgr:
         #create obstacles on either side of chkpt
         for point in self.lvl1ChkPts:
             self.createObs(point + Vector3(0, 0, 650))
-            self.createObs(point - Vector3(0, 0, 250))
+            self.createObs(point + Vector3(0, 0, -250))
+
+        #create item boost
+        self.createItem_Boost(Vector3(5000, 50, 150))
 
                 
     def tick(self, dt):        

@@ -10,16 +10,23 @@ class Renderer():
         self.pEnt = self.ent.engine.gfxMgr.sceneManager.createEntity(self.ent.uiname + str(self.ent.eid), self.ent.mesh)
         self.node = self.ent.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'node' + str(self.ent.eid), ent.pos)
         self.node.attachObject(self.pEnt)
-        self.pEnt.setMaterialName('Material #8')
+        if (self.ent.uiname != "Item_Boost"):
+            self.pEnt.setMaterialName('Material #8')
         
-        if self.ent.uiname != "Obstacle":
+        if self.ent.uiname != "Obstacle" and self.ent.uiname != "Item_Boost":
             self.wakenode = self.node.createChildSceneNode()
+            self.boostnode = self.node.createChildSceneNode()
             self.wakeparticle = self.ent.engine.gfxMgr.sceneManager.createParticleSystem(self.ent.uiname + "Wake_entity", 'Examples/Wake')
-            self.wakenode.attachObject(self.wakeparticle)
-            self.wakenode.setPosition(ogre.Vector3(-60,-8,0))
+            self.boostparticle = self.ent.engine.gfxMgr.sceneManager.createParticleSystem(self.ent.uiname + "Boost_entity", 'Examples/JetEngine1')
+            #self.wakenode.attachObject(self.wakeparticle)
+            self.boostnode.attachObject(self.boostparticle)
+            self.boostnode.setPosition(ogre.Vector3(-60,-8,0))
+            self.boostnode.roll(math.radians(-90))
 
-        if(self.ent.mesh == "missile.mesh"):
-            self.node.scale(ogre.Vector3(4,4,4))
+
+
+        if(self.ent.mesh == "jaiqua.mesh"):
+            self.node.scale(ogre.Vector3(10,10,10))
         
         
     def tick(self, dt):
