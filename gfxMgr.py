@@ -82,13 +82,6 @@ class GfxMgr:
         self.renderWindow.addViewport(self.camera_P1, 1, 0, 0, 0.5, 1)
         self.renderWindow.addViewport(self.camera_P2, 2, 0.5, 0, 0.5, 1)
 
-        #self.viewPort_Main = self.root.getAutoCreatedWindow().addViewport(self.camera_Main, 3, 0, 0, 1, 1)
-        #self.viewPort_P1 = self.root.getAutoCreatedWindow().addViewport(self.camera_P1, 2, 0, 0, 0.5, 1)
-        #self.viewPort_P2 = self.root.getAutoCreatedWindow().addViewport(self.camera_P2, 1, 0.5, 0, 0.5, 1)
-
-        #if self.engine.inputMgr.keyboard.isKeyDown(OIS.KC_9):
-        #self.root.getAutoCreatedWindow().removeViewport(2)
-
 
         node_Main_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_Main',
                                                                     (1000, 200, 200))
