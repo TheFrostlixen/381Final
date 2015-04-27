@@ -38,16 +38,9 @@ class Engine(object):
         self.controlMgr = controlMgr.ControlMgr(self)
         self.controlMgr.init()
 
-<<<<<<< HEAD
         import soundMgr
         self.soundMgr = soundMgr.SoundMgr(self)
         self.soundMgr.init()
-=======
-        #import soundMgr
-        #self.soundMgr = soundMgr.SoundMgr(self)
-        #self.soundMgr.init()
-
->>>>>>> 386c0e63e3a0f6d442e385852cbde5c9fdb6b863
 
     def stop(self):
         self.gfxMgr.stop()
