@@ -28,8 +28,6 @@ class EntityMgr:
         obs = ent.Obstacle(self.engine, self.numObs, pos = pos)        
         obs.init()
         obs.uiname += str(self.numObs)
-        print "flag"
-        print obs.uiname
         self.lvl1List.append(obs)        
         self.numObs = self.numObs + 1        
         return obs
@@ -56,9 +54,9 @@ class EntityMgr:
         #create item boost
         self.createItem_Boost(Vector3(5000, 50, 150))
         """
-        #create first leg
+        #create first leg, both sides
         for i in xrange(0,100):
-            vector = Vector3(i * 100,0,0)
+            vector = Vector3((i * 100)-250,0,0)
             self.lvl1ChkPts.append(vector)
             self.createObs(vector + Vector3(0,0,650))
             self.createObs(vector + Vector3(0,0, -250))
@@ -72,10 +70,10 @@ class EntityMgr:
         #make turn's top edge
         nextX = self.lvl1ChkPts[-1].x
         turnPoint = self.lvl1ChkPts[-1]
-        for i in xrange(0,24):
-            vector = Vector3(nextX, 0, self.lvl1ChkPts[-1].z - 100)
+        for i in xrange(0,35):
+            vector = Vector3(nextX, 0, turnPoint.z - (100*i))
             self.createObs(vector + Vector3(200,0,650))
-            if i < 11:
+            if i < 20:
                 self.lvl1ChkPts.append(vector)
             
         #make turn's bottom edge
@@ -85,9 +83,15 @@ class EntityMgr:
             self.createObs(vector + Vector3(-650, 0, -250))
             
         #make return right edge
-        for item in self.lvl1ChkPts:
-            self.createItem_Boost(item)
-        
+        turnPoint = self.lvl1ChkPts[-1]
+        for i in xrange(0,124):
+            vector = Vector3(turnPoint.x - (100*i), 0, turnPoint.z)
+            self.lvl1ChkPts.append(vector)
+            self.createObs(vector + Vector3(100,0,-850))
+            if i < 116:
+                self.createObs(vector + Vector3(-650,0,250))
+
+
             
     def tick(self, dt):        
         for ent in self.entList:        

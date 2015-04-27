@@ -71,8 +71,6 @@ class SelectionMgr:
             if dist <= nearest:
                 nearest = dist
                 index = point
-        if(ent.eid == self.entMgr.entList[0].eid):
-            print index
         return index
     
     def getDistanceTo(self, point, ent):
