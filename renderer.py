@@ -17,12 +17,15 @@ class Renderer():
             
         if self.ent.uiname != "Obstacle" and self.ent.uiname != "Item_Boost":
             self.wakenode = self.node.createChildSceneNode()
-            self.boostnode = self.node.createChildSceneNode()
             self.wakeparticle = self.ent.engine.gfxMgr.sceneManager.createParticleSystem(self.ent.uiname + "Wake_entity", 'Examples/Wake')
+            self.wakenode.attachObject(self.wakeparticle)
+            self.wakenode.setPosition(ogre.Vector3(-60,-8,0))
+            self.wakenode.roll(math.radians(-90))
+            
+            self.boostnode = self.node.createChildSceneNode()
             self.boostparticle = self.ent.engine.gfxMgr.sceneManager.createParticleSystem(self.ent.uiname + "Boost_entity", 'Examples/JetEngine1')
-            #self.wakenode.attachObject(self.wakeparticle)
             self.boostnode.attachObject(self.boostparticle)
-            self.boostnode.setPosition(ogre.Vector3(-60,-8,0))
+            self.boostnode.setPosition(ogre.Vector3(-60,8,0))
             self.boostnode.roll(math.radians(-90))
 
 
@@ -36,6 +39,8 @@ class Renderer():
 
             self.node.position = self.ent.pos
             
+            self.boostparticle.setVisible(self.ent.boosting)
+
             if self.ent.currentYaw < self.ent.yaw:
                 self.node.yaw(-1*math.radians(self.ent.turningRate))
                 self.ent.currentYaw += self.ent.turningRate
