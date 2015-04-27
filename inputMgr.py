@@ -129,6 +129,7 @@ class InputListener(ogre.FrameListener):
 
         self.toggle_P1 = 0
         self.toggle_P2 = 0
+        self.toggle = 0
 
         self.P1_FreeRoam = True
         self.P2_FreeRoam = True
@@ -160,6 +161,15 @@ class InputListener(ogre.FrameListener):
 
         if self.toggle_P2 >= 0:
             self.toggle_P2 -= frameEvent.timeSinceLastFrame
+
+        if self.toggle >= 0:
+            self.toggle -= frameEvent.timeSinceLastFrame
+
+
+        if self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_0):
+            self.toggle = 0.1
+            self.inputMgr.engine.gfxMgr.renderWindow.removeViewport(10)
+
 
 
         ##############################

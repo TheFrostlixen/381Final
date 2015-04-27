@@ -40,7 +40,7 @@ class SoundMgr:
         if self.totaltime == 3000:
             self.aaa.fadeout(2000)
 
-        self.totaltime += 1
+        self.totaltime += 2
 
 
     def stop(self):
