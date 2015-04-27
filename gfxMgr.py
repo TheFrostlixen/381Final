@@ -85,8 +85,18 @@ class GfxMgr:
         viewPort_P1 = self.root.getAutoCreatedWindow().addViewport(self.camera_P1, 1, 0, 0, 0.5, 1)
         viewPort_P2 = self.root.getAutoCreatedWindow().addViewport(self.camera_P2, 2, 0.5, 0, 0.5, 1)
         
+        
+'''
         node_Main_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_Main',
                                                                     (-1250, 200, 200))
+        node_Main_camera.yaw(math.radians(-90))
+        node1 = node_P1_camera.createChildSceneNode('PitchNode_Main')
+
+        node1.attachObject(self.camera_Main)
+'''
+
+
+
 
         node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_1',
                                                                    (-1000, 200, 200))
