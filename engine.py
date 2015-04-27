@@ -38,14 +38,10 @@ class Engine(object):
         self.controlMgr = controlMgr.ControlMgr(self)
         self.controlMgr.init()
 
+        #import soundMgr
+        #self.soundMgr = soundMgr.SoundMgr(self)
+        #self.soundMgr.init()
 
-        import soundMgr
-        self.soundMgr = soundMgr.SoundMgr(self)
-        self.soundMgr.init()
-
-        import soundMgr
-        self.soundMgr = soundMgr.SoundMgr(self)
-        self.soundMgr.init()
 
 
     def stop(self):
@@ -55,7 +51,7 @@ class Engine(object):
         self.gameMgr.stop()
         self.controlMgr.stop()
         self.netMgr.stop()
-        self.soundMgr.stop()
+        #self.soundMgr.stop()
         self.keepRunning = False
 
     def run(self):
@@ -78,7 +74,7 @@ class Engine(object):
             self.selectionMgr.tick(dtime)
             self.controlMgr.tick(dtime)
             self.gameMgr.tick(dtime)
-            self.soundMgr.tick(dtime)
+            #self.soundMgr.tick(dtime)
             
             self.runTime += dtime
         
