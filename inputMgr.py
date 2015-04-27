@@ -88,16 +88,17 @@ class InputMgr():
             self.jMgr = JoyStickListener(self)
 
         try:
-            self.joystick2 = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
+            self.joy2stick = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
             print "----------------------------------->Made joystick object"
         except Exception, e:
-            self.joystick2 = None
+            self.joy2stick = None
             print "----------------------------------->No Joy, Don't Worry Be Happy"
             print "----------------------------------->Who uses joysticks anyways? - so 1995"
-        if self.joystick2:
+        if self.joy2stick:
             self.jMgr2 = Joy2StickListener(self)
 
         self.keyboard = self.inputManager.createInputObjectKeyboard(OIS.OISKeyboard, True)
+        self.jMgr2 = Joy2StickListener(self)
         self.jMgr = JoyStickListener(self)
         self.createFrameListener()
 
@@ -522,9 +523,9 @@ class JoyStickListener(OIS.JoyStickListener):
         if id == OIS.MB_Right:
             self.rightDown = False
 
-class joy2StickListener(OIS.JoyStickListener):
+class Joy2StickListener(OIS.JoyStickListener):
     def __init__(self, inputMgr):
-        OIS.joy2StickListener.__init__(self)
+        OIS.JoyStickListener.__init__(self)
         self.inputMgr = inputMgr
         self.engine = self.inputMgr.engine
         self.joy2stick = self.inputMgr.joy2stick
@@ -536,9 +537,9 @@ class joy2StickListener(OIS.JoyStickListener):
         self.joy2RUp = False
         if self.joy2stick:
             self.joy2stick.setEventCallback(self)
-            self.ms = self.joy2stick.getjoy2StickState()
-            self.joy2Handlers = [dict() for x in range(joy2Event.NUM)]
-            self.player2 = self.engine.entityMgr.entList[1]
+            self.ms = self.joy2stick.getJoyStickState()
+            self.joy2Handlers = [dict() for x in range(JoyEvent.NUM)]
+            self.player2 = self.engine.entityMgr.entList[0]
 
     def buttonPressed(self, frameEvent, button):
         print "------------------------------------>", " Button Pressed: ", button    
@@ -562,21 +563,21 @@ class joy2StickListener(OIS.JoyStickListener):
         state = frameEvent.get_state()
         if state.mAxes[axis].abs > 5000 or state.mAxes[axis].abs < - 5000 :
             self.calljoy2Handlers(joy2Event.AXIS_MOVED, axis, state)            
-            #print "------------------------------------>",  " Axis  : ", axis, state.mAxes[axis].abs
+            print "------------------------------------>",  " Axis  : ", axis, state.mAxes[axis].abs
         #right trigger down
         if axis == 5 and state.mAxes[axis].abs > 15000:
-            self.triggerRDown = True
+            self.trigger2RDown = True
             print "--------------> trigger right down"
         #right trigger up
         if axis == 5 and state.mAxes[axis].abs < 15000:
-            self.triggerRDown = False
+            self.trigger2RDown = False
             print "--------------> trigger right up"
         #left trigger down
         if axis == 2 and state.mAxes[axis].abs > 15000:
-            self.triggerLDown = True 
+            self.trigger2LDown = True 
         #left trigger up
         if axis == 2 and state.mAxes[axis].abs < 15000:
-            self.triggerLDown = False 
+            self.trigger2LDown = False 
         if axis == 0 and state.mAxes[axis].abs < -15000:
             self.joy2LDown = True
         if axis == 0 and state.mAxes[axis].abs > -15000:
