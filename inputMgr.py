@@ -125,12 +125,14 @@ class InputListener(ogre.FrameListener):
         ogre.FrameListener.__init__(self)
         self.inputMgr = inputMgr
         self.keyboard = self.inputMgr.keyboard
+        self.cameraMain = self.inputMgr.engine.gfxMgr.camera_Main
         self.camera1 = self.inputMgr.engine.gfxMgr.camera_P1
         self.camera2 = self.inputMgr.engine.gfxMgr.camera_P2
         self.joystick = self.inputMgr.joystick
         self.joyHandlers = [dict() for x in range(JoyEvent.NUM)]
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
+        self.camNode_Main = self.cameraMain.parentSceneNode
         self.camNode_P1 = self.camera1.parentSceneNode
         self.camNode_P2 = self.camera2.parentSceneNode
         self.rotate = 0.006
@@ -138,11 +140,15 @@ class InputListener(ogre.FrameListener):
         self.moveFast = 1000
         self.BDown = False
         self.direction = ogre.Vector3(0, 0, 0)
+        self.directionMain = ogre.Vector3(0, 0, 0)
+        self.mainPos = self.camNode_Main.getPosition()
 
         self.toggle_P1 = 0
         self.toggle_P2 = 0
         self.toggle = 0
+        self.timer = 0
 
+        self.intro = True
         self.P1_FreeRoam = True
         self.P2_FreeRoam = True
 
@@ -178,10 +184,32 @@ class InputListener(ogre.FrameListener):
             self.toggle -= frameEvent.timeSinceLastFrame
 
 
-        if self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_0):
+        if self.intro and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
             self.toggle = 0.1
+            self.intro = False
             self.inputMgr.engine.gfxMgr.renderWindow.removeViewport(10)
+            self.P1_FreeRoam = False
+            self.camera1.parentSceneNode.detachObject(self.camera1)
+            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
+            self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera1)
+            self.camNode_P1.yaw(-(math.radians(self.Player1.heading)))
+            self.P2_FreeRoam = False
+            self.camera2.parentSceneNode.detachObject(self.camera2)
+            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
+            self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera2)
+            self.camNode_P2.yaw(-(math.radians(self.Player2.heading)))
 
+        self.timer += frameEvent.timeSinceLastFrame
+
+        if (self.timer < 15):
+            self.directionMain.y = 20
+            self.directionMain.z = 100
+        else:
+            self.directionMain.y = 0
+            self.directionMain.z = 0
+        
+
+        #print self.directionMain
 
 
         ##############################
@@ -243,6 +271,11 @@ class InputListener(ogre.FrameListener):
  
 
         #translate the camera based on time
+        self.camNode_Main.translate(self.camNode_Main.orientation
+            * self.directionMain
+            * frameEvent.timeSinceLastFrame)
+
+
         self.camNode_P1.translate(self.camNode_P1.orientation
             * self.direction
             * frameEvent.timeSinceLastFrame)
