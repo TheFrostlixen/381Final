@@ -92,7 +92,7 @@ class EntityMgr:
             if i < 116:
                 self.createObs(vector + Vector3(-650,0,250))
         
-        self.placeRandomBlocksOnCheckpoint()
+        self.placeRandomItemsOnCheckpoint()
 
             
     def tick(self, dt):        
@@ -102,10 +102,14 @@ class EntityMgr:
     def stop(self):        
         pass
         
-    def placeRandomBlocksOnCheckpoint(self):
+    def placeRandomItemsOnCheckpoint(self):
         for i in xrange(0,100):
             choice = random.choice(self.lvl1ChkPts)
-            self.createObs(choice + Vector3(random.randint(-300,300), 0, random.randint(-300,300)))
+            boost = random.randint(0,100)
+            if boost < 10:
+                self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
+            else:
+                self.createObs(choice + Vector3(random.randint(-300,300), 0, random.randint(-300,300)))
         
         
         

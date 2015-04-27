@@ -4,6 +4,8 @@ import math
 class Physics:
     def __init__(self, ent):
         self.ent = ent
+        self.boosted = False
+        self.boostTime = 0
         
     def tick(self, dtime):
         #print "Physics tick", dtime
@@ -28,7 +30,21 @@ class Physics:
             self.ent.heading = 0
         if self.ent.heading < 0:
             self.ent.heading = 360
-
+        
+        if self.ent.boosting and not self.boosted:
+            self.ent.acceleration *= 100
+            self.ent.maxSpeed *= 2
+            self.ent.turningRate *= 2
+            self.boosted = True
+        if self.boostTime < 0.5 and self.boosted:
+            self.boostTime += dtime
+        elif self.boosted == True:
+            self.ent.acceleration /= 100
+            self.ent.maxSpeed /= 2
+            self.ent.turningRate /= 2
+            self.boosted = False
+            self.boostTime = 0
+            self.ent.boosting = False
             
         self.ent.vel.x = self.ent.speed * math.cos(math.radians(self.ent.heading))
         self.ent.vel.z = self.ent.speed * math.sin(math.radians(self.ent.heading))
