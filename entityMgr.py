@@ -1,7 +1,8 @@
 #Entity Manager        
 from vector import Vector3    
 import ent     
-        
+import random
+  
 class EntityMgr:        
     def __init__(self, engine):        
         print "starting entity manager"        
@@ -90,7 +91,8 @@ class EntityMgr:
             self.createObs(vector + Vector3(100,0,-850))
             if i < 116:
                 self.createObs(vector + Vector3(-650,0,250))
-
+        
+        self.placeRandomBlocksOnCheckpoint()
 
             
     def tick(self, dt):        
@@ -100,7 +102,10 @@ class EntityMgr:
     def stop(self):        
         pass
         
-        
+    def placeRandomBlocksOnCheckpoint(self):
+        for i in xrange(0,100):
+            choice = random.choice(self.lvl1ChkPts)
+            self.createObs(choice + Vector3(random.randint(-300,300), 0, random.randint(-300,300)))
         
         
         
