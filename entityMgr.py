@@ -38,14 +38,12 @@ class EntityMgr:
         item = ent.Item_Boost(self.engine, self.numItem_Boost, pos = pos)        
         item.init()
         item.uiname += str(self.numItem_Boost)
-        print "flag"
-        print item.uiname
         self.lvl1List.append(item)        
         self.numItem_Boost = self.numItem_Boost + 1        
         return item
         
     def createLvl1(self):
-        #create chkpt list
+        """#create chkpt list
         for i in xrange(0,100):
             vector = Vector3(i * 100,0,0)
             self.lvl1ChkPts.append(vector)
@@ -57,11 +55,55 @@ class EntityMgr:
 
         #create item boost
         self.createItem_Boost(Vector3(5000, 50, 150))
-
+        """
+        #create first leg
+        for i in xrange(0,100):
+            vector = Vector3(i * 100,0,0)
+            self.lvl1ChkPts.append(vector)
+            self.createObs(vector + Vector3(0,0,650))
+            self.createObs(vector + Vector3(0,0, -250))
+        #make turn's right edge
+        for i in xrange(0,13):
+            vector = Vector3(100 + self.lvl1ChkPts[-1].x, 0, 0)
+            self.createObs(vector + Vector3(0,0,650))
+            if i < 7:
+                self.lvl1ChkPts.append(vector)
                 
+        #make turn's top edge
+        nextX = self.lvl1ChkPts[-1].x
+        turnPoint = self.lvl1ChkPts[-1]
+        for i in xrange(0,24):
+            vector = Vector3(nextX, 0, self.lvl1ChkPts[-1].z - 100)
+            self.createObs(vector + Vector3(200,0,650))
+            if i < 11:
+                self.lvl1ChkPts.append(vector)
+            
+        #make turn's bottom edge
+        nextX = turnPoint.x
+        for i in xrange(0,14):
+            vector = Vector3(nextX, 0, turnPoint.z - (100*i))
+            self.createObs(vector + Vector3(-650, 0, -250))
+            
+        #make return right edge
+        for item in self.lvl1ChkPts:
+            self.createItem_Boost(item)
+        
+            
     def tick(self, dt):        
         for ent in self.entList:        
             ent.tick(dt)        
                 
     def stop(self):        
         pass
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

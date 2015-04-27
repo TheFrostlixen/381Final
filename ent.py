@@ -90,7 +90,7 @@ class Obstacle(Entity):
         self.isSelected = False
         self.engine = engine
         self.sound = "windsobey.ogg"
-        self.collisionRange = 30
+        self.collisionRange = 60
 
 class Item_Boost(Entity):
     def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
