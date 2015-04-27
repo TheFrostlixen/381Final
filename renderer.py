@@ -10,9 +10,11 @@ class Renderer():
         self.pEnt = self.ent.engine.gfxMgr.sceneManager.createEntity(self.ent.uiname + str(self.ent.eid), self.ent.mesh)
         self.node = self.ent.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'node' + str(self.ent.eid), ent.pos)
         self.node.attachObject(self.pEnt)
-        if (self.ent.uiname != "Item_Boost"):
+        if (self.ent.uiname == "Obstacle"):
+            self.pEnt.setMaterialName('Examples/DarkMaterial')
+        elif self.ent.uiname != "Item_Boost":
             self.pEnt.setMaterialName('Material #8')
-        
+            
         if self.ent.uiname != "Obstacle" and self.ent.uiname != "Item_Boost":
             self.wakenode = self.node.createChildSceneNode()
             self.boostnode = self.node.createChildSceneNode()
