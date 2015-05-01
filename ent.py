@@ -114,6 +114,7 @@ class Item_Boost(Entity):
         self.engine = engine
         self.sound = "windsobey.ogg"
         self.collisionRange = 30
+        self.used = False;
 
 
 class Sleek(Entity):

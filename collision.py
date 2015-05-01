@@ -35,6 +35,7 @@ class Collision:
                             self.ent.desiredSpeed = 0
                             self.ent.speed = 0
                         else:
-                            ent.aspects[1].pEnt.setVisible(False)
-                            
-                            self.ent.boosting = True
+                            if ent.used == False:
+                                ent.aspects[1].pEnt.setVisible(False)
+                                self.ent.boosting = True
+                                ent.used = True;
