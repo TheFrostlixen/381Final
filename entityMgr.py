@@ -103,9 +103,9 @@ class EntityMgr:
         pass
         
     def placeRandomItemsOnCheckpoint(self):
-        for i in xrange(0,100):
+        for i in xrange(0,50):
             choice = random.choice(self.lvl1ChkPts)
-            boost = random.randint(0,100)
+            boost = random.randint(0,50)
             if boost < 10:
                 self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
             else:

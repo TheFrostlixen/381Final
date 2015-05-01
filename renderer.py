@@ -41,6 +41,8 @@ class Renderer():
             
             self.boostparticle.setVisible(self.ent.boosting)
 
+            
+
             if self.ent.currentYaw < self.ent.yaw:
                 self.node.yaw(-1*math.radians(self.ent.turningRate))
                 self.ent.currentYaw += self.ent.turningRate

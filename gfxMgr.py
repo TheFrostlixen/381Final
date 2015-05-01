@@ -72,45 +72,6 @@ class GfxMgr:
         self.sceneManager.setSkyBox (True, "Examples/SpaceSkyBox", 5000, False)
         #sceneManager.setSkyDome (True, "Examples/CloudySky", 5, 8)
 
-        '''SETUP CAMERAS AND VIEWPORTS'''
-        self.camera_Main = self.sceneManager.createCamera("camera_Main")
-        self.camera_P1 = self.sceneManager.createCamera("Camera_P1")
-        self.camera_P2 = self.sceneManager.createCamera("Camera_P2")
-
-        self.renderWindow = self.root.getAutoCreatedWindow()
-        self.renderWindow.addViewport(self.camera_Main, 10, 0, 0, 1, 1)
-        self.renderWindow.addViewport(self.camera_P1, 1, 0, 0, 0.5, 1)
-        self.renderWindow.addViewport(self.camera_P2, 2, 0.5, 0, 0.5, 1)
-
-
-        node_Main_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_Main',
-                                                                    (1000, 200, 200))
-        node_Main_camera.yaw(math.radians(90))
-        node1 = node_Main_camera.createChildSceneNode('PitchNode_Main')
-
-        node1.attachObject(self.camera_Main)
-
-        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_1', (-1000, 200, 200))
-        node_P1_camera.yaw(math.radians(-90))
-        node1 = node_P1_camera.createChildSceneNode('PitchNode_P1_1')
-        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_2',
-                                                                   (-1500, 200, 200))
-        node_P1_camera.yaw(math.radians(-90))
-        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_2')
-        
-        node1.attachObject(self.camera_P1)
-        
-        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_1', (-1000, 200, 200))
-        node_P2_camera.yaw(math.radians(-90))
-        node1 = node_P2_camera.createChildSceneNode('PitchNode_P2_1')
-        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_2', (-500, 200, 200))
-        node_P2_camera.yaw(math.radians(-90))
-        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_2')
-
-        node1.attachObject(self.camera_P2)
-
-
-
     def tick(self, dt):
         self.engine.keepRunning = self.root.renderOneFrame(dt) #boolean type must return
     

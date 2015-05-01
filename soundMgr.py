@@ -41,12 +41,12 @@ class SoundMgr:
             if self.totaltime > 25:
                 self.f1 = False
                 self.aaa.fadeout(2000)
-            if not self.engine.inputMgr.inputListener.intro:
+            if not self.engine.inputMgr.inputListener.mainMenu:
                 self.f1 = False
                 self.aaa.fadeout(200)
 
 
-        if not self.f1 and self.f2 and not self.engine.inputMgr.inputListener.intro:
+        if not self.f1 and self.f2 and not self.engine.inputMgr.inputListener.mainMenu:
             print "Play BB"
             self.f2 = False
             self.bbb.play(self.bb, loops = -1)

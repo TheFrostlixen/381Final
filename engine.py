@@ -18,6 +18,10 @@ class Engine(object):
         self.gfxMgr = gfxMgr.GfxMgr(self)
         self.gfxMgr.init()
 
+        import cameraMgr
+        self.cameraMgr = cameraMgr.CameraMgr(self)
+        self.cameraMgr.init()
+
         import netMgr
         self.netMgr = netMgr.NetMgr(self)
         self.netMgr.init()
@@ -38,12 +42,14 @@ class Engine(object):
         self.controlMgr = controlMgr.ControlMgr(self)
         self.controlMgr.init()
 
-        import soundMgr
-        self.soundMgr = soundMgr.SoundMgr(self)
-        self.soundMgr.init()
+        #import soundMgr
+        #self.soundMgr = soundMgr.SoundMgr(self)
+        #self.soundMgr.init()
+
 
     def stop(self):
         self.gfxMgr.stop()
+        self.cameraMgr.stop()
         self.inputMgr.stop()
         self.selectionMgr.stop()
         self.gameMgr.stop()
@@ -67,6 +73,7 @@ class Engine(object):
 
             self.entityMgr.tick(dtime)
             self.gfxMgr.tick(dtime)
+            self.cameraMgr.tick(dtime)
             self.netMgr.tick(dtime)
             self.inputMgr.tick(dtime)
             self.selectionMgr.tick(dtime)

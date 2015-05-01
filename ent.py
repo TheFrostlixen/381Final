@@ -139,6 +139,7 @@ class Sleek(Entity):
         self.sound = "windsobey.ogg"
         self.collisionRange = 30
         self.boosting = False
+        self.slowDown = False
 
         
 class Destroyer(Entity):
@@ -164,6 +165,7 @@ class Destroyer(Entity):
         self.sound = "windsobey.ogg"
         self.collisionRange = 30
         self.boosting = False
+        self.slowDown = False
 
 
 
