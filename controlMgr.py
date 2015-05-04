@@ -57,7 +57,6 @@ class ControlMgr:
                     self.player1.desiredHeading += self.player1.turningRate
                     self.player1.yaw += self.player1.turningRate
 
-<<<<<<< HEAD
             if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
                 heading = self.player1.desiredHeading
                 speed = self.player1.heldWeapon.maxSpeed
@@ -68,8 +67,6 @@ class ControlMgr:
             if self.keyboard.isKeyDown(OIS.KC_ADD) and self.player2.loaded == True:
                 print "pewpew2"
 
-=======
->>>>>>> d8e5825738af7593f61cf3fd81a44825d6ea2371
             if self.player1.slowDown == True:
                 if self.player1.desiredSpeed > 0:
                     self.player1.desiredSpeed -= (self.player1.acceleration / 2)

@@ -47,18 +47,9 @@ class Renderer():
         #if(self.node != 0):
 
             self.node.position = self.ent.pos
-<<<<<<< HEAD
             if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:
                 self.boostparticle.setVisible(self.ent.boosting)
-                
-
-=======
             
-            self.boostparticle.setVisible(self.ent.boosting)
-            self.weaponEnt.setVisible(self.ent.weaponUp)
-            
-            
->>>>>>> d8e5825738af7593f61cf3fd81a44825d6ea2371
             if self.ent.currentYaw < self.ent.yaw:
                 self.node.yaw(-1*math.radians(self.ent.turningRate))
                 self.ent.currentYaw += self.ent.turningRate
