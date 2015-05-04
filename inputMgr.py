@@ -158,6 +158,7 @@ class InputListener(ogre.FrameListener):
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
         self.toggle = 0
+        self.toggle2 = 0
         self.timer_MainMenu = 0
         self.mainMenu = True
 
@@ -173,14 +174,31 @@ class InputListener(ogre.FrameListener):
 
         if self.toggle >= 0:
             self.toggle -= frameEvent.timeSinceLastFrame
+
+        if self.toggle2 >= 0:
+            self.toggle2 -= frameEvent.timeSinceLastFrame
         
         if self.mainMenu:
             self.cameraMgr.start_MainMenu()
 
-        if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
             self.toggle = 0.1
+            self.inputMgr.engine.overlayMgr.showIntroPage = False
             self.mainMenu = False
             self.cameraMgr.end_MainMenu()
+
+        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+            self.inputMgr.engine.overlayMgr.showIntroPage = True
+
+        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_BACK):
+            self.inputMgr.engine.overlayMgr.showIntroPage = False
+
+        if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_UP):
+            self.toggle2 = 0.1
+            self.inputMgr.engine.overlayMgr.selection = 1;
+        if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_DOWN):
+            self.toggle2 = 0.1
+            self.inputMgr.engine.overlayMgr.selection = 0;
 
 
         #check for Key release to stop moving the camera.
@@ -227,6 +245,7 @@ class InputListener(ogre.FrameListener):
                         
             if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.joysticks[1].get_axis(0) > 0.6:
                 self.cameraMgr.P2_CamTurn_Right()
+
 
         return True
 

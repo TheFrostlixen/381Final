@@ -93,7 +93,7 @@ class ControlMgr:
                 heading = self.player1.heading
                 speed = self.player1.heldWeapon.maxSpeed
                 weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
-                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'weaponnode' + str(self.ent.eid), self.player1.pos)
+                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.player1.uiname + 'weaponnode' + str(self.player1.eid), self.player1.pos)
                 weapon.desiredHeading = heading
                 weapon.desiredSpeed = speed
                 
@@ -110,7 +110,7 @@ class ControlMgr:
         if not self.mainMenu:
             if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8) and not self.player2.boosting:
                 self.player2.slowDown = True
-                
+
             if(self.engine.inputMgr.joystick_count > 1):
                 if self.keyboard.isKeyDown(OIS.KC_NUMPAD8) or self.engine.inputMgr.joysticks[1].get_axis(5) > 0.2:
                     nextAccel = self.player2.speed + self.player2.acceleration

@@ -22,15 +22,15 @@ class SoundMgr:
         
         self.a = os.path.join('data','Polyphia_Envision_Short.wav') # 1/8 = 220 milisecs
         self.b = os.path.join('data','Big_Blue.WAV')
-        #self.c = os.path.join('data','Careless_Whisper.wav')
+        self.c = os.path.join('data','Careless_Whisper.WAV')
 
         self.aa = pygame.mixer.Sound(self.a)
         self.bb = pygame.mixer.Sound(self.b)
-        #self.cc = pygame.mixer.Sound(self.c)
+        self.cc = pygame.mixer.Sound(self.c)
 
         self.aaa = pygame.mixer.Channel(0)
         self.bbb = pygame.mixer.Channel(1)
-        #self.ccc = pygame.mixer.Chanell(2)
+        self.ccc = pygame.mixer.Channel(2)
         print "SOUND INIT"
 
 
@@ -55,11 +55,12 @@ class SoundMgr:
             self.f2 = False
             self.bbb.play(self.bb, loops = -1)
 
-        #if self.f3:
-            #if self.engine.selectionMgr.p1End or self.engine.selectionMgr.p2End:
-                #print "Whisper....."
-                #self.f3 = False
-                #self.ccc.player(self.cc, loops = -1)
+        if self.f3:
+            if self.engine.selectionMgr.p1End or self.engine.selectionMgr.p2End:
+                self.bbb.fadeout(200)
+                print "Whisper....."
+                self.f3 = False
+                self.ccc.play(self.cc, loops = -1)
 
 
         self.totaltime += dt
