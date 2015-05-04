@@ -40,6 +40,11 @@ class Physics:
             self.ent.desiredHeading = 357
 
         if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:
+            if self.ent.hit:
+                print self.ent.hit
+                self.ent.desiredSpeed = 0
+                self.ent.desiredHeading = 1000
+                self.ent.hit = False
             if self.ent.boosting and not self.boosted:
                 self.ent.slowDown = False
                 self.ent.acceleration *= 100

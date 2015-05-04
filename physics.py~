@@ -39,21 +39,27 @@ class Physics:
         if self.ent.desiredHeading < 0:
             self.ent.desiredHeading = 357
 
-        if self.ent.boosting and not self.boosted:
-            self.ent.slowDown = False
-            self.ent.acceleration *= 100
-            self.ent.maxSpeed *= 2
-            self.ent.turningRate *= 2
-            self.boosted = True
-        if self.boostTime < 0.5 and self.boosted:
-            self.boostTime += dtime
-        elif self.boosted == True:
-            self.ent.acceleration /= 100
-            self.ent.maxSpeed /= 2
-            self.ent.turningRate /= 2
-            self.boosted = False
-            self.boostTime = 0
-            self.ent.boosting = False
+        if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:
+            if self.ent.hit:
+                print self.ent.hit
+                self.ent.desiredSpeed = 0
+                self.ent.desiredHeading = 0
+                self.ent.hit = False
+            if self.ent.boosting and not self.boosted:
+                self.ent.slowDown = False
+                self.ent.acceleration *= 100
+                self.ent.maxSpeed *= 2
+                self.ent.turningRate *= 2
+                self.boosted = True
+            if self.boostTime < 0.5 and self.boosted:
+                self.boostTime += dtime
+            elif self.boosted == True:
+                self.ent.acceleration /= 100
+                self.ent.maxSpeed /= 2
+                self.ent.turningRate /= 2
+                self.boosted = False
+                self.boostTime = 0
+                self.ent.boosting = False
             
         self.ent.vel.x = self.ent.speed * math.cos(math.radians(self.ent.heading))
         self.ent.vel.z = self.ent.speed * math.sin(math.radians(self.ent.heading))

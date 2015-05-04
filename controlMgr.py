@@ -100,21 +100,43 @@ class ControlMgr:
                 weapon.pos = self.player1.pos
                 desiredHeading = self.player1.heading
                 desiredSpeed = self.player1.heldWeapon.maxSpeed
+                yaw = self.player1.yaw
                 weapon.desiredHeading = desiredHeading
                 weapon.desiredSpeed = desiredSpeed
+                weapon.yaw = yaw
                 self.engine.entityMgr.weaponList.append(weapon)
+                weapon.firedFrom = self.player1.uiname
                 self.player1.weaponUp = False
                 weapon.held = False
                 
                 print "pewpew1"
 
-            if self.keyboard.isKeyDown(OIS.KC_ADD) and self.player2.loaded == True:
+            if self.keyboard.isKeyDown(OIS.KC_NUMPADENTER) and self.player2.weaponUp == True:
+                weapon = self.player2.heldWeapon
+                weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player2.pos  + ogre.Vector3(0,20,4))
+                weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
+                weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
+                
+                weapon.speed = self.player2.speed
+                weapon.heading = self.player2.heading
+                weapon.pos = self.player2.pos
+                desiredHeading = self.player2.heading
+                desiredSpeed = self.player2.heldWeapon.maxSpeed
+                yaw = self.player2.yaw
+                weapon.desiredHeading = desiredHeading
+                weapon.desiredSpeed = desiredSpeed
+                weapon.yaw = yaw
+                self.engine.entityMgr.weaponList.append(weapon)
+                weapon.firedFrom = self.player2.uiname
+                self.player2.weaponUp = False
+                weapon.held = False
                 print "pewpew2"
 
-            if self.player1.slowDown == True:
+            """if self.player1.slowDown == True:
                 if self.player1.desiredSpeed > 0:
                     self.player1.desiredSpeed -= (self.player1.acceleration / 2)
-
+            """
 
 
 

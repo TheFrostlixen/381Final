@@ -129,8 +129,8 @@ class Item_Weapon(Entity):
         self.eid = id
         self.pos = pos
         self.acceleration = 100
-        self.maxSpeed = 5000
-        self.turningRate = 0.5
+        self.maxSpeed = 2000
+        self.turningRate = 10
         self.mesh = "missile.mesh"
         self.uiname = "Item_Weapon"
         self.isSelected = False
@@ -140,6 +140,7 @@ class Item_Weapon(Entity):
         self.pickedUp = False
         self.visible = True
         self.held = False
+        self.firedFrom = "0"
 
 class Sleek(Entity):
     def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
@@ -167,6 +168,7 @@ class Sleek(Entity):
         self.boosting = False
         self.slowDown = False
         self.weaponUp = False
+        self.hit = False
 
         
 class Destroyer(Entity):
@@ -195,6 +197,7 @@ class Destroyer(Entity):
         self.boosting = False
         self.slowDown = False
         self.weaponUp = False
+        self.hit = False
 
 
 
