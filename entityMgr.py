@@ -40,21 +40,12 @@ class EntityMgr:
         self.lvl1List.append(item)        
         self.numItem_Boost = self.numItem_Boost + 1        
         return item
+
+    def destroyCurrentLevel(self):
+        del lvl1List[:]
+        del lvl1ChkPts[:]
         
     def createLvl1(self):
-        """#create chkpt list
-        for i in xrange(0,100):
-            vector = Vector3(i * 100,0,0)
-            self.lvl1ChkPts.append(vector)
-            
-        #create obstacles on either side of chkpt
-        for point in self.lvl1ChkPts:
-            self.createObs(point + Vector3(0, 0, 650))
-            self.createObs(point + Vector3(0, 0, -250))
-
-        #create item boost
-        self.createItem_Boost(Vector3(5000, 50, 150))
-        """
         #create first leg, both sides
         for i in xrange(0,100):
             vector = Vector3((i * 100)-250,0,0)

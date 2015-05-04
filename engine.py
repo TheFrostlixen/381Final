@@ -46,9 +46,9 @@ class Engine(object):
         self.soundMgr = soundMgr.SoundMgr(self)
         self.soundMgr.init()
         
-        import overlayMgr
-        self.overlayMgr = overlayMgr.OverlayMgr(self)
-        self.overlayMgr.init()
+        #import overlayMgr
+        #self.overlayMgr = overlayMgr.OverlayMgr(self)
+        #self.overlayMgr.init()
 
 
     def stop(self):
@@ -84,7 +84,7 @@ class Engine(object):
             self.controlMgr.tick(dtime)
             self.gameMgr.tick(dtime)
             self.soundMgr.tick(dtime)
-            self.overlayMgr.tick(dtime)
+            #self.overlayMgr.tick(dtime)
             
             self.runTime += dtime
         
