@@ -25,7 +25,9 @@ class CameraMgr:
         self.viewPort_P2 = self.renderWindow.addViewport(self.camera_P2, 2, 0.5, 0, 0.5, 1)
 
 
+
         '''Attach Cameras to Nodes:'''
+
 
         '''Main Camera'''
         node_Main_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_Main_1',
@@ -67,18 +69,22 @@ class CameraMgr:
         node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_2')
         node1.attachObject(self.camera_P2)
 
+
         '''Camera Vectors'''
         self.camVec_Main = ogre.Vector3(0,0,0)
         self.camVec_P1 = ogre.Vector3(0,0,0)
         self.camVec_P2 = ogre.Vector3(0,0,0)
 
+        '''Camera Nodes'''
         self.camNode_Main = self.camera_Main.parentSceneNode
         self.camNode_P1 = self.camera_P1.parentSceneNode
         self.camNode_P2 = self.camera_P2.parentSceneNode
 
+        '''Other Variables'''
         self.camNum_MainMenu = 0
         self.camNum_MainMenu_All = 4
         self.resetTime = 0
+        self.direction = ogre.Vector3(0,0,0)
 
     def start_MainMenu(self):
         self.time = self.engine.inputMgr.inputListener.timer_MainMenu
@@ -127,9 +133,25 @@ class CameraMgr:
             self.camVec_Main.y = 40
             self.camVec_Main.z = 140
 
+    def end_MainMenu(self):
+
+            self.renderWindow.removeViewport(10)
+            self.camera_P1.parentSceneNode.detachObject(self.camera_P1)
+            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
+            self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera_P1)
+            #self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
+            self.camera_P2.parentSceneNode.detachObject(self.camera_P2)
+            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
+            self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera_P2)
+            #self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
+
+
 
     def tick(self, dt):
+
         self.camNode_Main.translate(self.camNode_Main.orientation * self.camVec_Main * dt)
+        self.camNode_P1.translate(self.camNode_P1.orientation * self.camVec_P1 * dt)
+        self.camNode_P2.translate(self.camNode_P2.orientation * self.camVec_P2 * dt)
 
     def stop(self):
         pass

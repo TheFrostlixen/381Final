@@ -150,16 +150,9 @@ class InputListener(ogre.FrameListener):
         self.timer_MainMenu = 0
         self.timer_Race = 0
 
-        self.mc1 = True
-        self.mc2 = False
-        self.mc3 = False
-
         self.mainMenu = True
         self.P1_FreeRoam = True
         self.P2_FreeRoam = True
-
-        self.trigger = True
-        self.camNum = 1
 
         self.keepRendering = self.inputMgr.keepRendering
 
@@ -181,6 +174,8 @@ class InputListener(ogre.FrameListener):
                                            self.Player2.pos.y + 50, 
                                            self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading )))))
 
+        print self.P1_CamPosition
+
         # Update the toggle timer.
         if self.toggle_P1 >= 0:
             self.toggle_P1 -= frameEvent.timeSinceLastFrame
@@ -191,7 +186,7 @@ class InputListener(ogre.FrameListener):
         if self.toggle >= 0:
             self.toggle -= frameEvent.timeSinceLastFrame
 
-
+        
         if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
             self.toggle = 0.1
             self.mainMenu = False
@@ -212,7 +207,16 @@ class InputListener(ogre.FrameListener):
         if self.mainMenu:
             self.cameraMgr.start_MainMenu()
 
-
+        '''
+        if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+            self.toggle = 0.1
+            self.mainMenu = False
+            self.cameraMgr.end_MainMenu()
+            self.P1_FreeRoam = False
+            self.P2_FreeRoam = False
+            self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
+            self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
+        '''
 
         ##############################
         ## PLAYER 1 CAMERA CHANGING ##
@@ -269,19 +273,6 @@ class InputListener(ogre.FrameListener):
 
         if not self.P2_FreeRoam:
             self.camNode_P2.setPosition(self.P2_CamPosition)
-
- 
-
-        #translate the camera based on time
-
-        self.camNode_P1.translate(self.camNode_P1.orientation
-            * self.direction
-            * frameEvent.timeSinceLastFrame)
-
-        self.camNode_P2.translate(self.camNode_P2.orientation
-            * self.direction
-            * frameEvent.timeSinceLastFrame)
-
 
         #check for Key release to stop moving the camera.
         self.keyReleased(frameEvent)
@@ -364,10 +355,12 @@ class InputListener(ogre.FrameListener):
             if self.keyboard.isKeyDown(OIS.KC_LEFT):
                 if self.Player1.speed > 0 or self.Player1.speed < -1:
                     self.camNode_P1.yaw(math.radians(self.Player1.turningRate))
+                    print "LEFT"
                     
             if self.keyboard.isKeyDown(OIS.KC_RIGHT):
                 if self.Player1.speed > 0 or self.Player1.speed < -1:
                     self.camNode_P1.yaw(-math.radians(self.Player1.turningRate))
+                    print "RIGHT"
 
         if not self.P2_FreeRoam:
             if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.jMgr.joyLDown:
