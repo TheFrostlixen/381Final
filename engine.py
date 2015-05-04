@@ -18,10 +18,6 @@ class Engine(object):
         self.gfxMgr = gfxMgr.GfxMgr(self)
         self.gfxMgr.init()
 
-        import cameraMgr
-        self.cameraMgr = cameraMgr.CameraMgr(self)
-        self.cameraMgr.init()
-
         import netMgr
         self.netMgr = netMgr.NetMgr(self)
         self.netMgr.init()
@@ -29,6 +25,10 @@ class Engine(object):
         import gameMgr
         self.gameMgr = gameMgr.GameMgr(self)
         self.gameMgr.init()
+
+        import cameraMgr
+        self.cameraMgr = cameraMgr.CameraMgr(self)
+        self.cameraMgr.init()
 
         import inputMgr
         self.inputMgr = inputMgr.InputMgr(self)

@@ -27,6 +27,7 @@ class CameraMgr:
 
         '''Attach Cameras to Nodes:'''
 
+
         '''Main Camera'''
         node_Main_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_Main_1',
                                                                     (1000, 200, 200))
@@ -67,18 +68,55 @@ class CameraMgr:
         node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_2')
         node1.attachObject(self.camera_P2)
 
+
         '''Camera Vectors'''
         self.camVec_Main = ogre.Vector3(0,0,0)
         self.camVec_P1 = ogre.Vector3(0,0,0)
         self.camVec_P2 = ogre.Vector3(0,0,0)
 
+        '''Camera Nodes'''
         self.camNode_Main = self.camera_Main.parentSceneNode
         self.camNode_P1 = self.camera_P1.parentSceneNode
         self.camNode_P2 = self.camera_P2.parentSceneNode
 
+        '''Other Variables'''
         self.camNum_MainMenu = 0
         self.camNum_MainMenu_All = 4
         self.resetTime = 0
+        self.direction = ogre.Vector3(0,0,0)
+
+
+        self.Player1 = self.engine.entityMgr.entList[0]
+        self.Player2 = self.engine.entityMgr.entList[1]
+        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading)))), 
+                                           self.Player1.pos.y + 50, 
+                                           self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading)))))
+        self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x + (400 * (-math.cos(math.radians(self.Player2.desiredHeading)))), 
+                                           self.Player2.pos.y + 50, 
+                                           self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading)))))
+
+
+    def tick(self, dt):
+
+        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading)))), 
+                                           self.Player1.pos.y + 50, 
+                                           self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading)))))
+        self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x + (400 * (-math.cos(math.radians(self.Player2.desiredHeading)))), 
+                                           self.Player2.pos.y + 50, 
+                                           self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading)))))
+
+        self.camNode_P1.setPosition(self.P1_CamPosition)
+        self.camNode_P2.setPosition(self.P2_CamPosition)
+
+        self.camNode_Main.translate(self.camNode_Main.orientation * self.camVec_Main * dt)
+        self.camNode_P1.translate(self.camNode_P1.orientation * self.camVec_P1 * dt)
+        self.camNode_P2.translate(self.camNode_P2.orientation * self.camVec_P2 * dt)
+
+        #print self.camNode_Main.orientation
+
+
+    def stop(self):
+        pass
 
     def start_MainMenu(self):
         self.time = self.engine.inputMgr.inputListener.timer_MainMenu
@@ -127,60 +165,57 @@ class CameraMgr:
             self.camVec_Main.y = 40
             self.camVec_Main.z = 140
 
+    def end_MainMenu(self):
+        print "GOT HERE"
+        self.engine.overlayMgr.setOverlay("Game")
+        self.renderWindow.removeViewport(10)
+        self.camera_P1.parentSceneNode.detachObject(self.camera_P1)
+        self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
+        self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera_P1)
+        self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
+        self.camera_P2.parentSceneNode.detachObject(self.camera_P2)
+        self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
+        self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera_P2)
+        self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
+            
+    def P1_CamTurn_Left(self):
+        if self.Player1.speed > 0 or self.Player1.speed < -1:
+            self.camNode_P1.yaw(math.radians(self.Player1.turningRate))
 
-    def tick(self, dt):
-        self.camNode_Main.translate(self.camNode_Main.orientation * self.camVec_Main * dt)
+    def P1_CamTurn_Right(self):
+        if self.Player1.speed > 0 or self.Player1.speed < -1:
+            self.camNode_P1.yaw(-(math.radians(self.Player1.turningRate)))
 
-    def stop(self):
-        pass
+    def P2_CamTurn_Left(self):
+        if self.Player2.speed > 0 or self.Player2.speed < -1:
+            self.camNode_P2.yaw(math.radians(self.Player2.turningRate))
 
-    def stuff(self):
-
-        # Update the toggle timer.
-        if self.toggle_P1 >= 0:
-            self.toggle_P1 -= frameEvent.timeSinceLastFrame
-
-        if self.toggle_P2 >= 0:
-            self.toggle_P2 -= frameEvent.timeSinceLastFrame
-
-        if self.toggle >= 0:
-            self.toggle -= frameEvent.timeSinceLastFrame
-
-
-        if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
-            self.toggle = 0.1
-            self.mainMenu = False
-            self.cameraMgr.renderWindow.removeViewport(10)
-            self.P1_FreeRoam = False
-            self.camera1.parentSceneNode.detachObject(self.camera1)
-            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
-            self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera1)
-            self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
-            self.P2_FreeRoam = False
-            self.camera2.parentSceneNode.detachObject(self.camera2)
-            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
-            self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera2)
-            self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
- 
-
-        #translate the camera based on time
-        self.camNode_Main.translate(self.camNode_Main.orientation
-            * self.directionMain
-            * frameEvent.timeSinceLastFrame)
+    def P2_CamTurn_Right(self):
+        if self.Player2.speed > 0 or self.Player2.speed < -1:
+            self.camNode_P2.yaw(-(math.radians(self.Player2.turningRate)))
 
 
-        self.camNode_P1.translate(self.camNode_P1.orientation
-            * self.direction
-            * frameEvent.timeSinceLastFrame)
 
-        self.camNode_P2.translate(self.camNode_P2.orientation
-            * self.direction
-            * frameEvent.timeSinceLastFrame)
 
+    
 '''
-class Player1_Camera:
+class P1_Cam:
     def __init__(self, cameraMgr):
         self.cameraMgr = cameraMgr
 
     def init(self):
+        self.Player1 = self.inputMgr.engine.entityMgr.entList[0]
+        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading )))), 
+                                           self.Player1.pos.y + 50, 
+                                           self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading )))))
+
+    def tick(self):
+
+
+class P2_Cam:
+    def __init__(self, cameraMgr):
+        self.cameraMgr = cameraMgr
+
+    def init(self):
+        pass
 '''
