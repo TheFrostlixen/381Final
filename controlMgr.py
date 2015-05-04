@@ -28,13 +28,13 @@ class ControlMgr:
             if not self.keyboard.isKeyDown(OIS.KC_UP) and not self.player1.boosting:
                 self.player1.slowDown = True
 
-            if self.keyboard.isKeyDown(OIS.KC_UP):
+            if self.keyboard.isKeyDown(OIS.KC_UP) or self.engine.inputMgr.joysticks[0].get_axis(5) > 0.2:
                 nextAccel = self.player1.speed + self.player1.acceleration
                 if nextAccel < self.player1.maxSpeed:
                     self.player1.desiredSpeed += self.player1.acceleration
                     self.player1.slowDown = False
             
-            if self.keyboard.isKeyDown(OIS.KC_DOWN):
+            if self.keyboard.isKeyDown(OIS.KC_DOWN) or self.engine.inputMgr.joysticks[0].get_axis(2) > 0.2:
                 nextDecel = self.player1.speed - self.player1.acceleration
                 if self.player1.desiredSpeed > 0:
                     self.player1.speed -= self.player1.acceleration
@@ -71,18 +71,18 @@ class ControlMgr:
             if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8):
                 self.player2.slowDown = True
 
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD8):
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD8) or self.engine.inputMgr.joysticks[1].get_axis(5) > 0.2:
                 nextAccel = self.player2.speed + self.player2.acceleration
                 if nextAccel < self.player2.maxSpeed:
                     self.player2.desiredSpeed += self.player2.acceleration
                     self.player2.slowDown = False
             
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD5):
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD5) or self.engine.inputMgr.joysticks[1].get_axis(2) > 0.2:
                 nextDecel = self.player2.speed - self.player2.acceleration
                 if nextDecel > (-1*self.player2.maxSpeed/2):
                     self.player2.desiredSpeed -= self.player2.acceleration
                         
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.engine.inputMgr.joysticks[1].get_axis(0) < -.6:
                 if self.player2.desiredHeading < 0:
                     self.player2.desiredHeading = 360
                     self.player2.yaw = 360
@@ -91,7 +91,7 @@ class ControlMgr:
                     self.player2.desiredHeading -= self.player2.turningRate
                     self.player2.yaw -= self.player2.turningRate
                     
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.engine.inputMgr.joysticks[1].get_axis(0) > 0.6:
                 if self.player2.desiredHeading > 360:
                     self.player2.desiredHeading = 0
                     self.player2.yaw = 0
