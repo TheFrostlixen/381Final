@@ -72,7 +72,7 @@ class Collision:
                                     self.ent.boosting = True
                                     ent.used = True
                             elif "Item_Weapon" in ent.uiname:
-                                if ent.pickedUp == False:
+                                if ent.pickedUp == False and self.ent.weaponUp == False:
                                     #ent.aspects[1].pEnt.setVisible(False)
                                     self.ent.heldWeapon = ent
                                     self.ent.weaponUp = True
