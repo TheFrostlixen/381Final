@@ -195,6 +195,7 @@ class InputListener(ogre.FrameListener):
         if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
             self.toggle = 0.1
             self.mainMenu = False
+            self.inputMgr.engine.overlayMgr.setOverlay("Game")
             self.cameraMgr.renderWindow.removeViewport(10)
             self.P1_FreeRoam = False
             self.camera1.parentSceneNode.detachObject(self.camera1)

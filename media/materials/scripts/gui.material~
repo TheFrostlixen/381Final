@@ -65,7 +65,7 @@ material Splash_Logo
 
 			texture_unit
 			{
-				texture RGB_About.png
+				texture RGB_Splash.png
 			}
 		}
 	}
@@ -120,6 +120,24 @@ material Splash_About
 			texture_unit
 			{
 				texture RGB_About.png
+			}
+		}
+	}
+}
+
+material GUI_Background
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture GUI_Background.png
 			}
 		}
 	}
