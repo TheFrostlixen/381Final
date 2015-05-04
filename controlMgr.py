@@ -68,7 +68,7 @@ class ControlMgr:
 
 
         if not self.mainMenu:
-            if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8):
+            if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8) and not self.player2.boosting:
                 self.player2.slowDown = True
 
             if self.keyboard.isKeyDown(OIS.KC_NUMPAD8) or self.engine.inputMgr.joysticks[1].get_axis(5) > 0.2:
@@ -84,15 +84,15 @@ class ControlMgr:
                         
             if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.engine.inputMgr.joysticks[1].get_axis(0) < -.6:
                 if self.player2.desiredHeading < 0:
-                    self.player2.desiredHeading = 360
-                    self.player2.yaw = 360
-                    self.player2.currentYaw = 360
+                    self.player2.desiredHeading = 357
+                    self.player2.yaw = 357
+                    self.player2.currentYaw = 357
                 if self.player2.speed > 0 or self.player2.speed < -1:
                     self.player2.desiredHeading -= self.player2.turningRate
                     self.player2.yaw -= self.player2.turningRate
                     
             if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.engine.inputMgr.joysticks[1].get_axis(0) > 0.6:
-                if self.player2.desiredHeading > 360:
+                if self.player2.desiredHeading >= 360:
                     self.player2.desiredHeading = 0
                     self.player2.yaw = 0
                     self.player2.currentYaw = 0
