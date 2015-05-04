@@ -28,14 +28,18 @@ class Collision:
             if not ent == self.ent:
                     self.distance = self.ent.pos.squaredDistance(ent.pos)
                     if self.distance <= self.collisionRange*self.collisionRange + ent.collisionRange*ent.collisionRange:
-                        if not "Item_Boost" in ent.uiname:
+                        if "Item_Boost" in ent.uiname:
+                            if ent.used == False:
+                                ent.aspects[1].pEnt.setVisible(False)
+                                self.ent.boosting = True
+                                ent.used = True
+                        elif "Item_Weapon" in ent.uiname:
+                            if ent.used == False:
+                                ent.aspects[1].pEnt.setVisible(False)
+                                self.ent.weaponUp = True
+                        else:
                             self.ent.vel.x = push * -1 * math.cos(math.radians(self.ent.heading))
                             self.ent.vel.z = push * -1 * math.sin(math.radians(self.ent.heading))
                             self.ent.pos = self.ent.pos + (self.ent.vel * dtime)
                             self.ent.desiredSpeed = 0
                             self.ent.speed = 0
-                        else:
-                            if ent.used == False:
-                                ent.aspects[1].pEnt.setVisible(False)
-                                self.ent.boosting = True
-                                ent.used = True;

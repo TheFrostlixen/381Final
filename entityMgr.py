@@ -14,7 +14,8 @@ class EntityMgr:
         self.lvl1ChkPts = []
         self.numEnts = 0
         self.numObs = 0
-        self.numItem_Boost = 0        
+        self.numItem_Boost = 0
+        self.numItem_Weapon = 0    
 
         self.entTypes = [ent.Sleek, ent.Destroyer]        
 
@@ -39,6 +40,14 @@ class EntityMgr:
         item.uiname += str(self.numItem_Boost)
         self.lvl1List.append(item)        
         self.numItem_Boost = self.numItem_Boost + 1        
+        return item
+    
+    def createItem_Weapon(self, pos = Vector3(0,0,0)):
+        item = ent.Item_Weapon(self.engine, self.numItem_Weapon, pos = pos)
+        item.init()
+        item.uiname += str(self.numItem_Weapon)
+        self.lvl1List.append(item)
+        self.numItem_Weapon += 1
         return item
         
     def createLvl1(self):
@@ -106,8 +115,12 @@ class EntityMgr:
         for i in xrange(0,50):
             choice = random.choice(self.lvl1ChkPts)
             boost = random.randint(0,50)
+            weapon = random.randint(0,100)
             if boost < 10:
-                self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
+                if weapon < 50:    
+                    self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
+                else:
+                    self.createItem_Weapon(choice + Vector3(random.randint(-300,300),10,random.randint(-300,300)))
             else:
                 self.createObs(choice + Vector3(random.randint(-300,300), 0, random.randint(-300,300)))
         
