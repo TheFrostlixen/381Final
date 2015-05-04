@@ -1,4 +1,3 @@
-#Andrew Menard and Brian Gaunt
 import ogre.renderer.OGRE as ogre
 import math
 
@@ -30,13 +29,13 @@ class Renderer():
             self.boostnode.setPosition(ogre.Vector3(-60,8,0))
             self.boostnode.roll(math.radians(-90))
             
-            #create weapon above player head
+            """#create weapon above player head
             self.weaponnode = self.node.createChildSceneNode()
             self.weaponEnt = self.ent.engine.gfxMgr.sceneManager.createEntity(self.ent.uiname + "_weapon", "missile.mesh")
             self.weaponEnt.setMaterialName('Material #8')
             self.weaponnode.attachObject(self.weaponEnt)
             self.weaponnode.setPosition(ogre.Vector3(0,20,4))
-            self.weaponnode.scale(ogre.Vector3(10,10,10))
+            self.weaponnode.scale(ogre.Vector3(10,10,10))"""
 
 
         if(self.ent.mesh == "jaiqua.mesh"):
@@ -48,10 +47,8 @@ class Renderer():
         #if(self.node != 0):
 
             self.node.position = self.ent.pos
-            
-            self.boostparticle.setVisible(self.ent.boosting)
-            self.weaponEnt.setVisible(self.ent.weaponUp)
-            
+            if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:
+                self.boostparticle.setVisible(self.ent.boosting)
             
             if self.ent.currentYaw < self.ent.yaw:
                 self.node.yaw(-1*math.radians(self.ent.turningRate))

@@ -192,7 +192,7 @@ class CameraMgr:
 
     def P2_CamTurn_Right(self):
         if self.Player2.speed > 0 or self.Player2.speed < -1:
-            self.camNode_P2.yaw(-(math.radians(self.Player1.turningRate)))
+            self.camNode_P2.yaw(-(math.radians(self.Player2.turningRate)))
 
 
 

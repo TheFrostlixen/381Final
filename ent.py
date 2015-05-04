@@ -1,4 +1,3 @@
-#Andrew Menard and Brian Gaunt
 from vector import Vector3
 from physics import Physics
 from renderer import Renderer
@@ -129,8 +128,8 @@ class Item_Weapon(Entity):
         self.yaw = 0
         self.eid = id
         self.pos = pos
-        self.acceleration = 0.1
-        self.maxSpeed = 100
+        self.acceleration = 100
+        self.maxSpeed = 5000
         self.turningRate = 0.5
         self.mesh = "missile.mesh"
         self.uiname = "Item_Weapon"
@@ -138,61 +137,12 @@ class Item_Weapon(Entity):
         self.engine = engine
         self.sound = "windsobey.ogg"
         self.collisionRange = 30
-        self.used = False
-
-class firstBullet(Entity):
-    def __init__(self, engine, id, pos = Vector3(0,0,0), speed = 0, heading = 0):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.1
-        self.maxSpeed = 100
-        self.turningRate = 0.5
-        self.mesh = "missile.mesh"
-        self.uiname = "bullet"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 30
-        self.used = False
-        self.slowDown = False
-
-class secondBullet(Entity):
-    def __init__(self, engine, id, pos = Vector3(0,0,0)):
-        self.currentYaw = 0
-        self.vel = Vector3(0,0,0)
-        self.aspects = []
-        self.aspectTypes = [Physics, Renderer, Collision]
-        self.speed = 0
-        self.heading = 0
-        self.desiredSpeed = 0
-        self.desiredHeading = 0
-        self.yaw = 0
-        self.eid = id
-        self.pos = pos
-        self.acceleration = 0.1
-        self.maxSpeed = 100
-        self.turningRate = 0.5
-        self.mesh = "missile.mesh"
-        self.uiname = "Item_Weapon"
-        self.isSelected = False
-        self.engine = engine
-        self.sound = "windsobey.ogg"
-        self.collisionRange = 30
-        self.used = False
-        self.slowDown = False
+        self.pickedUp = False
+        self.visible = False
+        self.held = False
 
 class Sleek(Entity):
     def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.loaded = False
         self.currentYaw = 0
         self.vel = Vector3(0,0,0)
         self.aspects = []
@@ -221,7 +171,6 @@ class Sleek(Entity):
         
 class Destroyer(Entity):
     def __init__(self, engine, id, pos = Vector3(0, 0, 0)):
-        self.loaded = False
         self.currentYaw = 0
         self.vel = Vector3(0,0,0)
         self.aspects = []
