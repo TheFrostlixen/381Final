@@ -1,0 +1,126 @@
+material GUI_Grey_Border
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0.2 0.2 0.2
+			}
+		}
+	}
+}
+
+material GUI_Grey_Background
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0.2 0.2 0.2
+				alpha_op_ex source1 src_manual src_current 0.5
+			}
+		}
+	}
+}
+
+material GUI_Red_Border
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0.8 0.1 0.1
+			}
+		}
+	}
+}
+
+material Splash_Logo
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture RGB_Splash.png
+			}
+		}
+	}
+}
+
+material Splash_Start_Button
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture start_button.png
+			}
+		}
+	}
+}
+
+material Splash_About_Button
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture about_button.png
+			}
+		}
+	}
+}
+
+material Splash_About
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_check off
+
+			texture_unit
+			{
+				texture RGB_About.png
+			}
+		}
+	}
+}
