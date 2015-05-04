@@ -108,7 +108,7 @@ class StartOverlay(Overlay):
             self.playButton.setBorderMaterialName("GUI_Grey_Border")
             self.introButton.setBorderMaterialName("GUI_Red_Border")
         else:
-            self.playbutton.setBorderMaterialName("GUI_Red_Border")
+            self.playButton.setBorderMaterialName("GUI_Red_Border")
             self.introButton.setBorderMaterialName("GUI_Grey_Border")
             
         if self.engine.overlayMgr.showIntroPage:
@@ -143,27 +143,29 @@ class GameOverlay(Overlay):
         
         #create panel for time
         panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Time_Panel")
-        panel.setPosition(0.45, 0.02)
+        panel.setPosition(0.5, 0.5)
         panel.setDimensions(0.15, 0.04)
         
         #create time element
         time = self.overlayManager.createOverlayElement("TextArea", self.name+"_Time")
         time.setMetricsMode(ogre.GMM_PIXELS)
+        time.setPosition(320,50)
         time.setFontName("BlueHighway")
-        time.setCharHeight(20)
+        time.setCharHeight(40)
         time.setColour(ogre.ColourValue(1,1,1))
         self.curTime = 0.0
-        time.setCaption("%.2f" % self.curTime)
+        time.setCaption("Time: " + "%.2f" % self.curTime)
         
         self.timePanel = panel
         self.timePanel.timeText = time
         
         self.panel.addChild(time)
         self.overlay.add2D(panel)
+        
 
     def tick(self, dtime):
         self.curTime += dtime
-        self.timePanel.timeText.setCaption("%.2f" % self.curTime)
+        self.timePanel.timeText.setCaption("Time: " + "%.2f" % self.curTime)
         self.panel.show()
         self.timePanel.show()
 
