@@ -225,7 +225,7 @@ class InputListener(ogre.FrameListener):
             if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.joysticks[1].get_axis(0) < -0.6:
                 self.cameraMgr.P2_CamTurn_Left()
                         
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.joysticks[1].get_axis(0) > 0.6:
                 self.cameraMgr.P2_CamTurn_Right()
 
         return True
