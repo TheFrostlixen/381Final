@@ -89,10 +89,14 @@ class ControlMgr:
                         self.player1.yaw += self.player1.turningRate
 
             if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
-                heading = self.player1.desiredHeading
+                weapon = self.player1.heldWeapon
+                heading = self.player1.heading
                 speed = self.player1.heldWeapon.maxSpeed
-                self.player1.heldWeapon.desiredHeading = heading
-                self.player1.heldWeapon.desiredSpeed = speed
+                weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'weaponnode' + str(self.ent.eid), self.player1.pos)
+                weapon.desiredHeading = heading
+                weapon.desiredSpeed = speed
+                
                 print "pewpew1"
 
             if self.keyboard.isKeyDown(OIS.KC_ADD) and self.player2.loaded == True:
