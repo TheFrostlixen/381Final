@@ -62,7 +62,7 @@ class ControlMgr:
 
             if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
                 heading = self.player1.desiredHeading
-                speed = self.player1.heldWeapon.maxSpeed
+                speed = self.player1.heldMissile.maxSpeed
                 self.player1.heldWeapon.desiredHeading = heading
                 self.player1.heldWeapon.desiredSpeed = speed
                 print "pewpew1"

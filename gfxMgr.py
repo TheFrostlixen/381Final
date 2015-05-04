@@ -69,7 +69,7 @@ class GfxMgr:
         self.sceneManager.getRootSceneNode().createChildSceneNode ().attachObject (ent)
         ent.setMaterialName ('Ocean2_Cg')
         ent.castShadows = False
-        self.sceneManager.setSkyBox (True, "Examples/SpaceSkyBox", 5000, False)
+        self.sceneManager.setSkyBox (True, "Examples/MorningSkyBox", 5000, False)
         #sceneManager.setSkyDome (True, "Examples/CloudySky", 5, 8)
 
     def tick(self, dt):
