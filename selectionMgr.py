@@ -9,6 +9,8 @@ class SelectionMgr:
         self.engine = engine
 
     def init(self):
+        self.p1End = False
+        self.p2End = False
         self.selectedEnts = []
         self.selectedEntIndex = self.engine.entityMgr.numEnts;
         self.selectedEnt = None
@@ -28,13 +30,24 @@ class SelectionMgr:
         #compare checkpoint
         if p1 == len(self.entMgr.lvl1ChkPts) - 1:
             #player 1 wins
-            print "Player 1 Wins!"
-            self.engine.stop()
-            return
-        elif p2 == len(self.entMgr.lvl1ChkPts) - 1:
+            if(p2 != len(self.entMgr.lvl1ChkPts) - 1 and self.p1End == False and self.p2End == False):
+                print "Player 1 Wins!"
+                self.p1End = True
+                self.engine.scoreMgr.addCurrentTime()
+            elif(self.p2End == True):
+                self.engine.scoreMgr.addCurrentTime()
+                print "Player 1 Loses!"
+                self.engine.stop()
+        if p2 == len(self.entMgr.lvl1ChkPts) - 1:
             #player 2 wins
-            print "Player 2 Wins!"
-            self.engine.stop()
+            if(p1 != len(self.entMgr.lvl1ChkPts) - 1 and self.p2End == False and self.p1End == False):
+                print "Player 2 Wins!"
+                self.p2End = True
+                self.engine.scoreMgr.addCurrentTime()
+            elif(self.p1End == True):    
+                self.engine.scoreMgr.addCurrentTime()            
+                print "Player 2 Loses!"
+                self.engine.stop()
             return
         elif p1 == p2:
             #compare closeness to next checkpoint if they are equal
@@ -51,7 +64,7 @@ class SelectionMgr:
             
         #draw box of player who is closest to the farthest checkpoint
         self.updateCurrentSelection(False)
-        self.addSelected(first)
+        #self.addSelected(first)
 
     def stop(self):
         self.stopped = True
