@@ -41,12 +41,10 @@ class EntityMgr:
         self.lvl1List.append(item)        
         self.numItem_Boost = self.numItem_Boost + 1        
         return item
-<<<<<<< HEAD
 
     def destroyCurrentLevel(self):
         del lvl1List[:]
         del lvl1ChkPts[:]
-=======
     
     def createItem_Weapon(self, pos = Vector3(0,0,0)):
         item = ent.Item_Weapon(self.engine, self.numItem_Weapon, pos = pos)
@@ -55,7 +53,6 @@ class EntityMgr:
         self.lvl1List.append(item)
         self.numItem_Weapon += 1
         return item
->>>>>>> 27e2eae0cecb8672d13094604c866d5d9127cf97
         
     def createLvl1(self):
         #create first leg, both sides
