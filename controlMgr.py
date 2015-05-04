@@ -64,9 +64,6 @@ class ControlMgr:
                     self.player1.desiredSpeed -= (self.player1.acceleration / 2)
 
 
-
-
-
         if not self.mainMenu:
             if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8):
                 self.player2.slowDown = True
