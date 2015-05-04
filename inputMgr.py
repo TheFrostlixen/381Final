@@ -140,9 +140,6 @@ class InputMgr():
         if pygame.joystick.get_count() > 1:
             p2LR = self.joysticks[1].get_axis(0)
 
-        print self.joysticks[0].get_axis(4)
-        print self.joysticks[0].get_axis(5)
-
         if (self.engine.keepRunning == False):
             self.engine.stop()
 
@@ -194,17 +191,42 @@ class InputListener(ogre.FrameListener):
 
     def keyPressed(self, frameEvent):
 
-        if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.inputMgr.joysticks[0].get_axis(0) < -0.6:
-            self.cameraMgr.P1_CamTurn_Left()
-                    
-        if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
-            self.cameraMgr.P1_CamTurn_Right()
+        if (self.inputMgr.joystick_count == 0):
+            if self.keyboard.isKeyDown(OIS.KC_LEFT):
+                self.cameraMgr.P1_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT):
+                self.cameraMgr.P1_CamTurn_Right()
 
-        if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.joysticks[1].get_axis(0) < -0.6:
-            self.cameraMgr.P2_CamTurn_Left()
-                    
-        if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
-            self.cameraMgr.P2_CamTurn_Right()
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+                self.cameraMgr.P2_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+                self.cameraMgr.P2_CamTurn_Right()
+        elif (self.inputMgr.joystick_count == 1):
+            if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.inputMgr.joysticks[0].get_axis(0) < -0.6:
+                self.cameraMgr.P1_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
+                self.cameraMgr.P1_CamTurn_Right()
+
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+                self.cameraMgr.P2_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+                self.cameraMgr.P2_CamTurn_Right()
+        else:
+            if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.inputMgr.joysticks[0].get_axis(0) < -0.6:
+                self.cameraMgr.P1_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
+                self.cameraMgr.P1_CamTurn_Right()
+
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.joysticks[1].get_axis(0) < -0.6:
+                self.cameraMgr.P2_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
+                self.cameraMgr.P2_CamTurn_Right()
 
         return True
 
