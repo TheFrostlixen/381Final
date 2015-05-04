@@ -44,7 +44,7 @@ class ControlMgr:
                 if nextDecel > (-1*self.player1.maxSpeed/2):
                     self.player1.desiredSpeed -= self.player1.acceleration
                         
-            if self.keyboard.isKeyDown(OIS.KC_LEFT):
+            if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.engine.inputMgr.joysticks[0].get_axis(0) < -.6:
                 if self.player1.desiredHeading < 0:
                     self.player1.desiredHeading = 360
                     self.player1.yaw = 360
@@ -53,7 +53,7 @@ class ControlMgr:
                     self.player1.desiredHeading -= self.player1.turningRate
                     self.player1.yaw -= self.player1.turningRate
                         
-            if self.keyboard.isKeyDown(OIS.KC_RIGHT):
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.engine.inputMgr.joysticks[0].get_axis(0) > .6:
                 if self.player1.desiredHeading > 360:
                     self.player1.desiredHeading = 0
                     self.player1.yaw = 0

@@ -59,6 +59,8 @@ class InputMgr():
         self.keepRendering = True
         pygame.init()
         self.joysticks = []
+        self.p1LR = 0;
+        self.p2LR = 0;
         
         self.joystick_count = pygame.joystick.get_count()
         print self.joystick_count
@@ -133,6 +135,13 @@ class InputMgr():
                 pass
                 #print "Joystick '",self.joysticks[event.joy].get_name()," ", event.joy, " ", "' axis",event.axis,"motion."
         
+        if pygame.joystick.get_count() > 0:
+            p1LR = self.joysticks[0].get_axis(0)
+            print p1LR
+        if pygame.joystick.get_count() > 1:
+            p2LR = self.joysticks[1].get_axis(0)
+            print p2LR
+
         if (self.engine.keepRunning == False):
             self.engine.stop()
 
@@ -384,11 +393,11 @@ class InputListener(ogre.FrameListener):
 
 
         if not self.P1_FreeRoam:
-            if self.keyboard.isKeyDown(OIS.KC_LEFT):
+            if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.inputMgr.joysticks[0].get_axis(0) < -.6:
                 if self.Player1.speed > 0 or self.Player1.speed < -1:
                     self.camNode_P1.yaw(math.radians(self.Player1.turningRate))
                     
-            if self.keyboard.isKeyDown(OIS.KC_RIGHT):
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
                 if self.Player1.speed > 0 or self.Player1.speed < -1:
                     self.camNode_P1.yaw(-math.radians(self.Player1.turningRate))
 
