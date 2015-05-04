@@ -14,7 +14,8 @@ class EntityMgr:
         self.lvl1ChkPts = []
         self.numEnts = 0
         self.numObs = 0
-        self.numItem_Boost = 0        
+        self.numItem_Boost = 0
+        self.numItem_Weapon = 0    
 
         self.entTypes = [ent.Sleek, ent.Destroyer]        
 
@@ -40,21 +41,20 @@ class EntityMgr:
         self.lvl1List.append(item)        
         self.numItem_Boost = self.numItem_Boost + 1        
         return item
+
+    def destroyCurrentLevel(self):
+        del lvl1List[:]
+        del lvl1ChkPts[:]
+    
+    def createItem_Weapon(self, pos = Vector3(0,0,0)):
+        item = ent.Item_Weapon(self.engine, self.numItem_Weapon, pos = pos)
+        item.init()
+        item.uiname += str(self.numItem_Weapon)
+        self.lvl1List.append(item)
+        self.numItem_Weapon += 1
+        return item
         
     def createLvl1(self):
-        """#create chkpt list
-        for i in xrange(0,100):
-            vector = Vector3(i * 100,0,0)
-            self.lvl1ChkPts.append(vector)
-            
-        #create obstacles on either side of chkpt
-        for point in self.lvl1ChkPts:
-            self.createObs(point + Vector3(0, 0, 650))
-            self.createObs(point + Vector3(0, 0, -250))
-
-        #create item boost
-        self.createItem_Boost(Vector3(5000, 50, 150))
-        """
         #create first leg, both sides
         for i in xrange(0,100):
             vector = Vector3((i * 100)-250,0,0)
@@ -106,8 +106,12 @@ class EntityMgr:
         for i in xrange(0,50):
             choice = random.choice(self.lvl1ChkPts)
             boost = random.randint(0,50)
+            weapon = random.randint(0,100)
             if boost < 10:
-                self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
+                if weapon < 50:    
+                    self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
+                else:
+                    self.createItem_Weapon(choice + Vector3(random.randint(-300,300),10,random.randint(-300,300)))
             else:
                 self.createObs(choice + Vector3(random.randint(-300,300), 0, random.randint(-300,300)))
         

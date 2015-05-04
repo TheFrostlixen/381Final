@@ -32,13 +32,13 @@ class Physics:
         if self.ent.heading >= 360:
             self.ent.heading = 0
         if self.ent.heading < 0:
-            self.ent.heading = 359
-
+            self.ent.heading = 357
+        
         if self.ent.desiredHeading >= 360:
             self.ent.desiredHeading = 0
         if self.ent.desiredHeading < 0:
-            self.ent.desiredHeading = 359
-       
+            self.ent.desiredHeading = 357
+
         if self.ent.boosting and not self.boosted:
             self.ent.slowDown = False
             self.ent.acceleration *= 100
