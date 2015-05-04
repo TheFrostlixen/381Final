@@ -18,6 +18,7 @@ class OverlayMgr:
         
     def loadOverlays(self):
         self.overlayList.append(StartOverlay(self.engine, self.overlayManager))
+        self.overlayList.append(GameOverlay(self.engine, self.overlayManager))
         
     def setOverlay(self, name):
         self.currentOverlay = name
@@ -122,10 +123,49 @@ class StartOverlay(Overlay):
             self.intro.hide()
         
         
+class GameOverlay(Overlay):
+    name = "Game"
+    
+    def __init__(self, engine, overlayManager):
+        Overlay.__init__(self, engine, overlayManager, self.name)
+        
+        self.loadOverlay()
+        
+    def loadOverlay(self):
+        #create panel for hud background
+        panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Panel")
+        panel.setPosition(0.0,0.0)
+        panel.setDimensions(1.0, 1.0)
+        panel.setMaterialName("GUI_Background")
+        
+        self.panel = panel
+        self.overlay.add2D(panel)
+        
+        #create panel for time
+        panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Time_Panel")
+        panel.setPosition(0.45, 0.02)
+        panel.setDimensions(0.15, 0.04)
+        
+        #create time element
+        time = self.overlayManager.createOverlayElement("TextArea", self.name+"_Time")
+        time.setMetricsMode(ogre.GMM_PIXELS)
+        time.setFontName("BlueHighway")
+        time.setCharHeight(20)
+        time.setColour(ogre.ColourValue(1,1,1))
+        self.curTime = 0.0
+        time.setCaption(str(self.curTime))
+        
+        self.timePanel = panel
+        self.timePanel.timeText = time
+        
+        self.panel.addChild(time)
+        self.overlay.add2D(panel)
 
-
-
-
+    def tick(self, dtime):
+        self.curTime += dtime
+        self.timePanel.timeText.setCaption(str(self.curTime))
+        self.panel.show()
+        self.timePanel.show()
 
 
 
