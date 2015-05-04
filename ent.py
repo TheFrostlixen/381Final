@@ -138,7 +138,7 @@ class Item_Weapon(Entity):
         self.sound = "windsobey.ogg"
         self.collisionRange = 30
         self.pickedUp = False
-        self.visible = False
+        self.visible = True
         self.held = False
 
 class Sleek(Entity):

@@ -15,7 +15,7 @@ class Collision:
             push = self.ent.maxSpeed*-1
 
         for ent in self.ent.engine.entityMgr.entList:
-            if not ent == self.ent:
+            if not ent == self.ent and ("Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname):
                 self.distance = self.ent.pos.squaredDistance(ent.pos)
                 if self.distance <= self.collisionRange*self.collisionRange + ent.collisionRange*ent.collisionRange:
                     self.ent.vel.x = push * -1 * math.cos(math.radians(self.ent.heading))

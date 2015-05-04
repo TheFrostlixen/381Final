@@ -90,19 +90,21 @@ class ControlMgr:
 
             if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
                 weapon = self.player1.heldWeapon
-                heading = self.player1.heading
-                speed = self.player1.heldWeapon.maxSpeed
-                weapon.pos = self.player1.pos
-                weapon.speed = self.player1.speed
-                weapon.heading = self.player1.heading
                 weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
                 weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player1.pos  + ogre.Vector3(0,20,4))
                 weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
-                weapon.aspects[1].node.setVisible(True)
                 weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
-                weapon.desiredHeading = heading
-                weapon.desiredSpeed = speed
+                
+                weapon.speed = self.player1.speed
+                weapon.heading = self.player1.heading
+                weapon.pos = self.player1.pos
+                desiredHeading = self.player1.heading
+                desiredSpeed = self.player1.heldWeapon.maxSpeed
+                weapon.desiredHeading = desiredHeading
+                weapon.desiredSpeed = desiredSpeed
+                self.engine.entityMgr.weaponList.append(weapon)
                 self.player1.weaponUp = False
+                weapon.held = False
                 
                 print "pewpew1"
 
