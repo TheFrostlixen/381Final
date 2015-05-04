@@ -6,7 +6,8 @@ import math
 class CameraMgr:
     def __init__(self, engine):
         self.engine = engine
-
+        self.watchingMissile = False
+        
     def init(self):
         '''Root and SceneManager'''
         self.root = self.engine.gfxMgr.root
@@ -97,20 +98,20 @@ class CameraMgr:
 
 
     def tick(self, dt):
+        if not self.watchingMissile:
+            self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading)))), 
+                                               self.Player1.pos.y + 50, 
+                                               self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading)))))
+            self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x + (400 * (-math.cos(math.radians(self.Player2.desiredHeading)))), 
+                                               self.Player2.pos.y + 50, 
+                                               self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading)))))
 
-        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading)))), 
-                                           self.Player1.pos.y + 50, 
-                                           self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading)))))
-        self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x + (400 * (-math.cos(math.radians(self.Player2.desiredHeading)))), 
-                                           self.Player2.pos.y + 50, 
-                                           self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading)))))
+            self.camNode_P1.setPosition(self.P1_CamPosition)
+            self.camNode_P2.setPosition(self.P2_CamPosition)
 
-        self.camNode_P1.setPosition(self.P1_CamPosition)
-        self.camNode_P2.setPosition(self.P2_CamPosition)
-
-        self.camNode_Main.translate(self.camNode_Main.orientation * self.camVec_Main * dt)
-        self.camNode_P1.translate(self.camNode_P1.orientation * self.camVec_P1 * dt)
-        self.camNode_P2.translate(self.camNode_P2.orientation * self.camVec_P2 * dt)
+            self.camNode_Main.translate(self.camNode_Main.orientation * self.camVec_Main * dt)
+            self.camNode_P1.translate(self.camNode_P1.orientation * self.camVec_P1 * dt)
+            self.camNode_P2.translate(self.camNode_P2.orientation * self.camVec_P2 * dt)
 
         #print self.camNode_Main.orientation
 

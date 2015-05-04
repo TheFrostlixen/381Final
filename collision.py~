@@ -36,12 +36,16 @@ class Collision:
                                     #we are a visible, picked up missile
                                     if self.ent.held == True:
                                         #we are an unfired, held missile
+                                        pass
                                     else:
                                         #we are a fired, visible missile
+                                        pass
                                 else:
                                     #we are an invisible, already done firing missile
+                                    pass
                             else:
                                 #we have not been picked up yet
+                                pass
                                 
                         if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:    
                             if self.distance <= self.collisionRange*self.collisionRange + ent.collisionRange*ent.collisionRange:

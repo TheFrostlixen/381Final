@@ -12,6 +12,7 @@ class EntityMgr:
         self.entList = []    
         self.lvl1List = []
         self.lvl1ChkPts = []
+        self.weaponList = []
         self.numEnts = 0
         self.numObs = 0
         self.numItem_Boost = 0
@@ -98,6 +99,8 @@ class EntityMgr:
     def tick(self, dt):        
         for ent in self.entList:        
             ent.tick(dt)        
+        for ent in self.weaponList:
+            ent.tick(dt)
                 
     def stop(self):        
         pass
