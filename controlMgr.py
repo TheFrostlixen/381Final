@@ -92,10 +92,17 @@ class ControlMgr:
                 weapon = self.player1.heldWeapon
                 heading = self.player1.heading
                 speed = self.player1.heldWeapon.maxSpeed
+                weapon.pos = self.player1.pos
+                weapon.speed = self.player1.speed
+                weapon.heading = self.player1.heading
                 weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
-                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'weaponnode' + str(self.ent.eid), self.player1.pos)
+                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player1.pos  + ogre.Vector3(0,20,4))
+                weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
+                weapon.aspects[1].node.setVisible(True)
+                weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
                 weapon.desiredHeading = heading
                 weapon.desiredSpeed = speed
+                self.player1.weaponUp = False
                 
                 print "pewpew1"
 
@@ -170,7 +177,7 @@ class ControlMgr:
                         self.player2.currentYaw = 0
                     if self.player2.speed > 0 or self.player2.speed < -1:
                         self.player2.desiredHeading += self.player2.turningRate
-                        self.player2.yaw += self.playe
+                        self.player2.yaw += self.player2.turningRate
 
 
             if self.player2.slowDown == True:
