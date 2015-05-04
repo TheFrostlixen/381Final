@@ -151,8 +151,8 @@ class InputListener(ogre.FrameListener):
         self.timer_Race = 0
 
         self.mainMenu = True
-        self.P1_FreeRoam = True
-        self.P2_FreeRoam = True
+        self.P1_FreeRoam = False
+        self.P2_FreeRoam = False
 
         self.keepRendering = self.inputMgr.keepRendering
 
@@ -174,7 +174,7 @@ class InputListener(ogre.FrameListener):
                                            self.Player2.pos.y + 50, 
                                            self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading )))))
 
-        print self.P1_CamPosition
+        #print self.P1_CamPosition
 
         # Update the toggle timer.
         if self.toggle_P1 >= 0:
@@ -190,6 +190,7 @@ class InputListener(ogre.FrameListener):
         if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
             self.toggle = 0.1
             self.mainMenu = False
+            self.inputMgr.engine.overlayMgr.setOverlay("Game")
             self.cameraMgr.renderWindow.removeViewport(10)
             self.P1_FreeRoam = False
             self.camera1.parentSceneNode.detachObject(self.camera1)
@@ -201,7 +202,7 @@ class InputListener(ogre.FrameListener):
             self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
             self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera2)
             self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
-
+        
         #print self.timer_MainMenu
         
         if self.mainMenu:
@@ -210,69 +211,18 @@ class InputListener(ogre.FrameListener):
         '''
         if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
             self.toggle = 0.1
-            self.mainMenu = False
-            self.cameraMgr.end_MainMenu()
             self.P1_FreeRoam = False
             self.P2_FreeRoam = False
+            self.mainMenu = False
+            self.cameraMgr.end_MainMenu()
             self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
             self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
         '''
 
-        ##############################
-        ## PLAYER 1 CAMERA CHANGING ##
-        ##############################
 
-        if self.toggle_P1 < 0 and self.keyboard.isKeyDown(OIS.KC_1) and not self.P1_FreeRoam:
-            self.P1_FreeRoam = True
-            # Update the toggle timer.
-            self.toggle_P1 = 0.1
-            # Attach the camera to PitchNode1.
-            self.camNode_P1.yaw(math.radians(self.Player1.desiredHeading))
-            self.camera1.parentSceneNode.detachObject(self.camera1)
-            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_1")
-            self.sceneManager.getSceneNode("PitchNode_P1_1").attachObject(self.camera1)
+        self.camNode_P1.setPosition(self.P1_CamPosition)   
 
- 
-        elif self.toggle_P1 < 0 and self.keyboard.isKeyDown(OIS.KC_2) and self.P1_FreeRoam:
-            self.P1_FreeRoam = False
-            # Update the toggle timer.
-            self.toggle_P1 = 0.1
-            # Attach the camera to PitchNode2.
-            self.camera1.parentSceneNode.detachObject(self.camera1)
-            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
-            self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera1)
-            self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
-
-        if not self.P1_FreeRoam:
-            self.camNode_P1.setPosition(self.P1_CamPosition)   
- 
-
-        ##############################
-        ## PLAYER 2 CAMERA CHANGING ##
-        ##############################
-
-        if self.toggle_P2 < 0 and self.keyboard.isKeyDown(OIS.KC_3) and not self.P2_FreeRoam:
-            self.P2_FreeRoam = True
-            # Update the toggle timer.
-            self.toggle_P2 = 0.1
-            # Attach the camera to PitchNode1.
-            self.camNode_P2.yaw(math.radians(self.Player2.desiredHeading))
-            self.camera2.parentSceneNode.detachObject(self.camera2)
-            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_1")
-            self.sceneManager.getSceneNode("PitchNode_P2_1").attachObject(self.camera2)
- 
-        elif self.toggle_P2 < 0 and self.keyboard.isKeyDown(OIS.KC_4) and self.P2_FreeRoam:
-            self.P2_FreeRoam = False
-            # Update the toggle timer.
-            self.toggle_P2 = 0.1
-            # Attach the camera to PitchNode2.
-            self.camera2.parentSceneNode.detachObject(self.camera2)
-            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
-            self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera2)
-            self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
-
-        if not self.P2_FreeRoam:
-            self.camNode_P2.setPosition(self.P2_CamPosition)
+        self.camNode_P2.setPosition(self.P2_CamPosition)
 
         #check for Key release to stop moving the camera.
         self.keyReleased(frameEvent)
@@ -281,74 +231,6 @@ class InputListener(ogre.FrameListener):
 
 
     def keyPressed(self, frameEvent):
-        if self.P1_FreeRoam and self.P2_FreeRoam:
-            # Accelerate Camera
-            if self.keyboard.isKeyDown(OIS.KC_B):
-                self.BDown = True
-                self.rotate = 0.03
-            if not self.keyboard.isKeyDown(OIS.KC_B):
-                self.BDown = False
-                self.rotate = 0.006
-            # Move Forward.
-            if self.keyboard.isKeyDown(OIS.KC_W):
-                if self.BDown == True:
-                    self.direction.z -= self.moveFast
-                else:
-                    self.direction.z -= self.move
-            # Move Backward.
-            if self.keyboard.isKeyDown(OIS.KC_S):
-                if self.BDown == True:
-                    self.direction.z += self.moveFast
-                else:
-                    self.direction.z += self.move
-            # Strafe Left.
-            if self.keyboard.isKeyDown(OIS.KC_A):
-                if self.BDown == True:
-                    self.direction.x -= self.moveFast
-                else:
-                    self.direction.x -= self.move
-            # Strafe Right.
-            if self.keyboard.isKeyDown(OIS.KC_D):
-                if self.BDown == True:
-                    self.direction.x += self.moveFast
-                else:
-                    self.direction.x += self.move
-            # Move Up.
-            if self.keyboard.isKeyDown(OIS.KC_PGUP):
-                if self.BDown == True:
-                    self.direction.y += self.moveFast
-                else:
-                    self.direction.y += self.move
-            # Move Down.
-            if self.keyboard.isKeyDown(OIS.KC_PGDOWN):
-                if self.BDown == True:
-                    self.direction.y -= self.moveFast
-                else:
-                    self.direction.y -= self.move
-            # Yaw Left
-            if self.keyboard.isKeyDown(OIS.KC_Q):
-                self.camNode_P1.yaw(self.rotate)
-                self.camNode_P2.yaw(self.rotate)
-            # Yaw Right
-            if self.keyboard.isKeyDown(OIS.KC_E):
-                self.camNode_P1.yaw(-self.rotate)
-                self.camNode_P2.yaw(-self.rotate)
-            # Pitch Left
-            if self.keyboard.isKeyDown(OIS.KC_Z):
-                self.camNode_P1.pitch(self.rotate)
-                self.camNode_P2.pitch(self.rotate)
-            # Pitch Right
-            if self.keyboard.isKeyDown(OIS.KC_C):
-                self.camNode_P1.pitch(-self.rotate)
-                self.camNode_P2.pitch(-self.rotate)
-            # Roll Left
-            if self.keyboard.isKeyDown(OIS.KC_O):
-                self.camNode_P1.roll(self.rotate)
-                self.camNode_P2.roll(self.rotate)
-            # Roll Right
-            if self.keyboard.isKeyDown(OIS.KC_P):
-                self.camNode_P1.roll(-self.rotate)
-                self.camNode_P2.roll(-self.rotate)
 
 
         if not self.P1_FreeRoam:
