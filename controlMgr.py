@@ -91,6 +91,11 @@ class ControlMgr:
             if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
                 weapon = self.player1.heldWeapon
                 weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+<<<<<<< HEAD
+                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.player1.uiname + 'weaponnode' + str(self.player1.eid), self.player1.pos)
+                weapon.desiredHeading = heading
+                weapon.desiredSpeed = speed
+=======
                 weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player1.pos  + ogre.Vector3(0,20,4))
                 weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
                 weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
@@ -108,6 +113,7 @@ class ControlMgr:
                 weapon.firedFrom = self.player1.uiname
                 self.player1.weaponUp = False
                 weapon.held = False
+>>>>>>> 25394e3ca018c593545ca21e2975cb0318ef5268
                 
                 print "pewpew1"
 
@@ -138,12 +144,10 @@ class ControlMgr:
                     self.player1.desiredSpeed -= (self.player1.acceleration / 2)
             """
 
-
-
-
         if not self.mainMenu:
             if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8) and not self.player2.boosting:
                 self.player2.slowDown = True
+
             if(self.engine.inputMgr.joystick_count > 1):
                 if self.keyboard.isKeyDown(OIS.KC_NUMPAD8) or self.engine.inputMgr.joysticks[1].get_axis(5) > 0.2:
                     nextAccel = self.player2.speed + self.player2.acceleration
