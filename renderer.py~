@@ -45,8 +45,6 @@ class Renderer():
         
     def tick(self, dt):
         #if(self.node != 0):
-            if ("Item_Weapon" in self.ent.uiname):
-                print self.ent.pos, self.ent.speed, self.ent.heading
 
             self.node.position = self.ent.pos
             if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:

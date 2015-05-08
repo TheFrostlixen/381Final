@@ -50,12 +50,13 @@ class Renderer():
             if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:
                 self.boostparticle.setVisible(self.ent.boosting)
             
-            if self.ent.currentYaw < self.ent.yaw:
-                self.node.yaw(-1*math.radians(self.ent.turningRate))
-                self.ent.currentYaw += self.ent.turningRate
+            if not "Item_Weapon" in self.ent.uiname:    
+                if self.ent.currentYaw < self.ent.yaw:
+                    self.node.yaw(-1*math.radians(self.ent.turningRate))
+                    self.ent.currentYaw += self.ent.turningRate
+                    
+                if self.ent.currentYaw > self.ent.yaw:
+                    self.node.yaw(math.radians(self.ent.turningRate))
+                    self.ent.currentYaw -= self.ent.turningRate
                 
-            if self.ent.currentYaw > self.ent.yaw:
-                self.node.yaw(math.radians(self.ent.turningRate))
-                self.ent.currentYaw -= self.ent.turningRate
-            
             self.node.showBoundingBox(self.ent.isSelected)

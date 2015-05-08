@@ -1,6 +1,6 @@
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
-
+import math
 
 class ControlMgr:
     def __init__(self, engine):
@@ -105,6 +105,12 @@ class ControlMgr:
                     weapon.desiredHeading = desiredHeading
                     weapon.desiredSpeed = desiredSpeed
                     weapon.yaw = yaw
+                    if weapon.currentYaw < weapon.yaw:
+                        weapon.aspects[1].node.yaw(-1*math.radians(weapon.yaw - weapon.currentYaw))
+                        weapon.currentYaw += weapon.yaw
+                    elif weapon.currentYaw > weapon.yaw:
+                        weapon.aspects[1].node.yaw(math.radians(weapon.currentYaw - weapon.yaw))
+                    
                     self.engine.entityMgr.weaponList.append(weapon)
                     weapon.firedFrom = self.player1.uiname
                     self.player1.weaponUp = False
@@ -126,6 +132,12 @@ class ControlMgr:
                     weapon.desiredHeading = desiredHeading
                     weapon.desiredSpeed = desiredSpeed
                     weapon.yaw = yaw
+                    if weapon.currentYaw < weapon.yaw:
+                        weapon.aspects[1].node.yaw(-1*math.radians(weapon.yaw - weapon.currentYaw))
+                        weapon.currentYaw += weapon.yaw
+                    elif weapon.currentYaw > weapon.yaw:
+                        weapon.aspects[1].node.yaw(math.radians(weapon.currentYaw - weapon.yaw))
+                    
                     self.engine.entityMgr.weaponList.append(weapon)
                     weapon.firedFrom = self.player1.uiname
                     self.player1.weaponUp = False

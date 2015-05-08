@@ -27,13 +27,13 @@ class ControlMgr:
                 self.player1.slowDown = True
 
             if(self.engine.inputMgr.joystick_count > 0):
-                if self.keyboard.isKeyDown(OIS.KC_UP) or self.engine.inputMgr.joysticks[0].get_axis(5) > 0.2:
+                if self.keyboard.isKeyDown(OIS.KC_UP) or self.engine.inputMgr.joysticks[0].get_axis(5) > 0:
                     nextAccel = self.player1.speed + self.player1.acceleration
                     if nextAccel < self.player1.maxSpeed:
                         self.player1.desiredSpeed += self.player1.acceleration
                         self.player1.slowDown = False
                 
-                if self.keyboard.isKeyDown(OIS.KC_DOWN) or self.engine.inputMgr.joysticks[0].get_axis(2) > 0.2:
+                if self.keyboard.isKeyDown(OIS.KC_DOWN) or self.engine.inputMgr.joysticks[0].get_axis(2) > 0:
                     nextDecel = self.player1.speed - self.player1.acceleration
                     if self.player1.desiredSpeed > 0:
                         self.player1.speed -= self.player1.acceleration
@@ -88,56 +88,105 @@ class ControlMgr:
                         self.player1.desiredHeading += self.player1.turningRate
                         self.player1.yaw += self.player1.turningRate
 
-            if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
-                weapon = self.player1.heldWeapon
-                weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
-<<<<<<< HEAD
-                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.player1.uiname + 'weaponnode' + str(self.player1.eid), self.player1.pos)
-                weapon.desiredHeading = heading
-                weapon.desiredSpeed = speed
-=======
-                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player1.pos  + ogre.Vector3(0,20,4))
-                weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
-                weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
-                
-                weapon.speed = self.player1.speed
-                weapon.heading = self.player1.heading
-                weapon.pos = self.player1.pos
-                desiredHeading = self.player1.heading
-                desiredSpeed = self.player1.heldWeapon.maxSpeed
-                yaw = self.player1.yaw
-                weapon.desiredHeading = desiredHeading
-                weapon.desiredSpeed = desiredSpeed
-                weapon.yaw = yaw
-                self.engine.entityMgr.weaponList.append(weapon)
-                weapon.firedFrom = self.player1.uiname
-                self.player1.weaponUp = False
-                weapon.held = False
->>>>>>> 25394e3ca018c593545ca21e2975cb0318ef5268
-                
-                print "pewpew1"
+            if(self.engine.inputMgr.joystick_count > 0):
+                if (self.keyboard.isKeyDown(OIS.KC_RCONTROL) or self.engine.inputMgr.joysticks[0].get_button(0)) and self.player1.weaponUp == True:
+                    weapon = self.player1.heldWeapon
+                    weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+                    weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player1.pos  + ogre.Vector3(0,20,4))
+                    weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
+                    weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
+                    
+                    weapon.speed = self.player1.speed
+                    weapon.heading = self.player1.heading
+                    weapon.pos = self.player1.pos
+                    desiredHeading = self.player1.heading
+                    desiredSpeed = self.player1.heldWeapon.maxSpeed
+                    yaw = self.player1.yaw
+                    weapon.desiredHeading = desiredHeading
+                    weapon.desiredSpeed = desiredSpeed
+                    weapon.yaw = yaw
+                    if weapon.currentYaw < weapon.yaw:
+                        weapon.aspects[1].node.yaw(-1*math.radians(weapon.yaw - weapon.currentYaw))
+                        weapon.currentYaw += weapon.yaw
+                    elif weapon.currentYaw > weapon.yaw:
+                        weapon.aspects[1].node.yaw(math.radians(weapon.currentYaw - weapon.yaw))
+                    
+                    self.engine.entityMgr.weaponList.append(weapon)
+                    weapon.firedFrom = self.player1.uiname
+                    self.player1.weaponUp = False
+                    weapon.held = False
+            else:
+                if self.keyboard.isKeyDown(OIS.KC_RCONTROL) and self.player1.weaponUp == True:
+                    weapon = self.player1.heldWeapon
+                    weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+                    weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player1.pos  + ogre.Vector3(0,20,4))
+                    weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
+                    weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
+                    
+                    weapon.speed = self.player1.speed
+                    weapon.heading = self.player1.heading
+                    weapon.pos = self.player1.pos
+                    desiredHeading = self.player1.heading
+                    desiredSpeed = self.player1.heldWeapon.maxSpeed
+                    yaw = self.player1.yaw
+                    weapon.desiredHeading = desiredHeading
+                    weapon.desiredSpeed = desiredSpeed
+                    weapon.yaw = yaw
+                    if weapon.currentYaw < weapon.yaw:
+                        weapon.aspects[1].node.yaw(-1*math.radians(weapon.yaw - weapon.currentYaw))
+                        weapon.currentYaw += weapon.yaw
+                    elif weapon.currentYaw > weapon.yaw:
+                        weapon.aspects[1].node.yaw(math.radians(weapon.currentYaw - weapon.yaw))
+                    
+                    self.engine.entityMgr.weaponList.append(weapon)
+                    weapon.firedFrom = self.player1.uiname
+                    self.player1.weaponUp = False
+                    weapon.held = False
 
-            if self.keyboard.isKeyDown(OIS.KC_NUMPADENTER) and self.player2.weaponUp == True:
-                weapon = self.player2.heldWeapon
-                weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
-                weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player2.pos  + ogre.Vector3(0,20,4))
-                weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
-                weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
-                
-                weapon.speed = self.player2.speed
-                weapon.heading = self.player2.heading
-                weapon.pos = self.player2.pos
-                desiredHeading = self.player2.heading
-                desiredSpeed = self.player2.heldWeapon.maxSpeed
-                yaw = self.player2.yaw
-                weapon.desiredHeading = desiredHeading
-                weapon.desiredSpeed = desiredSpeed
-                weapon.yaw = yaw
-                self.engine.entityMgr.weaponList.append(weapon)
-                weapon.firedFrom = self.player2.uiname
-                self.player2.weaponUp = False
-                weapon.held = False
-                print "pewpew2"
+            if(self.engine.inputMgr.joystick_count > 1):
+                if (self.keyboard.isKeyDown(OIS.KC_NUMPADENTER) or self.engine.inputMgr.joysticks[1].get_button(0)) and self.player2.weaponUp == True :
+                    weapon = self.player2.heldWeapon
+                    weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+                    weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player2.pos  + ogre.Vector3(0,20,4))
+                    weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
+                    weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
+                    
+                    weapon.speed = self.player2.speed
+                    weapon.heading = self.player2.heading
+                    weapon.pos = self.player2.pos
+                    desiredHeading = self.player2.heading
+                    desiredSpeed = self.player2.heldWeapon.maxSpeed
+                    yaw = self.player2.yaw
+                    weapon.desiredHeading = desiredHeading
+                    weapon.desiredSpeed = desiredSpeed
+                    weapon.yaw = yaw
+                    self.engine.entityMgr.weaponList.append(weapon)
+                    weapon.firedFrom = self.player2.uiname
+                    self.player2.weaponUp = False
+                    weapon.held = False
+                    print "pewpew2"
+            else:
+                if self.keyboard.isKeyDown(OIS.KC_NUMPADENTER) and self.player2.weaponUp == True :
+                    weapon = self.player2.heldWeapon
+                    weapon.aspects[1].node.detachObject(weapon.aspects[1].pEnt) #detach from current node (player)
+                    weapon.aspects[1].node = self.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(weapon.uiname + 'weaponnode' + str(weapon.eid), self.player2.pos  + ogre.Vector3(0,20,4))
+                    weapon.aspects[1].node.attachObject(weapon.aspects[1].pEnt)
+                    weapon.aspects[1].node.scale(ogre.Vector3(10,10,10))
+                    
+                    weapon.speed = self.player2.speed
+                    weapon.heading = self.player2.heading
+                    weapon.pos = self.player2.pos
+                    desiredHeading = self.player2.heading
+                    desiredSpeed = self.player2.heldWeapon.maxSpeed
+                    yaw = self.player2.yaw
+                    weapon.desiredHeading = desiredHeading
+                    weapon.desiredSpeed = desiredSpeed
+                    weapon.yaw = yaw
+                    self.engine.entityMgr.weaponList.append(weapon)
+                    weapon.firedFrom = self.player2.uiname
+                    self.player2.weaponUp = False
+                    weapon.held = False
+                    print "pewpew2"                
 
             """if self.player1.slowDown == True:
                 if self.player1.desiredSpeed > 0:
