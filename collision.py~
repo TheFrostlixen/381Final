@@ -30,6 +30,7 @@ class Collision:
                         print self.ent.firedFrom, ent.uiname
                         ent.hit = True
                         self.ent.visible = False
+                        self.ent.aspects[1].node.setVisible(False)
                         self.ent.speed = 0
                         self.ent.desiredSpeed = 0
                         self.ent.desiredHeading = 0
@@ -71,7 +72,7 @@ class Collision:
                                     self.ent.boosting = True
                                     ent.used = True
                             elif "Item_Weapon" in ent.uiname:
-                                if ent.pickedUp == False:
+                                if ent.pickedUp == False and self.ent.weaponUp == False:
                                     #ent.aspects[1].pEnt.setVisible(False)
                                     self.ent.heldWeapon = ent
                                     self.ent.weaponUp = True

@@ -63,8 +63,7 @@ class InputMgr():
         self.p2LR = 0;
         
         self.joystick_count = pygame.joystick.get_count()
-        print self.joystick_count
-        print "ASDF"
+        print self.joystick_count + " joysticks found"
         for i in range(0, pygame.joystick.get_count()):
             # create an Joystick object in our list
             self.joysticks.append(pygame.joystick.Joystick(i))
@@ -361,13 +360,11 @@ class JoyStickListener(OIS.JoyStickListener):
         if id == OIS.MB_Left:
             self.leftDown = True
             self.ms = self.joystick.getJoyStickState()
-            print self.ms.X.abs, self.ms.Y.abs
             joystickRay = self.camera.getCameraToViewportRay((self.ms.X.abs + 50) / float(evt.get_state().width), (self.ms.Y.abs + 25) / float(evt.get_state().height))
             self.raySceneQuery.setRay(joystickRay)
             result = self.raySceneQuery.execute()
             if len(result) > 2:
                     if result[2].movable:
-                        print result[2].movable.getName()
                         for ent in self.inputMgr.engine.entityMgr.entList:
                             if (ent.uiname + str(ent.eid)) == result[2].movable.getName():
                                 if self.inputMgr.keyboard.isKeyDown(OIS.KC_LSHIFT):
@@ -472,13 +469,11 @@ class Joy2StickListener(OIS.JoyStickListener):
         if id == OIS.MB_Left:
             self.leftDown = True
             self.ms = self.joy2stick.getjoy2StickState()
-            print self.ms.X.abs, self.ms.Y.abs
             joy2stickRay = self.camera.getCameraToViewportRay((self.ms.X.abs + 50) / float(evt.get_state().width), (self.ms.Y.abs + 25) / float(evt.get_state().height))
             self.raySceneQuery.setRay(joy2stickRay)
             result = self.raySceneQuery.execute()
             if len(result) > 2:
                     if result[2].movable:
-                        print result[2].movable.getName()
                         for ent in self.inputMgr.engine.entityMgr.entList:
                             if (ent.uiname + str(ent.eid)) == result[2].movable.getName():
                                 if self.inputMgr.keyboard.isKeyDown(OIS.KC_LSHIFT):

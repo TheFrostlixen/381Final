@@ -161,7 +161,6 @@ class ControlMgr:
                     weapon.firedFrom = self.player2.uiname
                     self.player2.weaponUp = False
                     weapon.held = False
-                    print "pewpew2"
             else:
                 if self.keyboard.isKeyDown(OIS.KC_NUMPADENTER) and self.player2.weaponUp == True :
                     weapon = self.player2.heldWeapon
@@ -182,8 +181,7 @@ class ControlMgr:
                     self.engine.entityMgr.weaponList.append(weapon)
                     weapon.firedFrom = self.player2.uiname
                     self.player2.weaponUp = False
-                    weapon.held = False
-                    print "pewpew2"                
+                    weapon.held = False               
 
         if not self.mainMenu:
             if not self.keyboard.isKeyDown(OIS.KC_NUMPAD8) and not self.player2.boosting:

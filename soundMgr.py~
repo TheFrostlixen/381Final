@@ -58,7 +58,7 @@ class SoundMgr:
         if self.f3:
             if self.engine.selectionMgr.p1End or self.engine.selectionMgr.p2End:
                 self.bbb.fadeout(200)
-                print "Play End"
+                print "Whisper....."
                 self.f3 = False
                 self.ccc.play(self.cc, loops = -1)
 

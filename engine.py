@@ -46,13 +46,13 @@ class Engine(object):
         self.soundMgr = soundMgr.SoundMgr(self)
         self.soundMgr.init()
         
-        import overlayMgr
-        self.overlayMgr = overlayMgr.OverlayMgr(self)
-        self.overlayMgr.init()
-
         import scoreMgr
         self.scoreMgr = scoreMgr.ScoreMgr(self)
         self.scoreMgr.init()
+        
+        import overlayMgr
+        self.overlayMgr = overlayMgr.OverlayMgr(self)
+        self.overlayMgr.init()
 
 
     def stop(self):

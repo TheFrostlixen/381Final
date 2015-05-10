@@ -19,6 +19,7 @@ class OverlayMgr:
     def loadOverlays(self):
         self.overlayList.append(StartOverlay(self.engine, self.overlayManager))
         self.overlayList.append(GameOverlay(self.engine, self.overlayManager))
+        self.overlayList.append(ScoreOverlay(self.engine, self.overlayManager))
         
     def setOverlay(self, name):
         self.currentOverlay = name
@@ -192,13 +193,13 @@ class ScoreOverlay(Overlay):
         panel.setPosition(0.5, 0.5)
         panel.setDimensions(0.15, 0.04)
         
-        #create score element
+        #create high score element
         score = self.overlayManager.createOverlayElement("TextArea", self.name+"_Scores")
         score.setMetricsMode(ogre.GMM_PIXELS)
-        score.setPosition(320,50)
+        score.setPosition(50,60)
         score.setFontName("BlueHighway")
         score.setCharHeight(40)
-        score.setColour(ogre.ColourValue(1,1,1))
+        score.setColour(ogre.ColourValue(0,0,0))
         
         self.scoreString = ""
         for item in self.engine.scoreMgr.scoreList:
@@ -213,10 +214,17 @@ class ScoreOverlay(Overlay):
         
     def tick(self, dtime):
         #update scores so that they show correctly at the end
-        self.scoreString = ""
+        self.scoreString = "            High Scores:\n\n\n"
+        scoreNum = 1
         for score in self.engine.scoreMgr.scoreList:
-            self.scoreString += score[0] + ' ' + score[1] + ' ' + score[2] + ' ' + score[3] + ' ' + '\n'
+            if scoreNum <= 10:
+                self.scoreString += str(scoreNum) + ': ' + score[0] + ' ' + score[1] + ' ' + score[2] + ' ' + score[3] + ' ' + '\n'
+                scoreNum += 1
+        self.scoreString += "\n\nPlayer 1 Score: " + str(self.engine.scoreMgr.p1Time)
+        self.scoreString += "\nPlayer 2 Score: " + str(self.engine.scoreMgr.p2Time)
         self.scorePanel.scoreText.setCaption(self.scoreString)
+        self.panel.show()
+        self.scorePanel.show()
 
 
 

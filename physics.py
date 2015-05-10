@@ -8,7 +8,6 @@ class Physics:
         self.boostTime = 0
         
     def tick(self, dtime):
-        #print "Physics tick", dtime
         nextDecel = self.ent.speed - self.ent.acceleration
         nextAccel = self.ent.speed + self.ent.acceleration
         if self.ent.speed < self.ent.desiredSpeed - 1 and nextAccel < self.ent.maxSpeed:
@@ -43,7 +42,6 @@ class Physics:
 
         if "Sleek" in self.ent.uiname or "Destroyer" in self.ent.uiname:
             if self.ent.hit:
-                print self.ent.hit
                 self.ent.desiredSpeed = 0
                 self.ent.desiredHeading = 1000
                 self.ent.hit = False

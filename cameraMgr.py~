@@ -98,7 +98,7 @@ class CameraMgr:
 
 
     def tick(self, dt):
-        if !self.watchingMissile:
+        if not self.watchingMissile:
             self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading)))), 
                                                self.Player1.pos.y + 50, 
                                                self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading)))))

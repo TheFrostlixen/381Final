@@ -167,7 +167,6 @@ class CameraMgr:
             self.camVec_Main.z = 140
 
     def end_MainMenu(self):
-        print "GOT HERE"
         self.engine.overlayMgr.setOverlay("Game")
         self.renderWindow.removeViewport(10)
         self.camera_P1.parentSceneNode.detachObject(self.camera_P1)

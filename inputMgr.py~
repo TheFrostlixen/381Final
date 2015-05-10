@@ -5,46 +5,48 @@
 """
     USE TUTORIAL #5
 """
+import pygame
+from pygame.locals import *
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
 import math
 
-class JoyEvent:
-    BUTTON_PRESSED  = 0
-    BUTTON_RELEASED = 1
-    AXIS_MOVED      = 2
-    POV_MOVED       = 3
-    VECTOR3_MOVED   = 4
-    NUM             = 5
-    INVALID         = 6
+# class JoyEvent:
+#     BUTTON_PRESSED  = 0
+#     BUTTON_RELEASED = 1
+#     AXIS_MOVED      = 2
+#     POV_MOVED       = 3
+#     VECTOR3_MOVED   = 4
+#     NUM             = 5
+#     INVALID         = 6
 
-class JoyButtons: # XBox Controller, the buttons need to be checked
-    BACK       = 0
-    A          = 1
-    B          = 2
-    X          = 3
-    Y          = 4
-    LEFT       = 5
-    RIGHT      = 6
-    START      = 7
-    XBOX       = 8
-    LEFT_AXIS  = 9
-    RIGHT_AXIS = 10
-    POV        = 11
+# class JoyButtons: # XBox Controller, the buttons need to be checked
+#     BACK       = 0
+#     A          = 1
+#     B          = 2
+#     X          = 3
+#     Y          = 4
+#     LEFT       = 5
+#     RIGHT      = 6
+#     START      = 7
+#     XBOX       = 8
+#     LEFT_AXIS  = 9
+#     RIGHT_AXIS = 10
+#     POV        = 11
 
-    NUM     = 12
-    LIST    = [BACK, A, B, X, Y, LEFT, RIGHT, START, XBOX, LEFT_AXIS, RIGHT_AXIS, POV]
+#     NUM     = 12
+#     LIST    = [BACK, A, B, X, Y, LEFT, RIGHT, START, XBOX, LEFT_AXIS, RIGHT_AXIS, POV]
 
-class JoyAxes: # XBox Controller
-    LEFT_LEFTRIGHT    = 0
-    LEFT_UPDOWN       = 1
-    LEFT_LEFT         = 2
-    RIGHT_LEFTRIGHT   = 3
-    RIGHT_UPDOWN      = 4
-    RIGHT_RIGHT       = 5
-    NUM               = 6
+# class JoyAxes: # XBox Controller
+#     LEFT_LEFTRIGHT    = 0
+#     LEFT_UPDOWN       = 1
+#     LEFT_LEFT         = 2
+#     RIGHT_LEFTRIGHT   = 3
+#     RIGHT_UPDOWN      = 4
+#     RIGHT_RIGHT       = 5
+#     NUM               = 6
 
-    LIST    = [LEFT_LEFTRIGHT, LEFT_UPDOWN, LEFT_LEFT, RIGHT_LEFTRIGHT, RIGHT_UPDOWN, RIGHT_RIGHT]
+#     LIST    = [LEFT_LEFTRIGHT, LEFT_UPDOWN, LEFT_LEFT, RIGHT_LEFTRIGHT, RIGHT_UPDOWN, RIGHT_RIGHT]
 
 class InputMgr():
 
@@ -55,6 +57,20 @@ class InputMgr():
 
         self.root = self.engine.gfxMgr.root
         self.keepRendering = True
+        pygame.init()
+        self.joysticks = []
+        self.p1LR = 0;
+        self.p2LR = 0;
+        
+        self.joystick_count = pygame.joystick.get_count()
+        print self.joystick_count + " joysticks found"
+        for i in range(0, pygame.joystick.get_count()):
+            # create an Joystick object in our list
+            self.joysticks.append(pygame.joystick.Joystick(i))
+            # initialize them all (-1 means loop forever)
+            self.joysticks[-1].init()
+            # print a statement telling what the name of the controller is
+            print "Detected joystick '",self.joysticks[-1].get_name(),"'"
 
         import platform
         int64 = False
@@ -77,29 +93,28 @@ class InputMgr():
         self.inputManager = OIS.createPythonInputSystem(paramList)
         #This sets up the InputManager for use, but to actually use OIS to get input for the
         #keyboard and mouse, you'll need to create the following objects
-        try:
-            self.joystick = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
-            print "----------------------------------->Made joystick object"
-        except Exception, e:
-            self.joystick = None
-            print "----------------------------------->No Joy, Don't Worry Be Happy"
-            print "----------------------------------->Who uses joysticks anyways? - so 1995"
-        if self.joystick:
-            self.jMgr = JoyStickListener(self)
+        # try:
+        #     self.joystick = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
+        #     print "----------------------------------->Made joystick object"
+        # except Exception, e:     self.joystick = None
+        #     print "----------------------------------->No Joy, Don't Worry Be Happy"
+        #     print "----------------------------------->Who uses joysticks anyways? - so 1995"
+        # if self.joystick:
+        #     self.jMgr = JoyStickListener(self)
 
-        try:
-            self.joy2stick = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
-            print "----------------------------------->Made joystick object"
-        except Exception, e:
-            self.joy2stick = None
-            print "----------------------------------->No Joy, Don't Worry Be Happy"
-            print "----------------------------------->Who uses joysticks anyways? - so 1995"
-        if self.joy2stick:
-            self.jMgr2 = Joy2StickListener(self)
+        # try:
+        #     self.joy2stick = self.inputManager.createInputObjectJoyStick(OIS.OISJoyStick, True)
+        #     print "----------------------------------->Made joystick object"
+        # except Exception, e:
+        #     self.joy2stick = None
+        #     print "----------------------------------->No Joy, Don't Worry Be Happy"
+        #     print "----------------------------------->Who uses joysticks anyways? - so 1995"
+        # if self.joy2stick:
+        #     self.jMgr2 = Joy2StickListener(self)
 
         self.keyboard = self.inputManager.createInputObjectKeyboard(OIS.OISKeyboard, True)
-        self.jMgr2 = Joy2StickListener(self)
-        self.jMgr = JoyStickListener(self)
+        # self.jMgr2 = Joy2StickListener(self)
+        # self.jMgr = JoyStickListener(self)
         self.createFrameListener()
 
     def createFrameListener(self):
@@ -109,8 +124,21 @@ class InputMgr():
         self.root.addFrameListener(self.inputListener)
     
     def tick(self, dt):
-        if self.joystick:
-            self.joystick.capture()
+        # if self.joystick:
+        #     self.joystick.capture()
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.JOYAXISMOTION:
+                pass
+                #print "Joystick '",self.joysticks[event.joy].get_name()," ", event.joy, " ", "' axis",event.axis,"motion."
+        
+        if pygame.joystick.get_count() > 0:
+            p1LR = self.joysticks[0].get_axis(0)
+        if pygame.joystick.get_count() > 1:
+            p2LR = self.joysticks[1].get_axis(0)
+
         if (self.engine.keepRunning == False):
             self.engine.stop()
 
@@ -126,40 +154,12 @@ class InputListener(ogre.FrameListener):
         self.inputMgr = inputMgr
         self.keyboard = self.inputMgr.keyboard
         self.cameraMgr = self.inputMgr.engine.cameraMgr
-        self.cameraMain = self.cameraMgr.camera_Main
-        self.camera1 = self.cameraMgr.camera_P1
-        self.camera2 = self.cameraMgr.camera_P2
-        self.joystick = self.inputMgr.joystick
-        self.joyHandlers = [dict() for x in range(JoyEvent.NUM)]
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
 
-        self.camNode_Main = self.cameraMain.parentSceneNode
-        self.camNode_P1 = self.camera1.parentSceneNode
-        self.camNode_P2 = self.camera2.parentSceneNode
-        self.rotate = 0.006
-        self.move = 250
-        self.moveFast = 1000
-        self.BDown = False
-        self.direction = ogre.Vector3(0, 0, 0)
-        self.mainPos = self.camNode_Main.getPosition()
-
-        self.toggle_P1 = 0
-        self.toggle_P2 = 0
         self.toggle = 0
-
+        self.toggle2 = 0
         self.timer_MainMenu = 0
-        self.timer_Race = 0
-
-        self.mc1 = True
-        self.mc2 = False
-        self.mc3 = False
-
         self.mainMenu = True
-        self.P1_FreeRoam = True
-        self.P2_FreeRoam = True
-
-        self.trigger = True
-        self.camNum = 1
 
         self.keepRendering = self.inputMgr.keepRendering
 
@@ -169,119 +169,35 @@ class InputListener(ogre.FrameListener):
         #process unbuffered key input for Escape
         self.keyPressed(frameEvent)
 
-        self.Player1 = self.inputMgr.engine.entityMgr.entList[0]
-        self.Player2 = self.inputMgr.engine.entityMgr.entList[1]
-
         self.timer_MainMenu += frameEvent.timeSinceLastFrame
-
-        self.P1_CamPosition = ogre.Vector3(self.Player1.pos.x + (400 * (-math.cos(math.radians(self.Player1.desiredHeading )))), 
-                                           self.Player1.pos.y + 50, 
-                                           self.Player1.pos.z + (400 * (-math.sin(math.radians(self.Player1.desiredHeading )))))
-        self.P2_CamPosition = ogre.Vector3(self.Player2.pos.x + (400 * (-math.cos(math.radians(self.Player2.desiredHeading )))), 
-                                           self.Player2.pos.y + 50, 
-                                           self.Player2.pos.z + (400 * (-math.sin(math.radians(self.Player2.desiredHeading )))))
-
-        # Update the toggle timer.
-        if self.toggle_P1 >= 0:
-            self.toggle_P1 -= frameEvent.timeSinceLastFrame
-
-        if self.toggle_P2 >= 0:
-            self.toggle_P2 -= frameEvent.timeSinceLastFrame
 
         if self.toggle >= 0:
             self.toggle -= frameEvent.timeSinceLastFrame
 
-
-        if self.mainMenu and self.toggle < 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
-            self.toggle = 0.1
-            self.mainMenu = False
-            self.inputMgr.engine.overlayMgr.setOverlay("Game")
-            self.cameraMgr.renderWindow.removeViewport(10)
-            self.P1_FreeRoam = False
-            self.camera1.parentSceneNode.detachObject(self.camera1)
-            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
-            self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera1)
-            self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
-            self.P2_FreeRoam = False
-            self.camera2.parentSceneNode.detachObject(self.camera2)
-            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
-            self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera2)
-            self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
-
-        #print self.timer_MainMenu
+        if self.toggle2 >= 0:
+            self.toggle2 -= frameEvent.timeSinceLastFrame
         
         if self.mainMenu:
             self.cameraMgr.start_MainMenu()
 
+        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+            self.toggle = 0.1
+            self.inputMgr.engine.overlayMgr.showIntroPage = False
+            self.mainMenu = False
+            self.cameraMgr.end_MainMenu()
 
+        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+            self.inputMgr.engine.overlayMgr.showIntroPage = True
 
-        ##############################
-        ## PLAYER 1 CAMERA CHANGING ##
-        ##############################
+        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_BACK):
+            self.inputMgr.engine.overlayMgr.showIntroPage = False
 
-        if self.toggle_P1 < 0 and self.keyboard.isKeyDown(OIS.KC_1) and not self.P1_FreeRoam:
-            self.P1_FreeRoam = True
-            # Update the toggle timer.
-            self.toggle_P1 = 0.1
-            # Attach the camera to PitchNode1.
-            self.camNode_P1.yaw(math.radians(self.Player1.desiredHeading))
-            self.camera1.parentSceneNode.detachObject(self.camera1)
-            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_1")
-            self.sceneManager.getSceneNode("PitchNode_P1_1").attachObject(self.camera1)
-
- 
-        elif self.toggle_P1 < 0 and self.keyboard.isKeyDown(OIS.KC_2) and self.P1_FreeRoam:
-            self.P1_FreeRoam = False
-            # Update the toggle timer.
-            self.toggle_P1 = 0.1
-            # Attach the camera to PitchNode2.
-            self.camera1.parentSceneNode.detachObject(self.camera1)
-            self.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_2")
-            self.sceneManager.getSceneNode("PitchNode_P1_2").attachObject(self.camera1)
-            self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
-
-        if not self.P1_FreeRoam:
-            self.camNode_P1.setPosition(self.P1_CamPosition)   
- 
-
-        ##############################
-        ## PLAYER 2 CAMERA CHANGING ##
-        ##############################
-
-        if self.toggle_P2 < 0 and self.keyboard.isKeyDown(OIS.KC_3) and not self.P2_FreeRoam:
-            self.P2_FreeRoam = True
-            # Update the toggle timer.
-            self.toggle_P2 = 0.1
-            # Attach the camera to PitchNode1.
-            self.camNode_P2.yaw(math.radians(self.Player2.desiredHeading))
-            self.camera2.parentSceneNode.detachObject(self.camera2)
-            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_1")
-            self.sceneManager.getSceneNode("PitchNode_P2_1").attachObject(self.camera2)
- 
-        elif self.toggle_P2 < 0 and self.keyboard.isKeyDown(OIS.KC_4) and self.P2_FreeRoam:
-            self.P2_FreeRoam = False
-            # Update the toggle timer.
-            self.toggle_P2 = 0.1
-            # Attach the camera to PitchNode2.
-            self.camera2.parentSceneNode.detachObject(self.camera2)
-            self.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_2")
-            self.sceneManager.getSceneNode("PitchNode_P2_2").attachObject(self.camera2)
-            self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
-
-        if not self.P2_FreeRoam:
-            self.camNode_P2.setPosition(self.P2_CamPosition)
-
- 
-
-        #translate the camera based on time
-
-        self.camNode_P1.translate(self.camNode_P1.orientation
-            * self.direction
-            * frameEvent.timeSinceLastFrame)
-
-        self.camNode_P2.translate(self.camNode_P2.orientation
-            * self.direction
-            * frameEvent.timeSinceLastFrame)
+        if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_UP):
+            self.toggle2 = 0.1
+            self.inputMgr.engine.overlayMgr.selection = 1;
+        if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_DOWN):
+            self.toggle2 = 0.1
+            self.inputMgr.engine.overlayMgr.selection = 0;
 
 
         #check for Key release to stop moving the camera.
@@ -291,135 +207,49 @@ class InputListener(ogre.FrameListener):
 
 
     def keyPressed(self, frameEvent):
-        if self.P1_FreeRoam and self.P2_FreeRoam:
-            # Accelerate Camera
-            if self.keyboard.isKeyDown(OIS.KC_B):
-                self.BDown = True
-                self.rotate = 0.03
-            if not self.keyboard.isKeyDown(OIS.KC_B):
-                self.BDown = False
-                self.rotate = 0.006
-            # Move Forward.
-            if self.keyboard.isKeyDown(OIS.KC_W):
-                if self.BDown == True:
-                    self.direction.z -= self.moveFast
-                else:
-                    self.direction.z -= self.move
-            # Move Backward.
-            if self.keyboard.isKeyDown(OIS.KC_S):
-                if self.BDown == True:
-                    self.direction.z += self.moveFast
-                else:
-                    self.direction.z += self.move
-            # Strafe Left.
-            if self.keyboard.isKeyDown(OIS.KC_A):
-                if self.BDown == True:
-                    self.direction.x -= self.moveFast
-                else:
-                    self.direction.x -= self.move
-            # Strafe Right.
-            if self.keyboard.isKeyDown(OIS.KC_D):
-                if self.BDown == True:
-                    self.direction.x += self.moveFast
-                else:
-                    self.direction.x += self.move
-            # Move Up.
-            if self.keyboard.isKeyDown(OIS.KC_PGUP):
-                if self.BDown == True:
-                    self.direction.y += self.moveFast
-                else:
-                    self.direction.y += self.move
-            # Move Down.
-            if self.keyboard.isKeyDown(OIS.KC_PGDOWN):
-                if self.BDown == True:
-                    self.direction.y -= self.moveFast
-                else:
-                    self.direction.y -= self.move
-            # Yaw Left
-            if self.keyboard.isKeyDown(OIS.KC_Q):
-                self.camNode_P1.yaw(self.rotate)
-                self.camNode_P2.yaw(self.rotate)
-            # Yaw Right
-            if self.keyboard.isKeyDown(OIS.KC_E):
-                self.camNode_P1.yaw(-self.rotate)
-                self.camNode_P2.yaw(-self.rotate)
-            # Pitch Left
-            if self.keyboard.isKeyDown(OIS.KC_Z):
-                self.camNode_P1.pitch(self.rotate)
-                self.camNode_P2.pitch(self.rotate)
-            # Pitch Right
-            if self.keyboard.isKeyDown(OIS.KC_C):
-                self.camNode_P1.pitch(-self.rotate)
-                self.camNode_P2.pitch(-self.rotate)
-            # Roll Left
-            if self.keyboard.isKeyDown(OIS.KC_O):
-                self.camNode_P1.roll(self.rotate)
-                self.camNode_P2.roll(self.rotate)
-            # Roll Right
-            if self.keyboard.isKeyDown(OIS.KC_P):
-                self.camNode_P1.roll(-self.rotate)
-                self.camNode_P2.roll(-self.rotate)
 
-
-        if not self.P1_FreeRoam:
+        if (self.inputMgr.joystick_count == 0):
             if self.keyboard.isKeyDown(OIS.KC_LEFT):
-                if self.Player1.speed > 0 or self.Player1.speed < -1:
-                    self.camNode_P1.yaw(math.radians(self.Player1.turningRate))
-                    
+                self.cameraMgr.P1_CamTurn_Left()
+                        
             if self.keyboard.isKeyDown(OIS.KC_RIGHT):
-                if self.Player1.speed > 0 or self.Player1.speed < -1:
-                    self.camNode_P1.yaw(-math.radians(self.Player1.turningRate))
+                self.cameraMgr.P1_CamTurn_Right()
 
-        if not self.P2_FreeRoam:
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.jMgr.joyLDown:
-                if self.Player2.speed > 0 or self.Player2.speed < -1:
-                    self.camNode_P2.yaw(math.radians(self.Player2.turningRate))
-                    
-            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.jMgr.joyRDown:
-                if self.Player2.speed > 0 or self.Player2.speed < -1:
-                    self.camNode_P2.yaw(-math.radians(self.Player2.turningRate))
-        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+                self.cameraMgr.P2_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+                self.cameraMgr.P2_CamTurn_Right()
+        elif (self.inputMgr.joystick_count == 1):
+            if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.inputMgr.joysticks[0].get_axis(0) < -0.6:
+                self.cameraMgr.P1_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
+                self.cameraMgr.P1_CamTurn_Right()
+
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4):
+                self.cameraMgr.P2_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6):
+                self.cameraMgr.P2_CamTurn_Right()
+        else:
+            if self.keyboard.isKeyDown(OIS.KC_LEFT) or self.inputMgr.joysticks[0].get_axis(0) < -0.6:
+                self.cameraMgr.P1_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_RIGHT) or self.inputMgr.joysticks[0].get_axis(0) > 0.6:
+                self.cameraMgr.P1_CamTurn_Right()
+
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD4) or self.inputMgr.joysticks[1].get_axis(0) < -0.6:
+                self.cameraMgr.P2_CamTurn_Left()
+                        
+            if self.keyboard.isKeyDown(OIS.KC_NUMPAD6) or self.inputMgr.joysticks[1].get_axis(0) > 0.6:
+                self.cameraMgr.P2_CamTurn_Right()
+
+
         return True
 
     def keyReleased(self, frameEvent):
-        # Undo change to the direction vector when the key is released to stop movement.
-        # Move Forward.
-        if self.P1_FreeRoam and self.P2_FreeRoam:
-            if self.keyboard.isKeyDown(OIS.KC_W):
-                if self.BDown == True:
-                    self.direction.z += self.moveFast
-                else:
-                    self.direction.z += self.move
-            # Move Backward.
-            if self.keyboard.isKeyDown(OIS.KC_S):
-                if self.BDown == True:
-                    self.direction.z -= self.moveFast
-                else:
-                    self.direction.z -= self.move
-            # Strafe Left.
-            if self.keyboard.isKeyDown(OIS.KC_A):
-                if self.BDown == True:
-                    self.direction.x += self.moveFast
-                else:
-                    self.direction.x += self.move
-            # Strafe Right.
-            if self.keyboard.isKeyDown(OIS.KC_D):
-                if self.BDown == True:
-                    self.direction.x -= self.moveFast
-                else:
-                    self.direction.x -= self.move
-            # Move Up.
-            if self.keyboard.isKeyDown(OIS.KC_PGUP):
-                if self.BDown == True:
-                    self.direction.y -= self.moveFast
-                else:
-                    self.direction.y -= self.move
-            # Move Down.
-            if self.keyboard.isKeyDown(OIS.KC_PGDOWN):
-                if self.BDown == True:
-                    self.direction.y += self.moveFast
-                else:
-                    self.direction.y += self.move
+        return True
 
 
 class ExitListener(ogre.FrameListener):
@@ -442,7 +272,7 @@ class ExitListener(ogre.FrameListener):
         del self.inputListener
         del self.exitListener
         del self.root
-        
+       
 class JoyStickListener(OIS.JoyStickListener):
     def __init__(self, inputMgr):
         OIS.JoyStickListener.__init__(self)

@@ -10,7 +10,7 @@ class Renderer():
         self.node = self.ent.engine.gfxMgr.sceneManager.getRootSceneNode().createChildSceneNode(self.ent.uiname + 'node' + str(self.ent.eid), ent.pos)
         self.node.attachObject(self.pEnt)
         if (self.ent.uiname == "Obstacle"):
-            self.pEnt.setMaterialName('Examples/DarkMaterial')
+            self.pEnt.setMaterialName('Examples/BumpyMetal')
         elif self.ent.uiname != "Item_Boost":
             self.pEnt.setMaterialName('Material #8')
 

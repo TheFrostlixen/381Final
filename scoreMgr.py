@@ -6,46 +6,15 @@ import ent
 import random
   
 class ScoreMgr:        
-    """    def __init__(self, engine):        
-            print "starting score Manger"        
-            self.engine = engine
-            self.currentRun = 0
-                    
-        def init(self):
-            self.scoreList = []
 
-            with open('HighScores') as file:
-                line_value = file.readline(100).strip()
-                if len(line_value) > 0:
-                    print line_value
-                    line_value = int(line_value)
-                self.currentRun = int(line_value)
-                print self.currentRun
-                for line in file:
-                    self.scoreList.append([int(x) for x in line.split()])
-                print(self.scoreList)
-                self.currentRun += 1
-
-        def addCurrentTime(self):
-            self.scoreList.append((self.currentRun, int(self.engine.overlayMgr.overlayList[1].curTime)))
-            self.scoreList.sort()
-                
-        def tick(self, dt):   
-            pass     
-                    
-        def stop(self):        
-            file = open('HighScores', 'w')
-            file.write('%d \n' % self.currentRun)
-            for (x, y) in self.scoreList:
-                file.write('%d %d \n' % (x,y))
-            file.close
-    """
     def __init__(self, engine):
         print "starting score manager"
         self.engine = engine
     
     def init(self):
         self.scoreList = []
+        self.p1Time = "0"
+        self.p2Time = "0"
         self.scoreNum = 0
         currentscore = []
         curPiece = 1
@@ -68,21 +37,25 @@ class ScoreMgr:
             #highscores does not exist
             pass
         
-        
+
     def tick(self, dt):
         pass
         
     def addCurrentTime(self, player):
         date = datetime.datetime.now().strftime("%m/%d/%Y")
         realtime = datetime.datetime.now().strftime("%I:%M%p")
+        if player == "Player1":
+            self.p1Time = self.engine.overlayMgr.overlayList[1].curTime
+        elif player == "Player2":
+            self.p2Time = self.engine.overlayMgr.overlayList[1].curTime
         currentscore = []
-        currentscore.append(str(self.engine.overlayMgr.overlayList[1].curTime))
         currentscore.append(player)
         currentscore.append(date)
         currentscore.append(realtime)
+        currentscore.append(str(self.engine.overlayMgr.overlayList[1].curTime))
         self.scoreList.append(currentscore)
         self.scoreNum += 1
-        self.scoreList.sort(key=lambda x: float(x[0]))
+        self.scoreList.sort(key=lambda x: float(x[3]))
 
     def stop(self):
         file = open('HighScores', 'w')

@@ -110,7 +110,7 @@ class EntityMgr:
             choice = random.choice(self.lvl1ChkPts)
             boost = random.randint(0,50)
             weapon = random.randint(0,100)
-            if boost < 10:
+            if boost < 30:
                 if weapon < 50:    
                     self.createItem_Boost(choice + Vector3(random.randint(-300,300),0,random.randint(-300,300)))
                 else:
