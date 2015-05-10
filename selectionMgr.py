@@ -34,20 +34,22 @@ class SelectionMgr:
                 print "Player 1 Wins!"
                 self.p1End = True
                 self.engine.scoreMgr.addCurrentTime("Player1")
-            elif(self.p2End == True):
+            elif(self.p2End == True) and self.p1End == False:
                 self.engine.scoreMgr.addCurrentTime("Player2")
                 print "Player 1 Loses!"
-                self.engine.stop()
+                #high score screen show
+                self.engine.overlayMgr.setOverlay("Score")
         if p2 == len(self.entMgr.lvl1ChkPts) - 1:
             #player 2 wins
             if(p1 != len(self.entMgr.lvl1ChkPts) - 1 and self.p2End == False and self.p1End == False):
                 print "Player 2 Wins!"
                 self.p2End = True
                 self.engine.scoreMgr.addCurrentTime("Player1")
-            elif(self.p1End == True):    
+            elif(self.p1End == True) and self.p2End == False:    
                 self.engine.scoreMgr.addCurrentTime("Player2")            
                 print "Player 2 Loses!"
-                self.engine.stop()
+                #high score screen show
+                self.engine.overlayMgr.setOverlay("Score")
             return
         elif p1 == p2:
             #compare closeness to next checkpoint if they are equal

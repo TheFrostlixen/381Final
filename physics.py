@@ -15,7 +15,9 @@ class Physics:
             self.ent.speed += self.ent.acceleration
         if self.ent.speed > self.ent.desiredSpeed + 1 and nextDecel > -1*(self.ent.maxSpeed / 2):
             self.ent.speed -= self.ent.acceleration
-
+        if self.ent.speed > self.ent.maxSpeed:
+            self.ent.speed = self.ent.maxSpeed
+            self.ent.desiredSpeed = self.ent.maxSpeed
 
         if self.ent.desiredHeading > self.ent.heading:
             if (self.ent.desiredHeading - self.ent.heading) > ((360 - self.ent.desiredHeading) + self.ent.heading):
@@ -46,16 +48,15 @@ class Physics:
                 self.ent.desiredHeading = 1000
                 self.ent.hit = False
             if self.ent.boosting and not self.boosted:
-                self.ent.slowDown = False
-                self.ent.acceleration *= 100
-                self.ent.maxSpeed *= 2
+                self.ent.acceleration *= 20
+                self.ent.maxSpeed *= 5
                 self.ent.turningRate *= 2
                 self.boosted = True
             if self.boostTime < 0.5 and self.boosted:
                 self.boostTime += dtime
             elif self.boosted == True:
-                self.ent.acceleration /= 100
-                self.ent.maxSpeed /= 2
+                self.ent.acceleration /= 20
+                self.ent.maxSpeed /= 5
                 self.ent.turningRate /= 2
                 self.boosted = False
                 self.boostTime = 0

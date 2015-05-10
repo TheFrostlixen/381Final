@@ -169,7 +169,54 @@ class GameOverlay(Overlay):
         self.panel.show()
         self.timePanel.show()
 
-
+class ScoreOverlay(Overlay):
+    name = "Score"
+    
+    def __init__(self, engine, overlayManager):
+        Overlay.__init__(self, engine, overlayManager, self.name)
+        
+        self.loadOverlay()
+        
+    def loadOverlay(self):
+        #create panel for score background
+        panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Panel")
+        panel.setPosition(0.0,0.0)
+        panel.setDimensions(1.0, 1.0)
+        panel.setMaterialName("GUI_Background")
+        
+        self.panel = panel
+        self.overlay.add2D(panel)
+        
+        #create panel for scores
+        panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Score_Panel")
+        panel.setPosition(0.5, 0.5)
+        panel.setDimensions(0.15, 0.04)
+        
+        #create score element
+        score = self.overlayManager.createOverlayElement("TextArea", self.name+"_Scores")
+        score.setMetricsMode(ogre.GMM_PIXELS)
+        score.setPosition(320,50)
+        score.setFontName("BlueHighway")
+        score.setCharHeight(40)
+        score.setColour(ogre.ColourValue(1,1,1))
+        
+        self.scoreString = ""
+        for item in self.engine.scoreMgr.scoreList:
+            self.scoreString += item[0] + ' ' + item[1] + ' ' + item[2] + ' ' + item[3] + ' ' + '\n'
+        score.setCaption(self.scoreString)
+        
+        self.scorePanel = panel
+        self.scorePanel.scoreText = score
+        
+        self.panel.addChild(score)
+        self.overlay.add2D(self.scorePanel)
+        
+    def tick(self, dtime):
+        #update scores so that they show correctly at the end
+        self.scoreString = ""
+        for score in self.engine.scoreMgr.scoreList:
+            self.scoreString += score[0] + ' ' + score[1] + ' ' + score[2] + ' ' + score[3] + ' ' + '\n'
+        self.scorePanel.scoreText.setCaption(self.scoreString)
 
 
 
