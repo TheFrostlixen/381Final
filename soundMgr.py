@@ -24,13 +24,13 @@ class SoundMgr:
         self.b = os.path.join('data','Big_Blue.WAV')
         self.c = os.path.join('data','Careless_Whisper.WAV')
 
-        self.aa = pygame.mixer.Sound(self.a)
-        self.bb = pygame.mixer.Sound(self.b)
-        self.cc = pygame.mixer.Sound(self.c)
+        self.Polyphia_Envision_Short = pygame.mixer.Sound(self.a)
+        self.Big_Blue = pygame.mixer.Sound(self.b)
+        self.Careless_Whisper = pygame.mixer.Sound(self.c)
 
-        self.aaa = pygame.mixer.Channel(0)
-        self.bbb = pygame.mixer.Channel(1)
-        self.ccc = pygame.mixer.Channel(2)
+        self.IntroSong = pygame.mixer.Channel(0)
+        self.Playlist = pygame.mixer.Channel(1) 
+        self.SoundFX = pygame.mixer.Channel(2)
         print "SOUND INIT"
 
 
@@ -38,33 +38,43 @@ class SoundMgr:
 
         if self.totaltime == 0:
             print "Play Intro"
-            self.aaa.set_volume(0.5)
-            self.aaa.play(self.aa)
+            self.IntroSong.stop()
+            self.IntroSong.set_volume(0.5)
+            self.IntroSong.play(self.Polyphia_Envision_Short)
+
+        self.totaltime += dt
 
         if self.f1:
             if self.totaltime > 25:
-                self.f1 = False
-                self.aaa.fadeout(2000)
+                self.IntroSong.fadeout(2000)
+            if self.totaltime > 27:
+                print "hello", self.totaltime
+                self.totaltime = 0
+                print self.totaltime
             if not self.engine.inputMgr.inputListener.mainMenu:
                 self.f1 = False
-                self.aaa.fadeout(200)
+                self.IntroSong.fadeout(200)
 
 
         if not self.f1 and self.f2 and not self.engine.inputMgr.inputListener.mainMenu:
             print "Play BB"
             self.f2 = False
-            self.bbb.play(self.bb, loops = -1)
+            self.Playlist.play(self.Big_Blue, loops = -1)
 
         if self.f3:
             if self.engine.selectionMgr.p1End or self.engine.selectionMgr.p2End:
-                self.bbb.fadeout(200)
+                self.Playlist.fadeout(200)
                 print "Play End"
                 self.f3 = False
-                self.ccc.play(self.cc, loops = -1)
+                self.Playlist.play(self.Careless_Whisper, loops = -1)
 
 
-        self.totaltime += dt
 
 
     def stop(self):
         pygame.mixer.quit()
+
+
+    def play_Boost(self):
+        pass
+

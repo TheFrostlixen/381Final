@@ -44,9 +44,9 @@ class ScoreMgr:
     def addCurrentTime(self, player):
         date = datetime.datetime.now().strftime("%m/%d/%Y")
         realtime = datetime.datetime.now().strftime("%I:%M%p")
-        if player == "Player1":
+        if player == "Player1" and self.engine.selectionMgr.p1End:
             self.p1Time = self.engine.overlayMgr.overlayList[1].curTime
-        elif player == "Player2":
+        elif player == "Player2" and self.engine.selectionMgr.p2End:
             self.p2Time = self.engine.overlayMgr.overlayList[1].curTime
         currentscore = []
         currentscore.append(player)

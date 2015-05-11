@@ -201,7 +201,7 @@ class CameraMgr:
             self.camera_Main.parentSceneNode.detachObject(self.camera_Main)
             self.camNode_Main = self.sceneManager.getSceneNode("CamNode_Main_1")
             self.sceneManager.getSceneNode("PitchNode_Main_1").attachObject(self.camera_Main)
-            self.camNode_Main.setPosition(600, 100, 200)
+            self.camNode_Main.setPosition(750, 100, 200)
             self.camVec_Main.x = 0
             self.camVec_Main.y = 40
             self.camVec_Main.z = 100
@@ -209,7 +209,7 @@ class CameraMgr:
             self.camera_Main.parentSceneNode.detachObject(self.camera_Main)
             self.camNode_Main = self.sceneManager.getSceneNode("CamNode_Main_2")
             self.sceneManager.getSceneNode("PitchNode_Main_2").attachObject(self.camera_Main)
-            self.camNode_Main.setPosition(-100, 50, 200)
+            self.camNode_Main.setPosition(50, 50, 200)
             self.camVec_Main.x = 50
             self.camVec_Main.y = 0
             self.camVec_Main.z = 0
@@ -217,7 +217,7 @@ class CameraMgr:
             self.camera_Main.parentSceneNode.detachObject(self.camera_Main)
             self.camNode_Main = self.sceneManager.getSceneNode("CamNode_Main_3")
             self.sceneManager.getSceneNode("PitchNode_Main_3").attachObject(self.camera_Main)
-            self.camNode_Main.setPosition(50, 50, 200)
+            self.camNode_Main.setPosition(200, 50, 200)
             self.camVec_Main.x = 0
             self.camVec_Main.y = 0
             self.camVec_Main.z = 100
@@ -225,10 +225,10 @@ class CameraMgr:
             self.camera_Main.parentSceneNode.detachObject(self.camera_Main)
             self.camNode_Main = self.sceneManager.getSceneNode("CamNode_Main_4")
             self.sceneManager.getSceneNode("PitchNode_Main_4").attachObject(self.camera_Main)
-            self.camNode_Main.setPosition(-300, 50, 200)
+            self.camNode_Main.setPosition(-150, 100, 200)
             self.camVec_Main.x = 0
-            self.camVec_Main.y = 40
-            self.camVec_Main.z = 140
+            self.camVec_Main.y = 30
+            self.camVec_Main.z = 170
 
     def end_MainMenu(self):
         self.engine.overlayMgr.setOverlay("Game")

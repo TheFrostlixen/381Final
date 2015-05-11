@@ -198,11 +198,11 @@ class GameOverlay(Overlay):
         #create time element
         level = self.overlayManager.createOverlayElement("TextArea", self.name+"_Level")
         level.setMetricsMode(ogre.GMM_PIXELS)
-        level.setPosition(650,980)
+        level.setPosition(725,980)
         level.setFontName("BlueHighway")
         level.setCharHeight(30)
         level.setColour(ogre.ColourValue(0,0,0))
-        self.curLevel = 0.0
+        self.curLevel = 1
         level.setCaption("Level: " + "%d" % self.curLevel)
         
         self.levelPanel = panel

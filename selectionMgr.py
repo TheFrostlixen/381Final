@@ -11,6 +11,7 @@ class SelectionMgr:
     def init(self):
         self.p1End = False
         self.p2End = False
+        self.game = True
         self.selectedEnts = []
         self.selectedEntIndex = self.engine.entityMgr.numEnts;
         self.selectedEnt = None
@@ -30,11 +31,13 @@ class SelectionMgr:
         #compare checkpoint
         if p1 == len(self.entMgr.lvl1ChkPts) - 1:
             #player 1 wins
-            if(self.p1End == False and self.p2End == False):
+            if(self.p1End == False and self.p2End == False) and self.game == True:
                 print "Player 1 Wins!"
+                print self.p1End
+                print self.p2End
                 self.p1End = True
                 self.engine.scoreMgr.addCurrentTime("Player1")
-            elif self.p2End == True and self.p1End == False:
+            elif self.p2End == True and self.p1End == False and self.game == True:
                 self.p1End = True
                 self.engine.scoreMgr.addCurrentTime("Player2")
                 print "Player 1 Loses!"
@@ -42,17 +45,18 @@ class SelectionMgr:
                 self.engine.overlayMgr.setOverlay("Score")
                 self.engine.inputMgr.inputListener.endScreen = True
                 print "end"
+                self.game = False
                 self.p1End = False
                 self.p2End = False
                 p1 = 0
                 p2 = 0
         if p2 == len(self.entMgr.lvl1ChkPts) - 1:
             #player 2 wins
-            if(self.p2End == False and self.p1End == False):
+            if(self.p2End == False and self.p1End == False) and self.game == True:
                 print "Player 2 Wins!"
                 self.p2End = True
                 self.engine.scoreMgr.addCurrentTime("Player1")
-            elif self.p1End == True and self.p2End == False:
+            elif self.p1End == True and self.p2End == False and self.game == True:
                 self.p2End = True
                 self.engine.scoreMgr.addCurrentTime("Player2")            
                 print "Player 2 Loses!"
@@ -60,6 +64,7 @@ class SelectionMgr:
                 self.engine.overlayMgr.setOverlay("Score")
                 self.engine.inputMgr.inputListener.endScreen = True
                 print "end"
+                self.game = False
                 self.p1End = False
                 self.p2End = False
                 p1 = 0
