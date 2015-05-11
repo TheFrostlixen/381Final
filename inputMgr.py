@@ -10,6 +10,7 @@ from pygame.locals import *
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
 import math
+from vector import Vector3
 
 # class JoyEvent:
 #     BUTTON_PRESSED  = 0
@@ -160,6 +161,9 @@ class InputListener(ogre.FrameListener):
         self.toggle2 = 0
         self.timer_MainMenu = 0
         self.mainMenu = True
+        self.endScreen = False
+
+        self.count = 2
 
         self.keepRendering = self.inputMgr.keepRendering
 
@@ -180,24 +184,95 @@ class InputListener(ogre.FrameListener):
         if self.mainMenu:
             self.cameraMgr.start_MainMenu()
 
-        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
-            self.toggle = 0.1
-            self.inputMgr.engine.overlayMgr.showIntroPage = False
-            self.mainMenu = False
-            self.cameraMgr.end_MainMenu()
+        print self.inputMgr.engine.entityMgr.entList[0].yaw, self.inputMgr.engine.entityMgr.entList[1].yaw, self.inputMgr.engine.entityMgr.entList[0].currentYaw, self.inputMgr.engine.entityMgr.entList[1].currentYaw
 
-        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_RETURN):
-            self.inputMgr.engine.overlayMgr.showIntroPage = True
 
-        if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_BACK):
-            self.inputMgr.engine.overlayMgr.showIntroPage = False
+        if(self.inputMgr.joystick_count == 0):
+            if self.endScreen and self.keyboard.isKeyDown(OIS.KC_RETURN):
+                self.endScreen = False
+                self.inputMgr.engine.entityMgr.entList[0].pos = Vector3(0, 0, 0)                
+                self.inputMgr.engine.entityMgr.entList[1].pos = Vector3(0, 0, 400)
+                self.inputMgr.engine.overlayMgr.overlayList[1].curTime = 0
+                for ent in self.inputMgr.engine.entityMgr.entList:
+                    ent.speed = 0
+                    ent.desiredSpeed = 0
+                    ent.desiredHeading = 0
+                    ent.heading = 0
+                    ent.yaw = 0
+                    ent.acceleration = ent.acceleration*1.5
+                    ent.maxSpeed = ent.maxSpeed*1.5
+                self.inputMgr.engine.overlayMgr.overlayList[1].curLevel += 1
+                #self.inputMgr.engine.cameraMgr.end_MainMenu()
+                self.inputMgr.engine.overlayMgr.setOverlay("Game")
+        if(self.inputMgr.joystick_count > 0):
+            if self.endScreen and (self.keyboard.isKeyDown(OIS.KC_RETURN) or self.inputMgr.joysticks[0].get_button(0)):
+                self.endScreen = False
+                self.inputMgr.engine.entityMgr.entList[0].pos = Vector3(0, 0, 0)                
+                self.inputMgr.engine.entityMgr.entList[1].pos = Vector3(0, 0, 400)
+                self.inputMgr.engine.overlayMgr.overlayList[1].curTime = 0
+                for ent in self.inputMgr.engine.entityMgr.entList:
+                    ent.speed = 0
+                    ent.desiredSpeed = 0
+                    ent.desiredHeading = 0
+                    ent.heading = 0
+                    ent.yaw = 0
+                    ent.acceleration = ent.acceleration*1.5
+                    ent.maxSpeed = ent.maxSpeed*1.5
+                self.inputMgr.engine.cameraMgr.camNode_P1.lookAt(self.inputMgr.engine.entityMgr.entList[0].pos, ogre.Node.TransformSpace.TS_LOCAL)
+                self.inputMgr.engine.cameraMgr.camNode_P2.lookAt(self.inputMgr.engine.entityMgr.entList[1].pos, ogre.Node.TransformSpace.TS_LOCAL)
+                self.inputMgr.engine.overlayMgr.overlayList[1].curLevel += 1
+                #self.inputMgr.engine.cameraMgr.end_MainMenu()
+                self.inputMgr.engine.overlayMgr.setOverlay("Game")
 
-        if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_UP):
-            self.toggle2 = 0.1
-            self.inputMgr.engine.overlayMgr.selection = 1;
-        if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_DOWN):
-            self.toggle2 = 0.1
-            self.inputMgr.engine.overlayMgr.selection = 0;
+                self.count += 1
+                if self.count <= 10:
+                    self.cameraMgr.camera_P1.parentSceneNode.detachObject(self.cameraMgr.camera_P1)
+                    self.cameraMgr.camNode_P1 = self.sceneManager.getSceneNode("CamNode_P1_" + str(self.count))
+                    self.sceneManager.getSceneNode("PitchNode_P1_" + str(self.count)).attachObject(self.cameraMgr.camera_P1)
+                    #self.camNode_P1.yaw(-(math.radians(self.Player1.desiredHeading)))
+                    self.cameraMgr.camera_P2.parentSceneNode.detachObject(self.cameraMgr.camera_P2)
+                    self.cameraMgr.camNode_P2 = self.sceneManager.getSceneNode("CamNode_P2_" + str(self.count))
+                    self.sceneManager.getSceneNode("PitchNode_P2_" + str(self.count)).attachObject(self.cameraMgr.camera_P2)
+                    #self.camNode_P2.yaw(-(math.radians(self.Player2.desiredHeading)))
+
+        if (self.inputMgr.joystick_count == 0):
+            if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 0 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+                self.toggle = 0.1
+                self.inputMgr.engine.overlayMgr.showIntroPage = False
+                self.mainMenu = False
+                self.cameraMgr.end_MainMenu()
+
+            if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_RETURN):
+                self.inputMgr.engine.overlayMgr.showIntroPage = True
+
+            if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_BACK):
+                self.inputMgr.engine.overlayMgr.showIntroPage = False
+
+            if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_UP):
+                self.toggle2 = 0.1
+                self.inputMgr.engine.overlayMgr.selection = 1;
+            if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and self.keyboard.isKeyDown(OIS.KC_DOWN):
+                self.toggle2 = 0.1
+                self.inputMgr.engine.overlayMgr.selection = 0;
+        else:            
+            if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 0 and (self.keyboard.isKeyDown(OIS.KC_RETURN) or self.inputMgr.joysticks[0].get_button(0)):
+                self.toggle = 0.1
+                self.inputMgr.engine.overlayMgr.showIntroPage = False
+                self.mainMenu = False
+                self.cameraMgr.end_MainMenu()
+
+            if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and (self.keyboard.isKeyDown(OIS.KC_RETURN) or self.inputMgr.joysticks[0].get_button(0)):
+                self.inputMgr.engine.overlayMgr.showIntroPage = True
+
+            if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and (self.keyboard.isKeyDown(OIS.KC_BACK) or self.inputMgr.joysticks[0].get_button(1)):
+                self.inputMgr.engine.overlayMgr.showIntroPage = False
+
+            if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and (self.keyboard.isKeyDown(OIS.KC_UP) or self.inputMgr.joysticks[0].get_axis(1) < -0.6):
+                self.toggle2 = 0.1
+                self.inputMgr.engine.overlayMgr.selection = 1;
+            if self.mainMenu and self.toggle2 < 0 and not self.inputMgr.engine.overlayMgr.showIntroPage and (self.keyboard.isKeyDown(OIS.KC_DOWN) or self.inputMgr.joysticks[0].get_axis(1) > 0.6):
+                self.toggle2 = 0.1
+                self.inputMgr.engine.overlayMgr.selection = 0;
 
 
         #check for Key release to stop moving the camera.

@@ -150,7 +150,7 @@ class GameOverlay(Overlay):
         #create first place text element
         first = self.overlayManager.createOverlayElement("TextArea", self.name+"_first")
         first.setMetricsMode(ogre.GMM_PIXELS)
-        first.setPosition(100,100)
+        first.setPosition(100,950)
         first.setFontName("BlueHighway")
         first.setCharHeight(30)
         first.setColour(ogre.ColourValue(0,0,0))
@@ -190,6 +190,27 @@ class GameOverlay(Overlay):
         self.overlay.add2D(panel)
         
 
+
+        panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Level_Panel")
+        panel.setPosition(0.3, 0.5)
+        panel.setDimensions(0.15, 0.04)
+        
+        #create time element
+        level = self.overlayManager.createOverlayElement("TextArea", self.name+"_Level")
+        level.setMetricsMode(ogre.GMM_PIXELS)
+        level.setPosition(650,980)
+        level.setFontName("BlueHighway")
+        level.setCharHeight(30)
+        level.setColour(ogre.ColourValue(0,0,0))
+        self.curLevel = 0.0
+        level.setCaption("Level: " + "%d" % self.curLevel)
+        
+        self.levelPanel = panel
+        self.levelPanel.levelText = level
+        
+        self.panel.addChild(level)
+        self.overlay.add2D(panel)
+
     def tick(self, dtime):
         self.curTime += dtime
         self.timePanel.timeText.setCaption("Time: " + "%.2f" % self.curTime)
@@ -201,8 +222,10 @@ class GameOverlay(Overlay):
             self.firstPlace = "Player 2"
         
         self.firstPanel.firstText.setCaption("1st:\n" + self.firstPlace)
+        self.levelPanel.levelText.setCaption("Level: " + "%d" % self.curLevel)
         self.panel.show()
         self.timePanel.show()
+        self.levelPanel.show()
 
 class ScoreOverlay(Overlay):
     name = "Score"

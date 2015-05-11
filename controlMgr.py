@@ -1,6 +1,7 @@
 import ogre.renderer.OGRE as ogre
 import ogre.io.OIS as OIS
 import math
+from vector import Vector3
 
 class ControlMgr:
     def __init__(self, engine):

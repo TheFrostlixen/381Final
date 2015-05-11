@@ -57,6 +57,38 @@ class CameraMgr:
                                                                    (-1500, 200, 200))
         node_P1_camera.yaw(math.radians(-90))
         node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_2')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_3',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_3')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_4',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_4')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_5',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_5')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_6',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_6')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_7',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_7')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_8',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_8')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_9',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_9')
+        node_P1_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P1_10',
+                                                                   (-1500, 200, 200))
+        node_P1_camera.yaw(math.radians(-90))
+        node2 = node_P1_camera.createChildSceneNode('PitchNode_P1_10')
         node1.attachObject(self.camera_P1)
 
         '''Player 2 Camera'''
@@ -67,6 +99,38 @@ class CameraMgr:
                                                                    (-1500, 200, 200))
         node_P2_camera.yaw(math.radians(-90))
         node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_2')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_3',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_3')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_4',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_4')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_5',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_5')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_6',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_6')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_7',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_7')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_8',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_8')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_9',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_9')
+        node_P2_camera = self.sceneManager.getRootSceneNode().createChildSceneNode('CamNode_P2_10',
+                                                                   (-1500, 200, 200))
+        node_P2_camera.yaw(math.radians(-90))
+        node2 = node_P2_camera.createChildSceneNode('PitchNode_P2_10')
         node1.attachObject(self.camera_P2)
 
 

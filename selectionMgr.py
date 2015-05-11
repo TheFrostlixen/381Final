@@ -40,6 +40,12 @@ class SelectionMgr:
                 print "Player 1 Loses!"
                 #high score screen show
                 self.engine.overlayMgr.setOverlay("Score")
+                self.engine.inputMgr.inputListener.endScreen = True
+                print "end"
+                self.p1End = False
+                self.p2End = False
+                p1 = 0
+                p2 = 0
         if p2 == len(self.entMgr.lvl1ChkPts) - 1:
             #player 2 wins
             if(self.p2End == False and self.p1End == False):
@@ -52,8 +58,14 @@ class SelectionMgr:
                 print "Player 2 Loses!"
                 #high score screen show
                 self.engine.overlayMgr.setOverlay("Score")
-            return
-        elif p1 == p2:
+                self.engine.inputMgr.inputListener.endScreen = True
+                print "end"
+                self.p1End = False
+                self.p2End = False
+                p1 = 0
+                p2 = 0
+                    #return
+        if p1 == p2:
             #compare closeness to next checkpoint if they are equal
             d1 = self.getDistanceTo(self.entMgr.lvl1ChkPts[p1] + 1, self.entMgr.entList[0])
             d2 = self.getDistanceTo(self.entMgr.lvl1ChkPts[p2] + 1, self.entMgr.entList[1])
