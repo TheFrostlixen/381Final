@@ -220,8 +220,8 @@ class ScoreOverlay(Overlay):
             if scoreNum <= 10:
                 self.scoreString += str(scoreNum) + ': ' + score[0] + ' ' + score[1] + ' ' + score[2] + ' ' + score[3] + ' ' + '\n'
                 scoreNum += 1
-        self.scoreString += "\n\nPlayer 1 Score: " + self.engine.scoreMgr.p1Time
-        self.scoreString += "\nPlayer 2 Score: " + self.engine.scoreMgr.p2Time
+        self.scoreString += "\n\nPlayer 1 Score: " + str(self.engine.scoreMgr.p1Time)
+        self.scoreString += "\nPlayer 2 Score: " + str(self.engine.scoreMgr.p2Time)
         self.scorePanel.scoreText.setCaption(self.scoreString)
         self.panel.show()
         self.scorePanel.show()

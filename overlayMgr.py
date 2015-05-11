@@ -142,6 +142,32 @@ class GameOverlay(Overlay):
         self.panel = panel
         self.overlay.add2D(panel)
         
+        #create panel for first place
+        panel = self.overlayManager.createOverlayElement("Panel", self.name+"_First_Panel")
+        panel.setPosition(0.1, 0.8)
+        panel.setDimensions(0.15, 0.04)
+        
+        #create first place text element
+        first = self.overlayManager.createOverlayElement("TextArea", self.name+"_first")
+        first.setMetricsMode(ogre.GMM_PIXELS)
+        first.setPosition(100,100)
+        first.setFontName("BlueHighway")
+        first.setCharHeight(30)
+        first.setColour(ogre.ColourValue(0,0,0))
+        p1 = self.engine.entityMgr.entList[0].isSelected
+        if p1:
+            self.firstPlace = "Player 1"
+        else:
+            self.firstPlace = "Player 2"
+            
+        first.setCaption("1st:\n" + self.firstPlace)
+        
+        self.firstPanel = panel
+        self.firstPanel.firstText = first
+        
+        self.panel.addChild(first)
+        self.overlay.add2D(panel)
+        
         #create panel for time
         panel = self.overlayManager.createOverlayElement("Panel", self.name+"_Time_Panel")
         panel.setPosition(0.5, 0.5)
@@ -167,6 +193,14 @@ class GameOverlay(Overlay):
     def tick(self, dtime):
         self.curTime += dtime
         self.timePanel.timeText.setCaption("Time: " + "%.2f" % self.curTime)
+        
+        p1 = self.engine.entityMgr.entList[0].isSelected
+        if p1:
+            self.firstPlace = "Player 1"
+        else:
+            self.firstPlace = "Player 2"
+        
+        self.firstPanel.firstText.setCaption("1st:\n" + self.firstPlace)
         self.panel.show()
         self.timePanel.show()
 

@@ -130,7 +130,7 @@ class Item_Weapon(Entity):
         self.pos = pos
         self.acceleration = 100
         self.maxSpeed = 2000
-        self.turningRate = 90
+        self.turningRate = 10
         self.mesh = "missile.mesh"
         self.uiname = "Item_Weapon"
         self.isSelected = False
@@ -155,7 +155,7 @@ class Sleek(Entity):
         self.desiredHeading = 0
         self.yaw = 0    
         self.eid = id
-        self.pos = pos
+        self.pos = pos + Vector3(100,0,0)
         self.acceleration = 20
         self.maxSpeed = 1000
         self.turningRate = 3
@@ -184,7 +184,7 @@ class Destroyer(Entity):
         self.desiredHeading = 0
         self.yaw = 0    
         self.eid = id
-        self.pos = pos
+        self.pos = pos + Vector3(100,0,0)
         self.acceleration = 20
         self.maxSpeed = 1200
         self.turningRate = 3

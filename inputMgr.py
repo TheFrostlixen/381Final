@@ -63,7 +63,7 @@ class InputMgr():
         self.p2LR = 0;
         
         self.joystick_count = pygame.joystick.get_count()
-        print self.joystick_count + " joysticks found"
+        print str(self.joystick_count) + " joysticks found"
         for i in range(0, pygame.joystick.get_count()):
             # create an Joystick object in our list
             self.joysticks.append(pygame.joystick.Joystick(i))

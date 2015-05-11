@@ -59,4 +59,3 @@ class Renderer():
                     self.node.yaw(math.radians(self.ent.turningRate))
                     self.ent.currentYaw -= self.ent.turningRate
                 
-            self.node.showBoundingBox(self.ent.isSelected)

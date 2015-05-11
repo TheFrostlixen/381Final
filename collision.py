@@ -37,8 +37,8 @@ class Collision:
 
         for ent in self.ent.engine.entityMgr.lvl1List:
             if not ent == self.ent:
+                self.distance = self.ent.pos.squaredDistance(ent.pos)
                 if not "Obstacle" in self.ent.uiname and not "Item_Boost" in self.ent.uiname:
-                    self.distance = self.ent.pos.squaredDistance(ent.pos)
                     if "Item_Weapon" in self.ent.uiname:
                         if self.ent.pickedUp == True:
                             #we are a picked up missile

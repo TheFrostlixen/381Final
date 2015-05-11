@@ -27,7 +27,6 @@ class Collision:
                 elif "Item_Weapon" in self.ent.uiname and (self.ent.pickedUp and self.ent.visible and (self.ent.held == False)):
                     self.distance = self.ent.pos.squaredDistance(ent.pos)
                     if ("Sleek" in ent.uiname or "Destroyer" in ent.uiname) and (self.ent.firedFrom != ent.uiname and self.ent.firedFrom != "0") and self.distance <= self.collisionRange*self.collisionRange + ent.collisionRange*ent.collisionRange:
-                        print self.ent.firedFrom, ent.uiname
                         ent.hit = True
                         self.ent.visible = False
                         self.ent.aspects[1].node.setVisible(False)

@@ -68,7 +68,7 @@ class SelectionMgr:
             
         #draw box of player who is closest to the farthest checkpoint
         self.updateCurrentSelection(False)
-        #self.addSelected(first)
+        self.addSelected(first)
 
     def stop(self):
         self.stopped = True

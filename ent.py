@@ -155,7 +155,7 @@ class Sleek(Entity):
         self.desiredHeading = 0
         self.yaw = 0    
         self.eid = id
-        self.pos = pos
+        self.pos = pos + Vector3(150,0,0)
         self.acceleration = 20
         self.maxSpeed = 1000
         self.turningRate = 3
@@ -184,7 +184,7 @@ class Destroyer(Entity):
         self.desiredHeading = 0
         self.yaw = 0    
         self.eid = id
-        self.pos = pos
+        self.pos = pos + Vector3(150,0,0)
         self.acceleration = 20
         self.maxSpeed = 1200
         self.turningRate = 3

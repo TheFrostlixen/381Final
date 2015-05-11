@@ -56,6 +56,15 @@ class EntityMgr:
         return item
         
     def createLvl1(self):
+        #create back of start lane
+        vector = Vector3(-250,0,0)
+        for i in xrange(0,3):
+            self.createObs(vector)
+            vector -= Vector3(0,0,100)
+        vector = Vector3(-250,0,100)
+        for i in xrange(0,6):
+            self.createObs(vector)
+            vector += Vector3(0,0,100)
         #create first leg, both sides
         for i in xrange(0,100):
             vector = Vector3((i * 100)-250,0,0)
