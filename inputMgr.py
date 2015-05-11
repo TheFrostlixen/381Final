@@ -156,6 +156,7 @@ class InputListener(ogre.FrameListener):
         self.keyboard = self.inputMgr.keyboard
         self.cameraMgr = self.inputMgr.engine.cameraMgr
         self.sceneManager = self.inputMgr.engine.gfxMgr.sceneManager
+        
 
         self.toggle = 0
         self.toggle2 = 0
@@ -184,11 +185,14 @@ class InputListener(ogre.FrameListener):
         if self.mainMenu:
             self.cameraMgr.start_MainMenu()
 
+        self.soundMgr = self.inputMgr.engine.soundMgr
+
         #print self.inputMgr.engine.entityMgr.entList[0].yaw, self.inputMgr.engine.entityMgr.entList[1].yaw, self.inputMgr.engine.entityMgr.entList[0].currentYaw, self.inputMgr.engine.entityMgr.entList[1].currentYaw
 
 
         if(self.inputMgr.joystick_count == 0):
             if self.endScreen and self.keyboard.isKeyDown(OIS.KC_RETURN):
+                self.soundMgr.play_Big_Blue()
                 self.endScreen = False
                 self.inputMgr.engine.entityMgr.entList[0].pos = Vector3(0, 0, 0)                
                 self.inputMgr.engine.entityMgr.entList[1].pos = Vector3(0, 0, 400)
@@ -214,8 +218,8 @@ class InputListener(ogre.FrameListener):
                     self.sceneManager.getSceneNode("PitchNode_P2_" + str(self.count)).attachObject(self.cameraMgr.camera_P2)
         if(self.inputMgr.joystick_count > 0):
             if self.endScreen and (self.keyboard.isKeyDown(OIS.KC_RETURN) or self.inputMgr.joysticks[0].get_button(0)):
+                self.soundMgr.play_Big_Blue()
                 self.endScreen = False
-
                 self.inputMgr.engine.entityMgr.entList[0].pos = Vector3(0, 0, 0)                
                 self.inputMgr.engine.entityMgr.entList[1].pos = Vector3(0, 0, 400)
                 self.inputMgr.engine.overlayMgr.overlayList[1].curTime = 0
@@ -248,6 +252,7 @@ class InputListener(ogre.FrameListener):
                 self.inputMgr.engine.overlayMgr.showIntroPage = False
                 self.mainMenu = False
                 self.cameraMgr.end_MainMenu()
+                self.soundMgr.play_Big_Blue()
 
             if self.mainMenu and self.toggle < 0 and self.inputMgr.engine.overlayMgr.selection == 1 and self.keyboard.isKeyDown(OIS.KC_RETURN):
                 self.inputMgr.engine.overlayMgr.showIntroPage = True

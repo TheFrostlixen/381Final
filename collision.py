@@ -24,6 +24,7 @@ class Collision:
                         self.ent.pos = self.ent.pos + (self.ent.vel * dtime)
                         self.ent.desiredSpeed = 0
                         self.ent.speed = 0
+                        self.ent.engine.sountMgr.sThud()
                 elif "Item_Weapon" in self.ent.uiname and (self.ent.pickedUp and self.ent.visible and (self.ent.held == False)):
                     self.distance = self.ent.pos.squaredDistance(ent.pos)
                     if ("Sleek" in ent.uiname or "Destroyer" in ent.uiname) and (self.ent.firedFrom != ent.uiname and self.ent.firedFrom != "0") and self.distance <= self.collisionRange*self.collisionRange + ent.collisionRange*ent.collisionRange:
@@ -34,6 +35,7 @@ class Collision:
                         self.ent.desiredSpeed = 0
                         self.ent.desiredHeading = 0
                         self.ent.engine.entityMgr.weaponList.remove(self.ent)
+                        self.ent.engine.soundMgr.sRocket_Explosion()
 
         for ent in self.ent.engine.entityMgr.lvl1List:
             if not ent == self.ent:
@@ -56,6 +58,7 @@ class Collision:
                                         self.ent.desiredSpeed = 0
                                         self.ent.desiredHeading = 0
                                         self.ent.engine.entityMgr.weaponList.remove(self.ent)
+                                        self.ent.engine.soundMgr.sRocket_Zoom()
                             else:
                                 #we are an invisible, already done firing missile
                                 pass
@@ -70,6 +73,7 @@ class Collision:
                                     ent.aspects[1].pEnt.setVisible(False)
                                     self.ent.boosting = True
                                     ent.used = True
+                                    self.ent.engine.soundMgr.sBoat_Boost()
                             elif "Item_Weapon" in ent.uiname:
                                 if ent.pickedUp == False and self.ent.weaponUp == False:
                                     #ent.aspects[1].pEnt.setVisible(False)
@@ -83,6 +87,7 @@ class Collision:
                                     ent.pickedUp = True
                                     ent.aspects[1].pEnt.setVisible(True)
                                     ent.visible = True
+                                    self.ent.engine.soundMgr.sRocket_Equip()
                             else:
                                 self.ent.vel.x = push * -1 * math.cos(math.radians(self.ent.heading))
                                 self.ent.vel.z = push * -1 * math.sin(math.radians(self.ent.heading))

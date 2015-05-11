@@ -23,10 +23,21 @@ class SoundMgr:
         self.a = os.path.join('data','Polyphia_Envision_Short.wav') # 1/8 = 220 milisecs
         self.b = os.path.join('data','Big_Blue.WAV')
         self.c = os.path.join('data','Careless_Whisper.WAV')
+        self.d = os.path.join('data','Boat_Boost.WAV')
+        self.e = os.path.join('data','Rocket_Equip.WAV')
+        self.f = os.path.join('data','Rocket_Explosion.WAV')
+        self.g = os.path.join('data','Rocket_Zoom.WAV')
+        self.h = os.path.join('data','Thud.WAV')
 
         self.Polyphia_Envision_Short = pygame.mixer.Sound(self.a)
         self.Big_Blue = pygame.mixer.Sound(self.b)
         self.Careless_Whisper = pygame.mixer.Sound(self.c)
+        self.Boat_Boost = pygame.mixer.Sound(self.d)
+        self.Rocket_Equip = pygame.mixer.Sound(self.e)
+        self.Rocket_Explosion = pygame.mixer.Sound(self.f)
+        self.Rocket_Zoom = pygame.mixer.Sound(self.g)
+        self.Thud = pygame.mixer.Sound(self.h)
+
 
         self.IntroSong = pygame.mixer.Channel(0)
         self.Playlist = pygame.mixer.Channel(1) 
@@ -56,25 +67,44 @@ class SoundMgr:
                 self.IntroSong.fadeout(200)
 
 
-        if not self.f1 and self.f2 and not self.engine.inputMgr.inputListener.mainMenu:
-            print "Play BB"
-            self.f2 = False
-            self.Playlist.play(self.Big_Blue, loops = -1)
+        #if not self.f1 and self.f2 and not self.engine.inputMgr.inputListener.mainMenu:
+            #print "Play BB"
+            #self.f2 = False
+            #self.Playlist.play(self.Big_Blue, loops = -1)
 
         if self.f3:
-            if self.engine.selectionMgr.p1End or self.engine.selectionMgr.p2End:
-                self.Playlist.fadeout(200)
-                print "Play End"
+            if (self.engine.selectionMgr.p1End and not self.engine.selectionMgr.p2End) or (self.engine.selectionMgr.p2End and not self.engine.selectionMgr.p1End):
                 self.f3 = False
-                self.Playlist.play(self.Careless_Whisper, loops = -1)
-
+                self.play_Whisper()
 
 
 
     def stop(self):
         pygame.mixer.quit()
 
+    def play_Whisper(self):
+        self.Playlist.stop()
+        self.Playlist.play(self.Careless_Whisper, loops = -1)
 
-    def play_Boost(self):
-        pass
+    def play_Big_Blue(self):
+        self.Playlist.stop()
+        self.Playlist.play(self.Big_Blue, loops = -1)
+
+
+    def sBoat_Boost(self):
+        self.SoundFX.play(self.Boat_Boost)
+
+    def sRocket_Equip(self):
+        self.SoundFX.play(self.Rocket_Equip)
+
+    def sRocket_Explosion(self):
+        self.SoundFX.play(self.Rocket_Explosion)
+
+    def sRocket_Zoom(self):
+        self.SoundFX.play(self.Rocket_Zoom)
+
+    def sThud(self):
+        self.SoundFX.play(self.Thud)
+
+
 
